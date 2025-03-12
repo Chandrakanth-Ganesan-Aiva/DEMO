@@ -1,0 +1,60 @@
+<h1>Mail and Number Update</h1>
+<mat-card>
+    <div class="row g-3 align-items-center">
+        <div class="col-md-3 col-6">
+            <label class="form-label">Supplier</label>
+            <input type="radio" name="type" class="form-check-input" style="border: 2px solid #5161b6; margin-left:5px"
+                [checked]="selectedType === 'supplier'" (click)="toggleRadio('supplier', $event)" />
+        </div>
+        <div class="col-md-3 col-6">
+            <label class="form-label">Subcontract</label>
+            <input type="radio" name="type" class="form-check-input" style="border: 2px solid #5161b6; margin-left:5px"
+                [checked]="selectedType === 'subcontract'" (click)="toggleRadio('subcontract', $event)" />
+        </div>
+        <div class=" col-md-4 col-12">
+            <label for="searchName">Search Name</label>
+            <div class="d-flex gap-2">
+                <input type="text" id="searchName" class="form-control" />
+                <button type="button" mat-raised-button style="background-color: #5161b6;color:white">Search</button>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 col-12 d-flex align-items-center">
+                <input type="checkbox" id="inactive" class="form-check-input me-2"
+                    style="border: 1px solid #5161b6;;" />
+                <label for="inactive">Inactive</label>
+            </div>
+            <div class="col-md-4 col-12 d-flex align-items-center">
+                <button mat-raised-button style="background-color: #5161b6;color:white;">View</button>
+            </div>
+        </div>
+    </div>
+    <div class="table-responsive">
+        <table class="table table-bordered table-fixed">
+            <thead>
+                <tr>
+                    <th>Select</th>
+                    <th>Supid</th>
+                    <th>Supplier Name</th>
+                    <th>Address</th>
+                    <th>Email</th>
+                    <th>Mobile No</th>
+                    <th>PAN No</th>
+                    <th>Active</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</mat-card>

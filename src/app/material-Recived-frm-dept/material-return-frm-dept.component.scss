@@ -1,0 +1,106 @@
+mat-form-field {
+  width: 100%;
+}
+
+button {
+  font-family: 'Times New Roman', Times, serif;
+  border-radius: 20px;
+}
+
+.returnQty {
+  text-align: right;
+
+}
+
+table {
+  th {
+    margin: 0%;
+    background-color: #3f51b5;
+    color: white;
+    border: 1px solid silver;
+    text-align: center;
+  }
+
+  td {
+    border: 1px solid silver;
+  }
+}
+
+
+td:last-child {
+  border: 1px solid silver !important;
+
+}
+
+tr:last-child {
+  border: 1px solid silver !important;
+ 
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.mat-elevation-z8 {
+  overflow-y: auto;
+  overflow-x: auto;
+}
+
+@media screen and (max-width: 575px) {
+  table {
+    th {
+      font-size: small;
+    }
+
+    td {
+      font-size: small;
+    }
+  }
+  mat-label{
+    font-size: small;
+  }
+  mat-select{
+    font-size: small;
+  }
+  mat-option{
+    font-size: smaller;
+  }
+  button{
+    font-size: small;
+    width: fit-content;
+  }
+  .returnQty {
+    width: 10rem;
+  }
+}
+
+
+@media screen and (max-width: 769px) {
+  table {
+    th {
+      font-size: smaller;
+    }
+
+    td {
+      font-size: smaller;
+    }
+  }
+  mat-label{
+    font-size: smaller;
+  }
+  mat-select{
+    font-size: smaller;
+  }
+  mat-option{
+    font-size: smaller;
+  }
+
+  .returnQty {
+    width: 10rem;
+  }
+
+}
+
+

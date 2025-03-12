@@ -1,0 +1,62 @@
+<app-navigation></app-navigation>
+<h1>PO Short Close Second Level</h1>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <label for="" class="form-label">Approved By</label>
+                <select name="" id="" class="form-select" (change)="load()" [(ngModel)]="empid">
+                    <option value="" *ngFor="let table of loadArray">{{table.empname}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="table-responsive" *ngIf="this.show">
+            <table class="table table-bordered table-fixed"
+                style="width: 100%;table-layout: fixed;border: 1px solid  #ddd;;">
+                <thead>
+                    <tr>
+                        <th style="width:100px">Select</th>
+                        <th style="width: 200px;">PONO</th>
+                        <th style="width: 200px;">PO_date</th>
+                        <th style="width: 200px;">Supplier_name</th>
+                        <th style="width: 500px;">Raw_Material</th>
+                        <th style="width: 200px;">UOM</th>
+                        <th style="width: 200px;">Ord_Qty</th>
+                        <th style="width: 200px;">GRN_Qty</th>
+                        <th style="width: 200px;">Bal_Qty</th>
+                        <th style="width: 200px;">Rate</th>
+                        <th style="width: 200px;">Value</th>
+                        <th style="width: 200px;">Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let table of tableArray">
+                        <td style="width: 100px;"><input type="checkbox" class="form-check-input"
+                                style="border: 1px solid  #5161b6;" (change)="selectedrows($event,table)"></td>
+                        <td style="width: 100px;">{{table.pono}}</td>
+                        <td style="width: 100px;">{{table.podate | date:'dd-MM-yyyy'}}</td>
+                        <td style="width: 100px;text-align: left;">{{table.supname}}</td>
+                        <td style="width: 300px;text-align: left;">{{table.rawmatname}}</td>
+                        <td style="width: 100px;">{{table.uom}}</td>
+                        <td style="width: 100px;">{{table.Ord_Qty}}</td>
+                        <td style="width: 100px;">{{table.grnqty}}</td>
+                        <td style="width: 100px;">{{table.balqty}}</td>
+                        <td style="width: 100px;">{{table.Rate}}</td>
+                        <td style="width: 100px;">{{(table.balqty)*(table.Rate).toFixed(2)}}</td>
+                        <td style="width: 100px;">{{table.Shortclose_reason}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-12 text-end">
+                <button mat-raised-button
+                    style="background-color: green;color:white;font-family: 'Times New Roman', Times, serif;"
+                    (click)="approve()">Approve</button>
+                <button mat-raised-button
+                    style="background-color: red;color: white;font-family: 'Times New Roman', Times, serif;margin-left: 3px;"
+                    (click)="clear()">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>

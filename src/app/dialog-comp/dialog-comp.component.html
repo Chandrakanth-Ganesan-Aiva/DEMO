@@ -1,0 +1,25 @@
+<h2 mat-dialog-title class=" m-0 " style="font-family: 'Times New Roman', Times, serif;font-weight: bold;color: white;"
+    [ngStyle]="{'background-color':data.Type ==='Error' ? '#d62828': 
+    data.Type === 'Save' ? 'green' : 
+    data.Type === 'Information' ? '#0466c8' : 
+    data.Type === 'Warning!!!' ? '#ffc300': '#fcca46'}">{{data.Type}}</h2>
+<!-- <h2 mat-dialog-title class="m-0 -mt-4" style="font-family: 'Times New Roman', Times, serif; font-weight: bold;"
+    [ngStyle]="{'background-color': data.Type === 'Error' ? 'red' : 
+                              data.Type === 'Save' ? 'green' : 
+                              data.Type === 'Warning!!!' ? '#ffba08' : '#023e8a',
+                 'color': 'white' }">
+    {{ data.Type }}
+</h2> -->
+
+<mat-divider class="p-0 m-0"></mat-divider>
+<mat-dialog-content>
+    <p [innerHTML]="this.ErrorMsg"></p>
+</mat-dialog-content>
+<mat-dialog-actions>
+    <button *ngIf="data.Type === 'Save' || data.Type === 'Warning!!!'" mat-raised-button
+        style="background-color: green;color: white;" (click)="Yes()">Yes</button>
+    <button *ngIf="data.Type === 'Save' || data.Type === 'Warning!!!'" mat-raised-button color="warn"
+        (click)="No()">No</button>
+    <button *ngIf="data.Type !== 'Save' && data.Type !== 'Warning!!!'" mat-raised-button color="primary"
+        [mat-dialog-close]="Status" cdkFocusInitial>OK</button>
+</mat-dialog-actions>

@@ -1,0 +1,49 @@
+<app-navigation></app-navigation>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true">
+  <p style="font-size: 20px; color: rgb(255, 255, 255)">Loading...</p>
+</ngx-spinner>
+<div class="container-fluid">
+  <div class="sidebar close">
+    <ul class="nav-links" id="request" style="padding-top: 10px;">
+      <li>
+        <a>
+          <h1 class="link_name" routerLink="/approval">GRN</h1>
+        </a>
+        <ul class="sub-menu blank" *ngIf="GRNWithoutbillentryAppr">
+          <li [ngClass]="{'disable-link':!GRNWithoutbillentryAppr}"><a routerLink="/grnWithoutbillEntryAppr" id="menu"
+              class="subhead">GRN Without Bill-Entry</a></li>
+          <li [ngClass]="{'disable-link':!GrnDelete}"><a routerLink="/GrnDelete" id="menu" class="subhead">GRN
+              Delete</a></li>
+
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav-links" id="request" style="padding-top: 10px;">
+      <li>
+        <a>
+          <h1 class="link_name" routerLink="/approval">Weighment</h1>
+        </a>
+        <ul class="sub-menu blank" *ngIf="RejectionWeighment">
+          <li [ngClass]="{'disable-link':!RejectionWeighment}"><a routerLink="/WeighRejAppr" id="menu"
+              class="subhead">Rejection Weighment Approval</a></li>
+          <li [ngClass]="{'disable-link':!WeighdelAppr}"><a routerLink="/WeighDelAppr" id="menu"
+              class="subhead">Weighment Delay Approval</a></li>
+        </ul>
+      </li>
+    </ul>
+    <ul class="nav-links" id="request" style="padding-top: 10px;">
+      <li>
+        <a>
+          <h1 class="link_name" routerLink="/approval">Master</h1>
+        </a>
+        <ul class="sub-menu blank" *ngIf="GateEntryDelayAppr ">
+          <li *ngIf="GateEntryDelayAppr" [ngClass]="{'disable-link':!GateEntryDelayAppr}"><a
+              routerLink="/GateEntryDelayAppr" id="menu" class="subhead">Gate Entry Delay Approval</a></li>
+        </ul>
+      </li>
+    </ul>
+    
+  </div>
+</div>
+
+

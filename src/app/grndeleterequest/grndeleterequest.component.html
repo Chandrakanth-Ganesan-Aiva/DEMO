@@ -1,0 +1,95 @@
+<app-navigation></app-navigation>
+<mat-card class=" p-2">
+  <mat-card-header class="justify-content-center mt-0 pt-2 ">
+    <mat-card-title class="mt-0 pt-0">GRN Delete Request</mat-card-title>
+  </mat-card-header>
+  <mat-divder class="pt-2 border-bottom solid "></mat-divder>
+  <mat-card-content>
+    <form [formGroup]="GrnDeleteReqform">
+      <div class="row">
+        <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+          <mat-form-field>
+            <mat-label>FromDate</mat-label>
+            <input matInput [matDatepicker]="picker" formControlName="frmdate" (dateChange)="Fromdate()">
+            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+            <mat-datepicker #picker></mat-datepicker>
+            <mat-error>Field must be required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+          <mat-form-field>
+            <mat-label>ToDate</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="Todate">
+            <mat-datepicker-toggle matSuffix [for]="picker1" ></mat-datepicker-toggle>
+            <mat-datepicker #picker1 ></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-10">
+          <mat-form-field (click)="MatlClick()">
+            <mat-label>Supplier</mat-label>
+            <mat-select formControlName="Supplier" >
+              <mat-option><ngx-mat-select-search [formControl]="filterControl" placeholderLabel="Search..."
+                  noEntriesFoundLabel="No Results Found"></ngx-mat-select-search></mat-option>
+              <mat-option *ngFor="let item of filteredOptions"
+                [value]="item.SupId">{{item.SupName}}</mat-option>
+            </mat-select>
+            <mat-error>Field must be required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-2 mt-1 ">
+          <button mat-raised-button type="button" class="float-end "  type="button" color="warn"
+            (click)="Clear()">Clear</button>
+            <button mat-raised-button type="button" class="float-end mr-3" type="button" color="primary" (click)="AddSupplier()">View</button>
+        </div>
+      </div>
+    </form>
+  </mat-card-content>
+  <div class="mat-elevation-z8 mt-3 p-3" *ngIf="ApprTable">
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
+    </mat-form-field>
+    <table mat-table #table [dataSource]="dataSource">
+      <ng-container matColumnDef="select">
+        <th mat-header-cell *matHeaderCellDef> select </th>
+        <td mat-cell *matCellDef="let row" style="justify-content: center;text-align: center;"> <mat-checkbox
+            [(ngModel)]="row.selected" color="primary"></mat-checkbox>
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Grn_Ref_no">
+        <th mat-header-cell *matHeaderCellDef> Grn_Ref_no </th>
+        <td mat-cell *matCellDef="let row"> {{row.Grn_Ref_no}} </td>
+      </ng-container>
+      <ng-container matColumnDef="Grnno" *ngIf="hideGrnno">
+        <th mat-header-cell *matHeaderCellDef> Grnno </th>
+        <td mat-cell *matCellDef="let row"> {{row.GrnNo}} </td>
+      </ng-container>
+      <ng-container matColumnDef="GRNDate">
+        <th mat-header-cell *matHeaderCellDef> GRNDate </th>
+        <td mat-cell *matCellDef="let row"> {{row.GrnDate}} </td>
+      </ng-container>
+      <ng-container matColumnDef="Supplier">
+        <th mat-header-cell *matHeaderCellDef> Supplier </th>
+        <td mat-cell *matCellDef="let row"> {{row.SupName}} </td>
+      </ng-container>
+      <ng-container matColumnDef="View">
+        <th mat-header-cell *matHeaderCellDef> View </th>
+        <td mat-cell *matCellDef="let row;let i=index" style="justify-content: center;text-align: center;"> <mat-icon
+            class="mat-18" color="accent" (click)="ViewTabDet(i)">remove_red_eye</mat-icon>
+        </td>
+      </ng-container>
+      <tr mat-header-row *matHeaderRowDef="['select','Grn_Ref_no','GRNDate','Supplier','View']"></tr>
+      <tr mat-row *matRowDef="let row; columns: ['select','Grn_Ref_no','GRNDate','Supplier','View'];"></tr>
+    </table>
+    <mavnct-divider class="border-bottom-1"></mavnct-divider>
+    <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+    <div class="row">
+      <div class="col">
+        <button mat-raised-button class="button float-end mt-2" type="button"
+          style="color: rgb(255, 255, 255);background-color: green;" (click)="ApproveVaildation()">Approve</button>
+      </div>
+    </div>
+  </div>
+
+</mat-card>
+

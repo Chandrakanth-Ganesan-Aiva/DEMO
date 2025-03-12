@@ -1,0 +1,448 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true">
+  <p style="font-size: 20px; color: rgb(255, 255, 255)">Loading...</p>
+</ngx-spinner>
+<mat-sidenav-container class="sidenav-container ">
+  <mat-sidenav-content >
+    <mat-toolbar  class=" navbar  navbar-light bg-primary" >
+      <button mat-button class="Tool btn"  (click)="back()">Back
+      </button>
+      <button mat-button class="Tool"  (click)="home()">Home </button>
+      <span class="example-spacer"></span>
+      <h1 class="heading">AIVA VENTURES</h1>
+      <span class="example-spacer"></span>
+      <button mat-button class="example-icon btn" aria-label="Example icon-button with share icon" (click)="logout()">
+        Logout
+      </button>
+    </mat-toolbar>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<mat-card-header class="justify-content-center mt-1">
+  <mat-card-title class="title" style="text-transform: uppercase;font-weight: 600;">Store Issue</mat-card-title>
+</mat-card-header>
+
+<div class="main content mt-3">
+  <mat-card>
+    <mat-card-content>
+      <div class="container-fluid">
+        <form [formGroup]="StoreIssueForm">
+          <div class="row">
+            <div class="col ">
+              <label for="exampleFormControlInput3" class="form-label">Issue No <span>*</span> </label>
+              <input type="text" class="form-control" formControlName="IssueNo" readonly>
+            </div>
+            <div class="col">
+              <label for="exampleFormControlInput3" class="form-label">Issue Date <span>*</span> </label>
+              <input type="date" class="form-control" [value]="this.Issuedate" (change)="Datechange($event)" readonly>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6 col-md-6 ">
+              <label for="exampleFormControlInput3" class="form-label">From Date <span>*</span> </label>
+              <input type="date" class="form-control" [value]="fromdt" (change)="Frmdatevent($event)">
+            </div>
+            <div class="col-6 col-md-6 ">
+              <label for="exampleFormControlInput3" class="form-label">To Date <span>*</span> </label>
+              <input type="date" class="form-control" [value]="Todate" (change)="TodateEvent($event)" readonly>
+            </div>
+            <div class="col-sm-6 ">
+              <label for="exampleFormControlInput3" class="form-label">Department <span>*</span> </label>
+              <ng-select class="form-control" formControlName='Department' (click)="GetDepartment()"
+                (change)="DeptEvent($event)" [ngClass]="{ 'is-invalid':viewbtn && view['Department'].errors}">
+                <ng-option value="" disabled hidden selected>--Select--</ng-option>
+                <ng-option *ngFor="let item of Depatment" [value]="item.Deptid">{{item.Deptname}}</ng-option>
+              </ng-select>
+              <div *ngIf="viewbtn && view['Department'].errors" class="invalid-feedback">
+                <div *ngIf="view['Department'].errors['required']"> Field must be Selected-Department</div>
+              </div>
+            </div>
+            <div class="col-sm-6 ">
+              <label for="exampleFormControlInput3" class="form-label">Ref. No <span>*</span> </label>
+              <select class="form-control" formControlName="Refno" (change)="RefnoEvent($event)"
+                [ngClass]="{ 'is-invalid':viewbtn && view['Refno'].errors}">
+                <option value="" disabled hidden selected>--Select--</option>
+                <option *ngFor="let item of RefnoData" [value]="item.SrNo">{{item.Sr_Ref_No}}</option>
+              </select>
+              <div *ngIf="viewbtn && view['Refno'].errors" class="invalid-feedback">
+                <div *ngIf="view['Refno'].errors['required']"> Field must be Selected->Ref. No </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6" *ngIf="this.RawMatIDChckwarehouse === true">
+              <label class="form-label">To Warehouse<span>*</span></label>
+              <input type="text" class="form-control" value="{{this.warehouseInputbox}}" >
+            </div>
+            <div class="col-md-6" *ngIf="this.RawMatIDChckwarehouse === false">
+              <label for="exampleFormControlInput3" class="form-label">Warehouse <span>*</span> </label>
+              <select class="form-control" formControlName="Warehouse" (change)="WarehouseEvent()"
+                [ngClass]="{ 'is-invalid':viewbtn && view['Warehouse'].errors}">
+                <option value=""   selected>--Select--</option>
+                <option *ngFor="let item of warehousedata" [value]="item.Location_ID">{{item.LocationName}}</option>
+              </select>
+              <div *ngIf="viewbtn && view['Warehouse'].errors" class="invalid-feedback">
+                <div *ngIf="view['Warehouse'].errors['required']"> Field must be Selected-Warehouse</div>
+              </div>
+            </div>
+            <div class="col-md-6 mb-2">
+              <label for="exampleFormControlInput3" class="form-label">Material <span>* </span>
+              </label>
+              <ng-select class="form-control" formControlName="material" (change)="getMaterialDetails($event)"
+                [ngClass]="{ 'is-invalid':viewbtn && view['material'].errors}">
+                <ng-option value="" disabled hidden selected>--Select--</ng-option>
+                <ng-option *ngFor="let item of RawmaterialValid" [value]="item.RawMatID">{{item.RawMatName}}</ng-option>
+              </ng-select>
+              <!-- <ng-select [(ngModel)]="Rawmatid" [(ngModel)]="RawmaterialInd"  (change)="getMaterialDetails()"
+               formControlName="material" placeholder="--Select--" [items]="RawmaterialValid"
+              class="form-control" bindLabel="RawMatName"
+              [ngClass]="{ 'is-invalid':viewbtn && view['material'].errors}" bindValue="RawMatID" >
+            </ng-select> -->
+              <div *ngIf="viewbtn && view['material'].errors" class="invalid-feedback">
+                <div *ngIf="view['material'].errors['required']"> Field must be Selected-Material</div>
+              </div>
+            </div>
+            <div class="col model-footer viewbtn">
+              <button mat-raised-button type="button" color="primary" (click)="Add()"
+                [disabled]="MaterialAddbtn">Add</button>
+              <button mat-raised-button type="button" color="warn" style="margin-left: 1%;"
+                (click)="Clear()">Clear</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <!--  -->
+  <mat-card class="mt-3" *ngIf="Viewmat">
+    <mat-card-content>
+      <mat-tab-group mat-align-tabs="start" [selectedIndex]="Tab1" (selectedTabChange)="tabChangedRegular($event)"
+        class="mattab mt-2">
+        <mat-tab label="Material Detalis">
+          <p-table [value]="MaterilaDetalis" [scrollable]="true" scrollHeight="300px">
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="head refno">Ref_No</th>
+                <th class="head refno">Date</th>
+                <th class="head mobile">View</th>
+                <th class="head Tab">View</th>
+                <th class="head Tabhide">Material</th>
+                <th class="head Tabhide">UOM</th>
+                <th class="head">SR_qty</th>
+                <th class="head Tabhide">Location</th>
+                <th class="head">Pend_Qty</th>
+                <th class="head">Issue_Qty</th>
+                <th class="head">Release</th>
+                <th class="head">Avl_Stock</th>
+                <th class="head">Min_Qty</th>
+                <th class="head Tabhide">Max_Qty</th>
+                <th class="head Tabhide">Reorder_Qty</th>
+                <th class="head Tabhide">Dept_Name</th>
+                <th class="head Tabhide">Po_Pend</th>
+                <td class="head">Actions</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-material let-i="rowIndex">
+              <tr>
+                <td class="body refno">{{material.Sr_Ref_No}}</td>
+                <td class="body refno">{{material.SRDate | date : 'dd-MM-yyyy ' }}</td>
+                <!-- <td class="body mobile"><button mat-raised-button type="button" color="primary" >View</button></td> -->
+                <td class="body Tab"><button mat-raised-button type="button" color="primary"
+                    (click)="View(i)">View</button></td>
+                <td class="body Tabhide">{{material.gStrMatDisp}}</td>
+                <td class="body Tabhide">{{material.SRUom}}</td>
+                <td class="body" style="text-align: right;">{{material.srqty}}</td>
+                <td class="body Tabhide">{{material.loc_id}}</td>
+                <td class="body" style="text-align: right;">{{material.Pendingqty}}</td>
+                <td style="display: none;">{{material.SRId}}</td>
+                <td class="body"><input type="number" class="form-control"  [(ngModel)]="material.Issueqtymodal"
+                    (input)="issueQty($event)" [disabled]="Issueqtymodaldisable[i]">
+                </td>
+                <td class="body"><button mat-raised-button type="button" color="primary"
+                    [disabled]="Releasebtndisable[i]" (click)="ReleaseVaildation(i)">Release</button></td>
+                <td class="body" style="text-align: right;" id="Avlstock"
+                  [ngClass]="{'StockLess':material.color == true} ">{{material.stock}}</td>
+                <td class="body" style="text-align: right;">{{material.min_level }}</td>
+                <td class="body Tabhide" style="text-align: right;">{{material.max_level}}</td>
+                <td class="body Tabhide" style="text-align: right;">{{material.reorder_level}}</td>
+                <td class="body Tabhide">{{material.deptname}}</td>
+                <td class="body Tabhide">{{material.popend}}</td>
+                <td class="body" style="text-align: center;"><i class="fa-regular fa-trash-can" style="color: #f91f4b;"
+                    (click)="Deletemat(i)"></i></td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </mat-tab>
+        <mat-tab label="Issue Detalis">
+          <p-table [value]="Issuedetalisarr" >
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="head">Ref_No</th>
+                <th class="head">Date</th>
+                <th class="head">Material</th>
+                <th class="head">UOM</th>
+                <th class="head">SR_qty</th>
+                <th class="head">Issue_Qty</th>
+                <th class="head">GrnRefNo</th>
+                <th class="head">GrnQty</th>
+                <th class="head">Dept.Name</th>
+                <td class="head">Actions</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-material let-i="rowIndex">
+              <tr>
+                <td class="body" style="width: fit-content;">{{material.Sr_Ref_No}}</td>
+                <td class="body" style="width: fit-content;">{{material.SRDate | date : 'dd-MM-yyyy ' }}</td>
+                <td class="body">{{material.Material}}</td>
+                <td class="body">{{material.UOM}}</td>
+                <td class="body" style="text-align: right;">{{material.SrQty}}</td>
+                <td class="body" style="text-align: right;">{{material.IssueQty | number : '1.2-2' }}</td>
+                <td class="body">{{material.GrnRefNo}}</td>
+                <td class="body" style="text-align: right;">{{material.GrnQty| number : '1.2-2' }}</td>
+                <td class="body">{{material.DeptName}}</td>
+                <td class="body" style="text-align: center;"><i class="fa-regular fa-trash-can" style="color: #f91f4b;"
+                    (click)="DeleteBatchwise(i)"></i></td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </mat-tab>
+        <mat-tab label="Batchwise">
+          <p-table [value]="Batcharr" >
+            <ng-template pTemplate="header">
+              <tr>
+                <th class="head" style="width: 14%;">GRN No</th>
+                <th class="head" style="width: 8%;">Grn_Date</th>
+                <th class="head">Material</th>
+                <th class="head">BatchNo</th>
+                <th class="head" style="width: 8%;">Expiery_Date</th>
+                <th class="head">Batch_Qty</th>
+                <th class="head">Bal_Qty</th>
+                <th class="head">Issue_Qty</th>
+                <td class="head">Actions</td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-material let-i="rowIndex">
+              <tr [ngClass]="{'ExpirayDateVaildation': this.ExpiryDateVailadCheck === true }">
+                <td class="body" style="width: fit-content;">{{material.GrnRefNo}}</td>
+                <td class="body" style="width: fit-content;">{{material.GrnDate | date : 'dd-MM-yyyy ' }}</td>
+                <td class="body" [pTooltip]="tooltipContent1" severity="secondary" tooltipPosition="right">
+                  {{material.Material}}</td>
+                <td class="body" style="text-align: center;">{{material.BatchNo}}</td>
+                <td class="body" style="text-align: right;" [pTooltip]="tooltipContent1" severity="secondary"
+                  tooltipPosition="right">{{material.ExpiryDate | date : 'dd-MM-yyyy ' }}</td>
+                <td class="body" style="text-align: right;">{{material.BatchQty }}</td>
+                <td class="body" style="text-align: right;">{{material.BalanceQty | number : "1.3-3" }}</td>
+                <td class="body" style="text-align: right;">{{material.IssueQty }}</td>
+                <td class="body" style="text-align: center;"><i class="fa-regular fa-trash-can" style="color: #f91f4b;"
+                    (click)="DeleteBatchwise(i)"></i></td>
+              </tr>
+            </ng-template>
+            <ng-template #tooltipContent1>
+              <div *ngIf="this.ExpiryDateVailadCheck === true">
+                <h1> <b>Already Expired this material. Please get the revalidation certificate otherwise you cannot
+                    issue !</b> </h1>
+              </div>
+            </ng-template>
+          </p-table>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-footer class="d-grid gap-2 d-flex justify-content-end savebtn mt-4">
+      <!-- <div *ngIf=" this.ExpiryDateVailadCheck === true">
+        <button mat-raised-button class="All" color="primary" (click)="ReleaseAll()" style="float: right;"
+          [disabled]="MaterialAllReleasebtn ===true">Add</button>
+      </div>
+      <div *ngIf=" this.ExpiryDateVailadCheck === false">
+        <button mat-raised-button class="All" color="primary" (click)="ReleaseAll()" style="float: right;"
+          [disabled]="MaterialAllReleasebtn">Add</button>
+      </div> -->
+      <!-- <div >
+        <button mat-raised-button class="All" color="primary" (click)="ReleaseAll()" style="float: right;"
+         [disabled]="MaterialAllReleasebtn">Add</button>
+      </div> -->
+
+      <button mat-raised-button class="savebtn" style="background-color: #92d87e;" *ngIf="savebtn"
+        (click)="Savevaildation()">Save</button>
+    </mat-card-footer>
+  </mat-card>
+</div>
+
+<!-- Popup Start -->
+<!-- TAB View -->
+<button style="display: none;" id="MaterailTabView" data-bs-toggle="modal"
+  data-bs-target="#MaterailTabViewdialog"></button>
+<div class="modal fade" id="MaterailTabViewdialog" data-bs-backdrop='static'>
+  <div class="modal-dialog modal-xl modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="font-size: medium;background-color: rgb(240, 255, 241);">Material Detalis</div>
+      <div class="modal-body" style="margin: 1%;padding: 2%;">
+        <div class="card" *ngFor="let material of ViewMaterilaDetalis">
+          <div class="row">
+            <div class="col">
+              <div class="input-group mb-3">
+                <label class="input-group-text" id="basic-addon1">Material : </label>
+                <textarea style="width: fit-content;" class="form-control" value="{{material.MaterialName}}"
+                  readonly></textarea>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <label class="input-group-text" id="basic-addon1">Uom : </label>
+                <input type="text" value="{{material.SRUom}}" readonly class="form-control">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <label class="input-group-text" id="basic-addon1">Location : </label>
+                <input type="text" value="{{material.loc_id}}" readonly class="form-control">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <label class="input-group-text" id="basic-addon1">Max_Qty : </label>
+                <input type="text" value="{{material.max_level}}" readonly class="form-control">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <label class="input-group-text" id="basic-addon1">Reorder_Qty : </label>
+                <input type="text" value="{{material.reorder_level}}" readonly class="form-control">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <label class="input-group-text" id="basic-addon1">Deptname : </label>
+                <input type="text" value="{{material.deptname}}" readonly class="form-control">
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="input-group mb-3">
+                <label class="input-group-text" id="basic-addon1">Popend : </label>
+                <input type="text" value="{{material.popend}}" readonly class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="background-color: rgb(214, 248, 206);">
+        <button mat-raised-button type="button" color="warn" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" id="Error" data-bs-toggle="modal" data-bs-target="#ErrorDialog"></button>
+<div class="modal fade" id="ErrorDialog" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="font-size: medium;color: brown;font-weight: 550;text-transform: uppercase;">
+        Warning!!!</div>
+      <div class="modal-body">
+        <p style="font-family: 'Times New Roman', Times, serif;font-weight: 550;color: rgb(3, 3, 3);font-size: large;">
+          {{ErrorMsg}}
+        </p>
+      </div>
+      <div class="modal-footer" *ngIf="Error!==1 && Error!==2">
+        <button mat-raised-button type="button" class="btn" style="background-color: lightgreen;"
+          data-bs-dismiss="modal" (click)="empty()">OK</button>
+      </div>
+      <div class="modal-footer" *ngIf="Error===1">
+        <button mat-raised-button type="button" class="btn" style="background-color: lightgreen;"
+          data-bs-dismiss="modal" (click)="BatchEmptyClear()">OK</button>
+      </div>
+      <div class="modal-footer" *ngIf="Error===2">
+        <button mat-raised-button type="button" class="btn" style="background-color: lightgreen;"
+          data-bs-dismiss="modal" (click)="RemoveExpiryDateMatl()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" id="Error2" data-bs-toggle="modal" data-bs-target="#ErrorDialog2"></button>
+<div class="modal fade" id="ErrorDialog2" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="font-size: medium;color: brown;font-weight: 550;text-transform: uppercase;">
+        Warning!!!</div>
+      <div class="modal-body">
+        <p style="font-family: 'Times New Roman', Times, serif;font-weight: 550;color: rgb(3, 3, 3);font-size: large;">
+          {{ErrorMsg}}
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button mat-raised-button type="button" style="background-color: #92d87e;" data-bs-dismiss="modal"
+          (click)="Release()">Yes</button>
+        <button mat-raised-button type="button" style="background-color: #f57c7c;margin-right: 2%;"
+          data-bs-dismiss="modal" (click)="empty()">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" id="apierror" data-bs-toggle="modal" data-bs-target="#apierrorDialog"></button>
+<div class="modal fade" id="apierrorDialog" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="font-size: medium;color: rgb(14, 13, 13);font-weight: bold;">Error!!!</div>
+      <div class="modal-body">
+        <h3>
+          <p class="errorptag">
+            {{this.apiErrorMsg}}</p>
+          <h2>Please Wait Few Minutes and Check The Internet Connection</h2>
+          <h2> Contact Admin...</h2>
+        </h3>
+      </div>
+      <div class="modal-footer">
+        <button mat-raised-button type="button" class="btn m-2" color="warn" data-bs-dismiss="modal"
+          (click)="Spinnercall()">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" id="savevaildation" data-bs-toggle="modal" data-bs-target="#Savemenudialog"></button>
+<div class="modal fade" id="Savemenudialog" data-bs-backdrop='static'>
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="font-size: medium;background-color: rgb(240, 255, 241);">SAVE:</div>
+      <div class="modal-body" style="margin: 0%;">
+        <div>
+          <h4 style="color: rgb(3, 3, 3);font-weight: 550;">Do you yant to Save Data?</h4>
+        </div>
+      </div>
+      <div class="modal-footer" style="background-color: rgb(214, 248, 206);">
+        <button mat-raised-button type="button" style="background-color: #92d87e;" data-bs-dismiss="modal"
+          (click)="SaveConfirm()">Yes</button>
+        <button mat-raised-button type="button" style="background-color: #f57c7c;" data-bs-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" id="Save" data-bs-toggle="modal" data-bs-target="#Savedialog"></button>
+<div class="modal fade" id="Savedialog" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">SAVE:</div>
+      <div class="modal-body" style="margin-left: 1%;">
+        <div style="font-size: medium;font-weight: 600;color: rgb(140, 232, 140);" *ngIf="this.Sts == 'Y'">
+          {{Msg}}
+        </div>
+        <div style="font-size: medium;font-weight: 600;color: lightcoral" *ngIf="this.Sts == 'N'">
+          {{Msg}}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div *ngIf="this.Sts == 'Y'">
+          <button mat-raised-button style="background-color: #92d87e;" type="button" data-bs-dismiss="modal"
+            (click)="finalSave()">OK</button>
+        </div>
+        <div *ngIf="this.Sts == 'N'">
+          <button mat-raised-button class="btn btn-secondary" style="background-color: rgb(247, 107, 75);" type="button"
+            data-bs-dismiss="modal" (click)="savetimeerror()">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

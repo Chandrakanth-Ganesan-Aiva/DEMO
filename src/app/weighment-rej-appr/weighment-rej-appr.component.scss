@@ -1,0 +1,259 @@
+mat-card-title {
+  font-size: x-large;
+  font-family: 'Times New Roman', Times, serif;
+  color: brown;
+  font-weight: bold;
+  padding-left: 33%;
+}
+
+.card {
+  margin: 1%;
+  padding: 1%;
+  border-radius: 10px;
+  -webkit-box-shadow: 0 2px 10px 1px rgb(55, 127, 194);
+  box-shadow: 0 1px 2px 1px #4162b5;
+}
+
+mat-card {
+  background-color: rgb(247, 247, 247);
+  border-radius: 10px;
+  -webkit-box-shadow: 0 2px 10px 1px rgb(55, 127, 194);
+  box-shadow: 0 1px 2px 1px #4162b5;
+}
+
+.form-control {
+  font-family: 'Times New Roman', Times, serif;
+  -webkit-box-shadow: 0 2px 10px 10px rgb(55, 127, 194);
+  box-shadow: 0 1px 2px 1px #4162b5;
+}
+
+.form-label {
+  font-weight: 550;
+  color: #4162b5;
+  font-size: medium;
+  padding-left: .5%;
+}
+
+span {
+  color: brown;
+  font-size: large;
+}
+
+.viewbtn {
+  margin-top: 4%;
+}
+
+.tabelhead {
+  margin: 1%;
+  text-align: center;
+  justify-content: center;
+  background-color: #4863a0;
+  text-align: center;
+  font-size: 16px;
+  padding: 10px;
+  font-weight: bold;
+  font-family: 'Times New Roman', Times, serif;
+  color: white;
+  border-right: 0.1px solid rgb(198, 226, 252);
+}
+
+.body {
+  margin: 1%;
+  font-size: 15px;
+  padding: 10px;
+  font-family: 'Robito';
+  border: 0.1px solid rgb(198, 226, 252);
+  border-right: 0.1px solid rgb(198, 226, 252);
+}
+
+Error
+
+.tabbtn {
+  display: none;
+}
+
+.date {
+  width: 8%;
+}
+
+@media screen and (min-width: 350px) and (max-width: 575px) {
+  mat-card-title {
+    font-size: smaller;
+    padding-left: 23%;
+    margin-bottom: 1%;
+  }
+
+  .card {
+    margin: 0%;
+    padding: 0;
+  }
+
+  span {
+    font-size: x-small;
+  }
+
+  .form-label {
+    font-size: x-small;
+    margin: .1%;
+  }
+
+  .form-control {
+    font-size: x-small;
+    margin: .1%;
+  }
+
+  .tabelhead {
+    font-size: x-small;
+    width: fit-content;
+  }
+
+  .body {
+    font-size: x-small;
+    width: fit-content;
+  }
+
+  button {
+    font-size: xx-small;
+    width: fit-content;
+  }
+
+  .date {
+    width: 15%;
+  }
+
+  .tab {
+    display: none;
+  }
+
+  .tabbtn {
+    display: table-cell;
+    font-size: xx-small;
+  }
+
+  .viewbtn {
+    margin-top: 11%;
+  }
+}
+
+@media screen and (min-width: 576px) and (max-width: 749px) {
+  mat-card-title {
+    font-size: medium;
+    padding-left: 22%;
+    margin-bottom: 1%;
+  }
+
+  .card {
+    margin: 0%;
+    padding: 0%;
+  }
+
+  span {
+    font-size: small;
+  }
+
+  .form-label {
+    font-size: smaller;
+    margin: .1%;
+  }
+
+  .form-control {
+    font-size: smaller;
+    margin: .1%;
+  }
+
+  .tabelhead {
+    font-size: smaller;
+    width: fit-content;
+  }
+
+  .body {
+    font-size: smaller;
+    width: fit-content;
+  }
+
+  button {
+    font-size: smaller;
+    width: fit-content;
+  }
+
+  .date {
+    width: 15%;
+  }
+
+  .tab {
+    display: none;
+  }
+
+  .tabbtn {
+    display: table-cell;
+    font-size: smaller;
+  }
+
+  .viewbtn {
+    margin-top: 8%;
+  }
+}
+
+@media screen and (min-width: 749px) and (max-width: 992px) {
+
+  .title {
+    font-size: x-large;
+  }
+
+  .container-fluid {
+    margin-top: 1%;
+  }
+
+  span {
+    font-size: medium;
+  }
+
+  .form-label {
+    font-size: smaller;
+    margin: .1%;
+  }
+
+  input {
+    font-size: smaller;
+    margin: .1%;
+  }
+
+  .form-select {
+    font-size: smaller;
+    margin: .1%;
+  }
+
+  .form-control {
+    font-size: smaller;
+    margin: .1%;
+  }
+
+  .head {
+    font-size: medium;
+    padding: 6px;
+  }
+
+  .body {
+    font-size: medium;
+    padding: 6px;
+  }
+
+  button {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: smaller;
+    width: fit-content;
+  }
+
+  .tabelhead1 {
+    display: none;
+  }
+
+  .body1 {
+    display: none;
+  }
+
+  .view-button {
+    margin-top: -5%;
+    margin-left: 190%;
+  }
+}

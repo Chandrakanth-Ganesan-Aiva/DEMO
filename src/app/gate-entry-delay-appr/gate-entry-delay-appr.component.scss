@@ -1,0 +1,127 @@
+* {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+mat-card-title {
+  font-size: x-large;
+}
+
+th {
+  color: #f3efef;
+  gap: 0%;
+  text-align: center;
+  border: 1px solid #050505;
+  padding: 8px;
+  font-family: 'Times New Roman', Times, serif;
+  font-size: medium;
+  font-weight: 540;
+
+}
+
+td {
+  padding: 8px;
+  border: 1px solid #4863a0;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+::ng-deep .mat-sort-header-arrow {
+  color: #f30b0b;
+  font-size: xx-large;
+}
+
+mat-form-field {
+  width: 100%;
+  border-color: 1px soild blue;
+  border-radius: 20px;
+}
+
+.mat-elevation {
+  overflow-x: auto;
+  overflow-y: auto;
+}
+.desc{
+  width: 25%;
+}
+button {
+  border-radius: 17px;
+  cursor: progress;
+}
+@media screen and (min-width: 350px) and (max-width: 575px) {
+
+  mat-card-title {
+    font-size: medium;
+  }
+
+  th {
+    font-size: xx-small;
+  }
+
+  td {
+    font-size: xx-small;
+  }
+
+  button {
+    font-size: small;
+    width: fit-content;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+  input{
+    font-size: small;
+  }
+}
+
+@media screen and (min-width: 576px) and (max-width: 749px) {
+
+  mat-card-title {
+    font-size: x-large;
+  }
+
+
+  th {
+    font-size: small;
+  }
+
+  td {
+    font-size: x-small;
+  }
+
+  button {
+    font-size: smaller;
+  }
+
+  mat-form-field {
+    width: 90%;
+  }
+  input{
+    font-size: smaller;
+  }
+}
+
+@media screen and (min-width: 749px) and (max-width: 992px) {
+
+  mat-card-title {
+    font-size: x-large;
+  }
+
+  th {
+    font-size: medium;
+  }
+
+  td {
+    font-size: medium;
+  }
+
+  button {
+    font-size: smaller;
+  }
+
+  mat-form-field {
+    width: 80%;
+  }
+  input{
+    font-size: medium;
+  }
+}

@@ -1,0 +1,66 @@
+<app-navigation></app-navigation>
+<h1>Clearing and Freight Charges Approval</h1>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <label for="" class="form-label">Approved By</label>
+                <select name="" id="" class="form-select">
+                    <option value="" *ngFor="let approver of  this.ApproverArray">{{approver.empname}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="table-responsive mt-3" *ngIf="!show">
+            <table class="table table-bordered table-fixed" style="width: 100%;table-layout: fixed;border:1px solid #ddd">
+                <thead>
+                    <tr>
+                        <th style="width: 100px;">Select</th>
+                        <th style="width: 300px;">Port_Name</th>
+                        <th style="width: 500px;">Agent_Name</th>
+                        <th style="width: 200px;">Total_Amount</th>
+                        <th style="width: 200px;">Effect_Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let table of table1Array; let i=index">
+                        <td style="text-align: center;"><input type="checkbox" class="form-check-input"
+                                style="border:1px solid #5161b6;" (change)="checked($event, table, i)"></td>
+                        <td style="width: 100px;">{{table.portname}}</td>
+                        <td style="width: 500px;">{{table.supname}}</td>
+                        <td style="width: 200px;">{{table.totamount}}</td>
+                        <td style="width: 200px;">{{table.eff_date | date:'yyyy-MM-dd'}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="col-12 text-right">
+            <button (click)="Approve()" mat-raised-button
+                style="background-color: green;color:white;font-family: 'Times New Roman', Times, serif;margin:3px;">Approve</button>
+            <button mat-raised-button
+                style="background-color: red;color: white;font-family: 'Times New Roman', Times, serif;margin:3px;"
+                (click)="clear()">Clear</button>
+        </div>
+        <div class="table-responsive" *ngIf="showtable">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th>SI.No</th>
+                        <th>Detail</th>
+                        <th>Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let table2 of table2Array;let i=index;">
+                        <td>{{i+1}}</td>
+                        <td>{{table2.detail}}</td>
+                        <td>{{table2.amount}}</td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="d-flex align-items-center justify-content-end">
+                <p class="mb-0 me-2">Total</p>
+                <input type="text" class="form-control" [(ngModel)]="this.total" style="width: 210px;" />
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,228 @@
+<mat-card-header>
+    <mat-card-title>Customer Rejection Detalis</mat-card-title>
+</mat-card-header>
+
+<mat-divider class="m-3"></mat-divider>
+<mat-tab-group>
+    <mat-tab label="General">
+        <mat-card-content>
+            <form [formGroup]="GeneralForm" (ngSubmit)="Submit()">
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label">Product</label>
+                        <select class="form-select" formControlName="Product" (change)="ProdChangeEvent($event)">
+                            <option>--Select--</option>
+                            <option *ngFor="let item of ProductList" [value]="item.matlid">{{item.prodname}}</option>
+                        </select>
+                        <mat-error *ngIf="Generalfrmbtn && GeneralForm.controls['Product'].invalid">Product Is
+                            Required</mat-error>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Uom</label>
+                        <input class="form-control" formControlName="Uom">
+                        <mat-error *ngIf="Generalfrmbtn && GeneralForm.controls['Uom'].invalid">Uom Is
+                            Required</mat-error>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label">Invoice No</label>
+                        <select class="form-select" formControlName="InvoiceId" (change)="InvoiceChangeEvent($event)">
+                            <option>--Select--</option>
+                            <option *ngFor="let item of InvoiceList" [value]="item.InvID">{{item.invoiceno1}}</option>
+                        </select>
+                        <mat-error *ngIf="Generalfrmbtn && GeneralForm.controls['InvoiceId'].invalid">Invoice Is
+                            Required</mat-error>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Alloy</label>
+                        <select class="form-select" formControlName="Alloy" (change)="AlloyChangeEvent($event)">
+                            <option>--Select--</option>
+                            <option *ngFor="let item of GradeList" [value]="item.GradeID">{{item.GradeName}}</option>
+                        </select>
+                        <mat-error *ngIf="Generalfrmbtn && GeneralForm.controls['Alloy'].invalid">Alloy Is
+                            Required</mat-error>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label">Quantity</label>
+                        <input class="form-control" formControlName="Quantity">
+                        <mat-error *ngIf="Generalfrmbtn && GeneralForm.controls['Quantity'].invalid">Quantity Is
+                            Required</mat-error>
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Weight</label>
+                        <input class="form-control" formControlName="Weight">
+                        <mat-error *ngIf="Generalfrmbtn && GeneralForm.controls['Weight'].invalid">Weight Is
+                            Required</mat-error>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label">BatchNo</label>
+                        <input class="form-control" formControlName="BatchNo">
+                    </div>
+                    <div class="col">
+                        <label class="form-label">Price/Uom</label>
+                        <input class="form-control" formControlName="PriceUom">
+                        <mat-error *ngIf="Generalfrmbtn && GeneralForm.controls['PriceUom'].invalid">Price/Uom Is
+                            Required</mat-error>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label">Cost Center</label>
+                        <select class="form-select" formControlName="CostCenter">
+                            <option *ngFor="let item of CostCenter" [value]="item.costcentreid">{{item.costcentre}}
+                            </option>
+                        </select>
+                        <mat-error *ngIf="Generalfrmbtn && GeneralForm.controls['CostCenter'].invalid">CostCenter Is
+                            Required</mat-error>
+                    </div>
+                    <div class="col mt-4">
+                        <mat-radio-group formControlName="RadiobtnType">
+                            <mat-radio-button value="AsPerInvoice">As Per Invoice</mat-radio-button>
+                            <mat-radio-button value="Manual">Manual</mat-radio-button>
+                        </mat-radio-group>
+                        <mat-error *ngIf="Generalfrmbtn && GeneralForm.controls['RadiobtnType'].invalid">RadiobtnType Is
+                            Required</mat-error>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <label class="form-label">Decripation</label>
+                        <textarea class="form-control" style="resize: none;field-sizing: content;"
+                            formControlName="Desc"></textarea>
+
+                    </div>
+                </div>
+                <label class="form-label">Alternate Currenct Detalis</label>
+                <div class="card p-3">
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-label">Currency</label>
+                            <select class="form-select" formControlName="AlternateCurrency">
+                                <option>--Select--</option>
+                                <option *ngFor="let item of CurrencyList">{{item.CurrDesc}}</option>
+                            </select>
+                            <mat-error
+                                *ngIf="Generalfrmbtn && GeneralForm.controls['AlternateCurrency'].invalid">Currency Is
+                                Required</mat-error>
+                        </div>
+                        <div class="col">
+                            <label class="form-label">Exchange Rate</label>
+                            <input class="form-control" formControlName="ExchangeRate">
+                            <mat-error
+                                *ngIf="Generalfrmbtn && GeneralForm.controls['ExchangeRate'].invalid">ExchangeRate Is
+                                Required</mat-error>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <label class="form-label">Price</label>
+                            <select class="form-select" formControlName="Price">
+                                <option>--Select--</option>
+                                <option></option>
+                            </select>
+                        </div>
+                        <div class="col mt-4" *ngIf="this.RateQcSts?.[0]">
+                            <mat-checkbox value="" [disabled]="this.RateQcSts[0].production =='Y'" color="primary"
+                                [checked]="this.RateQcSts[0].production =='Y'">Route Through Qc</mat-checkbox>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-6">
+                            <label class="form-label">Decripation</label>
+                            <textarea class="form-control" style="resize: none;field-sizing: content;"
+                                formControlName="CurrencyDesc"></textarea>
+                        </div>
+                        <div class="col mt-4">
+                            <button type="button" mat-raised-button mat-dialog-close color="warn">Close</button>
+                            <button mat-raised-button type="submit"
+                                style="background-color: green;color: white; margin-left: 4%;">Update</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-tab>
+    <mat-tab label="SINo Values"> </mat-tab>
+    <mat-tab label="PTCD">
+        <mat-card-content>
+            <form [formGroup]="PTCDForm">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>Price</mat-label>
+                            <input type="number" matInput formControlName="Price">
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>Discount</mat-label>
+                            <input type="number" matInput formControlName="Discount">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>Packing</mat-label>
+                            <input type="number" matInput formControlName="Packing">
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>Inventory Price</mat-label>
+                            <input type="number" matInput formControlName="InventoryPrice">
+                        </mat-form-field>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+        <mat-card-content>
+            <table mat-table #table [dataSource]="dataSource">
+                <ng-container matColumnDef="Select">
+                    <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Select </th>
+                    <td mat-cell *matCellDef="let row"><mat-checkbox color="primary"
+                            [checked]="row.Required =='Y'"></mat-checkbox> </td>
+                </ng-container>
+                <ng-container matColumnDef="taxType">
+                    <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Tax Type </th>
+                    <td mat-cell *matCellDef="let row"> {{row.taxtype}} </td>
+                </ng-container>
+                <ng-container matColumnDef="value">
+                    <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Value </th>
+                    <td mat-cell *matCellDef="let row"> {{row.DefaultValue}} </td>
+                </ng-container>
+                <ng-container matColumnDef="orderBy">
+                    <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Order By </th>
+                    <td mat-cell *matCellDef="let row"> {{row.defaultvalue}} </td>
+                </ng-container>
+                <ng-container matColumnDef="Per">
+                    <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> %(Y/N) </th>
+                    <td mat-cell *matCellDef="let row"> <mat-checkbox color="primary"
+                            [checked]="row.perc == 'Y'"></mat-checkbox></td>
+                </ng-container>
+                <ng-container matColumnDef="taxValue">
+                    <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Tax Value </th>
+                    <td mat-cell *matCellDef="let row"> {{row.column}} </td>
+                </ng-container>
+                <ng-container matColumnDef="basic">
+                    <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Basic </th>
+                    <td mat-cell *matCellDef="let row"> {{row.column}} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="['Select','taxType','value','orderBy','Per','taxValue','basic']">
+                </tr>
+                <tr mat-row
+                    *matRowDef="let row; columns: ['Select','taxType','value','orderBy','Per','taxValue','basic'];">
+                </tr>
+            </table>
+            <mat-divider style="border:  .5px solid #4863a0;"></mat-divider>
+        </mat-card-content>
+    </mat-tab>
+    <mat-tab label="Addtional Detalis">
+
+    </mat-tab>
+</mat-tab-group>

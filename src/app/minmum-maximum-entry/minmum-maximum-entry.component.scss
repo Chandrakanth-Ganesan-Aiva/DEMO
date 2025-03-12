@@ -1,0 +1,126 @@
+mat-card-title {
+  font-size: 1.5rem;
+  color: brown;
+}
+
+mat-card {
+  margin: 1%;
+  padding: 1.5%;
+  border: 1px solid rgb(40, 108, 197);
+}
+
+mat-form-field {
+  width: 100%;
+  border-radius: 17px;
+}
+
+button {
+  border-radius: 17px;
+  cursor: progress;
+  margin-top: 2%;
+}
+
+.search {
+  width: 50%;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+.mat-elevation-z2{
+  overflow-x: auto;
+  overflow-y: auto;
+}
+table {
+  th {
+      margin: 0%;
+      background-color: #3f51b5;
+      color: white;
+      border: 1px solid silver;
+      text-align: center;
+  }
+
+  td {
+
+      border: 1px solid silver;
+  }
+}
+tr:last-child {
+  border: 1px solid silver !important;
+} 
+@media screen and (min-width: 350px) and (max-width: 575px) {
+  table {
+      th {
+          font-size: x-small;
+      }
+
+      td {
+          font-size: x-small;
+      }
+  }
+  mat-select{
+      font-size: smaller;
+  }
+  mat-option{
+      font-size: smaller;
+  }
+  .form-control{
+    width: 5rem;
+    font-size: 1rem;
+  }
+  .material{
+    width: 10rem;
+  }
+}
+
+@media screen and (min-width: 576px) and (max-width: 749px) {
+  table {
+      th {
+          font-size: small;
+      }
+
+      td {
+          font-size: small;
+      }
+  }
+  mat-select{
+      font-size: smaller;
+  }
+  mat-option{
+      font-size: smaller;
+  }
+  .form-control{
+    width: 5rem;
+    font-size: 1rem;
+  }
+  .material{
+    width: 12rem;
+  }
+}
+
+@media screen and (min-width: 749px) and (max-width: 992px) {
+  table {
+      th {
+          font-size: smaller;
+      }
+
+      td {
+          font-size: smaller;
+      }
+  }
+  mat-select{
+      font-size: medium;
+  }
+  mat-option{
+      font-size: smaller;
+  }
+  .form-control{
+    width: 5rem;
+    font-size: 1rem;
+  }
+  .material{
+    width: 15rem;
+  }
+}

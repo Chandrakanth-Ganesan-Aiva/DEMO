@@ -1,0 +1,108 @@
+<app-navigation></app-navigation>
+<h1>Indent Approval Pending</h1>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <label for="" class="form-label">Department</label>
+                <ng-select [items]="locationArray" bindLabel="deptname" bindValue="deptid" [clearable]="true"
+                    [(ngModel)]="deptid" (change)="dept($event)"></ng-select>
+            </div>
+            <div class="col-6">
+                <label for="" class="form-label">Material</label>
+                <ng-select [items]="materialArray" bindLabel="rawmatname" bindValue="rawmatid" [clearable]="true"
+                    [(ngModel)]="materialid" (change)="material($event)"></ng-select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label for="" class="form-label">Group</label>
+                <ng-select [items]="groupArray" bindLabel="groupname" bindValue="id" [clearable]="true"
+                    [(ngModel)]="groupid" (change)="group($event)">
+                </ng-select>
+            </div>
+            <div class="col-6">
+                <button mat-raised-button
+                    style="background-color:rgb(142, 142, 212);color: white;margin-right: 5px;margin-top: 1.7rem;font-size: 16px;"
+                    (click)="view1()">
+                    View
+                </button>
+                <button mat-raised-button
+                    style="background-color: green; color: white;font-size: 16px;margin-top:1.7rem;font-size: 16px;"
+                    (click)="sendMail()">Send
+                    Mail</button>
+                <button mat-raised-button
+                    style="background-color: red;color: white;font-size: 16px;margin-top: 1.7rem;margin-left: 5px;font-size: 16px;"
+                    (click)="clear()">Clear</button>
+            </div>
+        </div>
+        <div class="table-responsive" *ngIf="combinedArray.length>0;">
+            <table class="table table-bordered table-fixed"
+                style="width: 100%;table-layout: fixed;border: 1px solid #ddd;">
+                <thead>
+                    <tr>
+                        <th style="width:150px;">Indent_No</th>
+                        <th style="width:150px;">Indent_Date</th>
+                        <th style="width:150px;">Sch_Date</th>
+                        <th style="width:150px;">Department</th>
+                        <th style="width:300px;">Raised_By</th>
+                        <th style="width:500px;">Raw_Material</th>
+                        <th style="width:150px;">UOM</th>
+                        <th style="width:150px;">Approved_Qty</th>
+                        <th style="width:150px;">PO_Qty</th>
+                        <th style="width:150px;">Bal_Qty</th>
+                        <th style="width:500px;">Description</th>
+                        <th style="width:150px;">Approval_Date</th>
+                        <th style="width:150px;">Correction</th>
+                        <th style="width:150px;">Reason</th>
+                        <th style="width:300px;">Email</th>
+                        <th style="width:200px;">PO_No</th>
+                        <th style="width:150px;">PO_Date</th>
+                        <th style="width:150px;">PO_Qty</th>
+                        <th style="width:150px;">Rate</th>
+                        <th style="width:300px;">Supplier</th>
+                        <th style="width:150px;">Restriction</th>
+                        <th style="width:150px;">PO_Raised</th>
+                        <th style="width:150px;">Balance</th>
+                        <th style="width:150px;">Capex_No</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let table of combinedArray; let i = index">
+                        <td style="width:150px;">{{table.PR_Ref_No}}</td>
+                        <td style="width:150px;">{{table.PRDate | date:'dd-MM-yyyy'}}</td>
+                        <td style="width:150px;">{{table.schdate | date:'dd-MM-yyyy'}}</td>
+                        <td style="width:300px;text-align: left;">{{table.deptname}}</td>
+                        <td style="width:300px;text-align: left;">{{table.empname}}</td>
+                        <td style="width:500px;text-align: left;">{{table.rawmatname}}</td>
+                        <td style="width:150px;">{{table.uom}}</td>
+                        <td style="width:150px;">{{table.ApprovedQty}}</td>
+                        <td style="width:150px;">{{table.poqty}}</td>
+                        <td style="width:150px;">{{table.balqty}}</td>
+                        <td style="width:500px;text-align: left;">{{table.prdesc}}</td>
+                        <td style="width:150px;">{{table.approveddate | date:'dd-MM-yyyy'}}</td>
+                        <td style="text-align: center; width: 100px;">
+                            <input type="checkbox" [checked]="selectedRows.includes(table)"
+                                (change)="toggleRowSelection($event, table)" class="form-check-input" [disabled]="true"
+                                style="border: 1px solid black;padding: 8px;">
+                        </td>
+                        <td>
+                            <textarea class="form-control" style="resize: none;" [(ngModel)]="table.reason"
+                                (ngModelChange)="onReasonChange(table)">
+                                      </textarea>
+                        </td>
+                        <td style="width:300px;text-align: left;">{{table.email}}</td>
+                        <td style="width:200px;text-align: center;">{{table.PONO}}</td>
+                        <td style="width:150px;">{{table.PODate | date:'dd-MM-yyyy'}}</td>
+                        <td style="width:150px;">{{table.poqty}}</td>
+                        <td style="width:150px;">{{table.rate}}</td>
+                        <td style="width:300px;text-align: left;">{{table.supname}}</td>
+                        <td style="width:150px;">{{table.qty1}}</td>
+                        <td style="width:150px;">{{table.qty2}}</td>
+                        <td style="width:150px;">{{table.qty1-table.qty2}}</td>
+                        <td style="width:150px;">{{table.capexnumber}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>

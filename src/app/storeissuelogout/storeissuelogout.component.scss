@@ -1,0 +1,33 @@
+.title {
+  font-size: xx-large;
+  font-weight: 550;
+  color: rgb(236, 83, 83);
+  font-weight: bolder;
+}
+
+span {
+  color: #111111;
+  font-size: 20px;
+  font-weight: bolder;
+}
+
+.form-label {
+  color: #0070d3;
+  font-weight: 550;
+  padding-left: 8px;
+}
+
+mat-card {
+  margin: 2%;
+  // background-color: rgb(219, 241, 234);
+  border-radius: 10px;
+  -webkit-box-shadow: 0 2px 10px 1px rgb(55, 127, 194);
+  box-shadow: 0 1px 2px 1px #4162b5;
+}
+.modal-header{
+  font-size: medium;
+  background-color: #f7dd8a;
+  color: brown;
+  font-weight: 550;
+  font-family: 'Times New Roman', Times, serif;
+}

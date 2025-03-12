@@ -1,0 +1,108 @@
+<app-navigation></app-navigation>
+<div class="container-fluid mt-0">
+    <mat-card class=" p-2">
+        <mat-card-header class="justify-content-center mt-0 pt-2">
+            <mat-card-title class="mt-0 pt-0">Minimum Maximum Entry</mat-card-title>
+        </mat-card-header>
+        <mat-divider class="pt-2"></mat-divider>
+        <mat-card-content>
+            <form [formGroup]="minmaxform">
+                <div class="row">
+                    <div class="col-12 col-sm-4 col-md-4 col-lg-5">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Category</mat-label>
+                            <mat-select name="category" formControlName="category"
+                                (selectionChange)="categoryChangeEvent()">
+                                <mat-option> <ngx-mat-select-search [formControl]="filtercontrol"
+                                        [clearSearchInput]="true"
+                                        placeholderLabel="---Search---" noEntriesFoundLabel="No Data Found"></ngx-mat-select-search></mat-option>
+                                <mat-option *ngFor="let item of filteredoptions"
+                                    [value]="item.grntypeid">{{item.grntype}}</mat-option>
+                            </mat-select>
+                            <mat-error>Category
+                                Required</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-4 col-lg-4">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Location</mat-label>
+                            <!-- <mat-select name="Unit" formControlName="Unit">
+                                <mat-option *ngFor="let item of Unit"
+                                    [value]="item.companyid">{{item.location}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="Viewbtn && minmaxform.get('Unit')?.invalid">Unit Required</mat-error> -->
+                            <input type="text" matInput formControlName="Unit" readonly />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-6 col-sm-4 col-md-4 col-lg-3">
+                        <!-- <button mat-raised-button class="button mt-1" type="submit" color="primary">View</button> -->
+                        <button mat-raised-button class="button mt-1" type="button"
+                            style="background-color: green;color: white;" (click)="getSaveVaild()" [disabled]="Savebtndis">Save</button>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+        <mat-card-content>
+
+            <div class="mat-elevation-z2 mt-3" [hidden]="Table">
+                <mat-form-field appearance="fill">
+                    <mat-label>Material-Search</mat-label>
+                    <input matInput type="text" class="" placeholder="Search Material" (input)="materialInput($event)">
+                </mat-form-field>
+                <table mat-table #table [dataSource]="dataSource">
+                    <ng-container matColumnDef="select" sticky>
+                        <th mat-header-cell *matHeaderCellDef > Select </th>
+                        <td mat-cell *matCellDef="let element"><mat-checkbox [(ngModel)]="element.selected">
+                            </mat-checkbox></td>
+                    </ng-container>
+                    <ng-container matColumnDef="Material" sticky>
+                        <th mat-header-cell *matHeaderCellDef class="w-fit"> Material </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div class="material">{{element.rawmatname}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="UOM">
+                        <th mat-header-cell *matHeaderCellDef> UOM </th>
+                        <td mat-cell *matCellDef="let element">{{element.uom}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Min">
+                        <th mat-header-cell *matHeaderCellDef> Min </th>
+                        <td mat-cell *matCellDef="let element; let i = index">
+                            <!-- <input type="number" class="form-control"
+                                appDisableScroll [(ngModel)]="element.min_level"
+                                [disabled]="initialDisabledStates.get(element.rawmatid)?.min_level" onwheel="return false;"> -->
+                            <input type="number" class="form-control" appDisableScroll [(ngModel)]="element.min_level"
+                                onwheel="return false;">
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Max">
+                        <th mat-header-cell *matHeaderCellDef> Max </th>
+                        <td mat-cell *matCellDef="let element;let i = index"><input type="number" class="form-control"
+                                [(ngModel)]="element.max_level" onwheel="return false;"></td>
+                    </ng-container>
+                    <ng-container matColumnDef="Reorder">
+                        <th mat-header-cell *matHeaderCellDef> Reorder </th>
+                        <td mat-cell *matCellDef="let element; let i = index"> <input type="number" class="form-control"
+                                [(ngModel)]="element.reorder_level" onwheel="return false;"></td>
+                    </ng-container>
+                    <ng-container matColumnDef="Reorderlimit">
+                        <th mat-header-cell *matHeaderCellDef> Reorderlimit </th>
+                        <td mat-cell *matCellDef="let element; let i = index"> <input type="number" class="form-control"
+                                [(ngModel)]="element.reorder_limit" onwheel="return false;"></td>
+                    </ng-container>
+                    <ng-container matColumnDef="LeadDays">
+                        <th mat-header-cell *matHeaderCellDef> LeadDays </th>
+                        <td mat-cell *matCellDef="let element; let i = index"><input type="number" class="form-control"
+                                [(ngModel)]="element.leadtime" onwheel="return false;"></td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="TabelHeaders"></tr>
+                    <tr mat-row *matRowDef="let row; columns: TabelHeaders;">
+                    </tr>
+                </table>
+                <!-- <mat-divider style="border:  .5px solid #4863a0;"></mat-divider> -->
+                <mat-paginator [pageSizeOptions]="[5, 20, 50]" showFirstLastButtons>
+                </mat-paginator>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

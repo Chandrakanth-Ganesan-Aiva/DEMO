@@ -1,0 +1,92 @@
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Roboto', "Helvetica Neue", sans-serif;
+}
+
+@import "~@ng-select/ng-select/themes/default.theme.css";
+@import 'ngx-toastr/toastr';
+// @import "~@fortawesome/fontawesome-free/css/all.css";
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+
+* {
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.ng-select {
+  padding: 0%;
+
+}
+
+.mat-error{
+  z-index: 99999 !important;
+}
+
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option.ng-option-marked {
+  background-color: #3F51B5;
+  color: white;
+  white-space: normal;
+}
+mat-select-panel mat-select-panel-items mat-select mat-select-marked {
+  background-color: #3F51B5;
+}
+.ng-dropdown-panel .ng-dropdown-panel-items .ng-option {
+  white-space: normal !important;
+}
+
+mat-select-panel mat-select-panel-items mat-select mat-select-marked{
+  background-color: #3F51B5;
+  color: white;
+  white-space: normal;
+  white-space: normal !important;
+}
+
+.mat-elevation-z2{
+  overflow-x: auto;
+  overflow-y: auto;
+}
+.mat-elevation-z8{
+  overflow-x: auto;
+  overflow-y: auto;
+}
+mat-label{
+  color: rgb(1, 44, 165);
+}
+.form-label {
+  color: #0070d3;
+  font-weight: 550;
+  padding-left: 6px;
+}
+
+mat-icon {
+  transition: transform 0.3s ease-in-out; /* Smooth transition */
+}
+
+mat-icon:hover {
+  transform: scale(1.5); /* Zoom effect on hover */
+}
+
+.mat-mdc-text-field-wrapper {
+  height: 43px !important;
+}
+
+ .mat-mdc-form-field-flex {
+  margin-top: -6px !important;
+}
+
+.mat-mdc-paginator .mat-mdc-form-field-flex {
+  margin-top: 0 !important;
+}
+::ng-deep .mat-tooltip {
+  white-space: pre-line !important; /* Allows line breaks */
+  max-width: 400px !important; /* Increase width */
+  word-wrap: break-word !important; /* Ensures long words wrap */
+  font-size: 14px; /* Adjust font size */
+}

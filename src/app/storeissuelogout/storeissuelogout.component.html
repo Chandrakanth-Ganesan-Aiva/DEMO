@@ -1,0 +1,133 @@
+<app-navigation></app-navigation>
+<div class="container-fulid">
+  <mat-card-header class="justify-content-center mt-0 mb-3">
+    <mat-card-title class="title">Logout Store Issue</mat-card-title>
+  </mat-card-header>
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="Logoutform">
+        <div class="row ">
+          <div class="col">
+            <label for="exampleFormControlInput3" class="form-label">Location <span>*</span> </label>
+            <select class="form-select" placeholder="--Select--" formControlName="Loaction"
+              (change)="Locationevent($event)">
+              <option disabled selected hidden>--Select--</option>
+              <option *ngFor="let item of UserLocationidArr" [value]="item.CompanyID">{{item.CompShort}}</option>
+            </select>
+            <mat-error *ngIf="vaildationbtn && this.Logoutform.controls['Loaction'].value ==''">Location Is Required</mat-error>
+          </div>
+          <div class="col">
+            <label for="exampleFormControlInput3" class="form-label">Dept Name <span>*</span> </label>
+            <ng-select class="form-select" (change)="DeptEvent($event)" placeholder="--Select--" formControlName="Dept">
+              <ng-option value="" disabled selected hidden>--Select--</ng-option>
+              <ng-option *ngFor="let item of Department" [value]="item.DeptID">{{item.DeptName}}</ng-option>
+            </ng-select>
+            <mat-error *ngIf="vaildationbtn && this.Logoutform.controls['Dept'].value ==''">Department Is Required</mat-error>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="col">
+            <label for="exampleFormControlInput3" class="form-label">Emp. Name <span>*</span> </label>
+            <select class="form-select" formControlName="Emp" (change)="EmpEvent($event)">
+              <option value="" disabled selected hidden>--Select--</option>
+              <option *ngFor="let item of Employee" [value]="item.Empid">{{item.Empname}}</option>
+            </select>
+            <mat-error *ngIf="vaildationbtn && this.Logoutform.controls['Emp'].value ==''">Employee Name Is Required</mat-error>
+          </div>
+        </div>
+        <div class="row ">
+          <div class="col aprbtn " align="end">
+            <button mat-raised-button type="button" color="primary" style="margin-right: 2%;"
+              (click)="Viewunlockuser()">View</button>
+            <button mat-raised-button type="button" style="background-color: green;"
+              (click)="LogoutEmp()">Approve</button>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+
+  </mat-card>
+</div>
+<button style="display: none;" id="View" data-bs-toggle="modal" data-bs-target="#Viewdialog"></button>
+<div class="modal" id="Viewdialog" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-body">
+        <table mat-table [dataSource]="ViewSccrenlogUser" class="mat-elevation-z2">
+          <ng-container matColumnDef="S.No">
+            <th mat-header-cell *matHeaderCellDef style="background-color: #59abfd;"> S.No </th>
+            <td mat-cell *matCellDef="let element; let i = index" style="text-align: center;">{{i + 1}}</td>
+          </ng-container>
+          <ng-container matColumnDef="empname">
+            <th mat-header-cell *matHeaderCellDef style="background-color: #59abfd;"> EmpName </th>
+            <td mat-cell *matCellDef="let element" style="text-align: center;"> {{element.empname}} </td>
+          </ng-container>
+          <ng-container matColumnDef="locid">
+            <th mat-header-cell *matHeaderCellDef style="background-color: #59abfd;"> Location </th>
+            <td mat-cell *matCellDef="let element"> {{element.locid}} </td>
+          </ng-container>
+          <ng-container matColumnDef="loginsystem">
+            <th mat-header-cell *matHeaderCellDef style="background-color: #59abfd;"> LoginSystem </th>
+            <td mat-cell *matCellDef="let element" style="text-align: center;"> {{element.loginsystem}} </td>
+          </ng-container>
+          <ng-container matColumnDef="logindate">
+            <th mat-header-cell *matHeaderCellDef style="background-color: #59abfd;"> LoginDate </th>
+            <td mat-cell *matCellDef="let element" style="text-align: center;"> {{element.logindate | date : 'dd-MM-yyyy ' }} </td>
+          </ng-container>
+          <ng-container matColumnDef="logoutdate">
+            <th mat-header-cell *matHeaderCellDef style="background-color: #59abfd;"> LogoutDate </th>
+            <td mat-cell *matCellDef="let element" style="text-align: center;"> {{element.logoutdate | date : 'dd-MM-yyyy ' }} </td>
+          </ng-container>
+          <ng-container matColumnDef="modid">
+            <th mat-header-cell *matHeaderCellDef style="background-color: #59abfd;"> ModuleID </th>
+            <td mat-cell *matCellDef="let element" style="text-align: center;"> {{element.modid}} </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button mat-raised-button type="button" class="btn m-2" color="warn" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<button style="display: none;" id="apierror" data-bs-toggle="modal" data-bs-target="#apierrorDialog"></button>
+<div class="modal fade" id="apierrorDialog" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="font-size: medium;color: rgb(14, 13, 13);font-weight: bold;">Error!!!</div>
+      <div class="modal-body">
+        <h3>
+          <p class="errorptag">
+            {{this.apiErrorMsg}}</p>
+          <span>Please Wait Few Minutes and Check The Internet Connection</span>
+          <h2> Contact Admin...</h2>
+        </h3>
+      </div>
+      <div class="modal-footer">
+        <button mat-raised-button type="button" class="btn m-2" color="warn" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" id="logout" data-bs-toggle="modal" data-bs-target="#logoutdialog"></button>
+<div class="modal fade" id="logoutdialog" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">Error!!!</div>
+      <div class="modal-body">
+        <h3>
+          {{ErrorMsg}}
+        </h3>
+      </div>
+      <div class="modal-footer">
+        <button mat-raised-button type="button" class="btn m-2" color="warn" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

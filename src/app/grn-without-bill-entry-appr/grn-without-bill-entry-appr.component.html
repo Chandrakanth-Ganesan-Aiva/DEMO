@@ -1,0 +1,177 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true">
+  <p style="font-size: 20px; color: rgb(255, 255, 255)">Loading...</p>
+</ngx-spinner>
+<app-navigation></app-navigation>
+<div class="container-fluid mt-4">
+  <mat-card-title>GRN WITHOUT BILL ENTRY - APPROVAL</mat-card-title>
+  <div class="card">
+    <mat-card>
+      <mat-card-content>
+        <form [formGroup]="GrnForm" (ngSubmit)="View()">
+          <div class="row">
+            <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+              <label class="form-label">Approved By<span>*</span></label>
+              <input type="text" class="form-control" formControlName="EmpName" readonly>
+            </div>
+            <div class="col-6 col-sm-6 col-md-6 col-lg-6">
+              <button mat-raised-button class="viewbtn" style="margin-right: 3%;" type="submit"
+                color="primary">View</button>
+            </div>
+          </div>
+          <div class="modal-footer">
+          </div>
+        </form>
+
+        <p-table [value]="MaterialArr" dataKey="code"
+          [tableStyle]="{'min-width': '50rem'}" [rowHover]="true" [rows]="5" [showCurrentPageReport]="true"
+          [paginator]="true" currentPageReportTemplate="{first}  to  {last}  OF  [ {totalRecords} ] "
+          [filterDelay]="0" paginatorPosition="top" *ngIf="ViewTabel">
+          <ng-template pTemplate="header">
+            <tr style="text-align: center;">
+              <th class="tabelhead">GRNO</th>
+              <th class="tabelhead">GRNDate</th>
+              <th class="tabelhead tab">Supplier</th>
+              <th class="tabelhead tab">Material</th>
+              <th class="tabelhead tabbtn">View</th>
+              <th class="tabelhead tab">UOM</th>
+              <th class="tabelhead">Quantity</th>
+              <th class="tabelhead">Price</th>
+              <th class="tabelhead">Value</th>
+              <th class="tabelhead">Select<input type="checkbox" [(ngModel)]="selectAll" (change)="SelectAll()" /></th>
+            </tr>
+          </ng-template>
+          <ng-template pTemplate="body" let-product let-i="rowIndex">
+            <tr>
+              <td class="body ">{{product.GrnNo}}</td>
+              <td class="body date" >{{product.GRNDate}}</td>
+              <td class="body tab">{{product.SupName}}</td>
+              <td class="body tab">{{product.RawMatName}}</td>
+              <td class="body tabbtn" style="text-align: center;"><button mat-raised-button class="button" color="primary" type="button"
+                (click)="ViewTabDet(i)" >View</button></td>
+              <td class="body tab">{{product.uom}}</td>
+              <td class="body" style="text-align: right;">{{product.Gqty}}</td>
+              <td class="body" style="text-align: right;">{{product.GRNBasicPrice}}</td>
+              <td class="body" style="text-align: right;">{{product.value}}</td>
+              <td class="body" style="text-align: center;"><input type="checkbox" [(ngModel)]="product.selected"
+                  (change)="RowSelect()" /></td>
+            </tr>
+          </ng-template>
+        </p-table>
+        <div class="modal-footer mt-3" *ngIf="ViewTabel">
+          <button mat-raised-button type="button" class="button" style="background-color: green;color: white;"
+            (click)="saveVaildation($event)">Approve</button>
+          <button mat-raised-button type="button" style="margin-left: 2%;" class="button" color="warn"
+            (click)="saveVaildation($event)">Reject</button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+
+<button style="display: none;" data-bs-toggle="modal" data-bs-target="#View" #ViewinTab>view</button>
+<div class="modal" id="View" data-bs-backdrop='static'>
+  <div class="modal-dialog ">
+    <div class="modal-content">
+      <div class="modal-header"
+        style="font-size: large;color: brown;  background-color: rgb(214, 247, 247);font-weight: bold;"> Supplier Details
+        <button type="button" class="btn-close btn btn-outline-danger" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="container-fluid">
+          <mat-card>
+            <mat-card-content>
+              <div class="row">
+                <div class="col-12">
+                  <label class="form-label">Supplier</label>
+                  <input type="text" class="form-control" [(ngModel)]="TabViewSupplier" readonly>
+                </div>
+                <div class="col-12">
+                  <label class="form-label">Material</label>
+                  <input type="text" class="form-control" [(ngModel)]="TabViewMaterial" readonly>
+                </div>
+                <div class="col-6">
+                  <label class="form-label">Uom</label>
+                  <input type="text" class="form-control" [(ngModel)]="TabViewUOM" readonly>
+                </div>
+              </div>
+            </mat-card-content>
+            <div class="modal-footer">
+              <button mat-raised-button class="btn" style="margin-right: 2%;" color="warn"
+                data-bs-dismiss="modal">Close</button>
+            </div>
+          </mat-card>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" data-bs-toggle="modal" data-bs-target="#apierrorD" #apierrorDialog></button>
+<div class="modal" id="apierrorD" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="font-size: medium;color: rgb(14, 13, 13);font-weight: bold;">Error!!!</div>
+      <div class="modal-body">
+        <h3>
+          <p class="errorptag">
+            {{this.apiErrorMsg}}</p>
+        </h3>
+      </div>
+      <div class="modal-footer">
+        <button mat-raised-button type="button" class="btn m-2" color="warn" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" data-bs-toggle="modal" data-bs-target="#Savedialog" #Savechild></button>
+<div class="modal" id="Savedialog" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="font-size: medium;background-color: rgb(240, 255, 241);">SAVE:</div>
+      <div class="modal-body" *ngIf="this.save =='Approve'">
+        <h3>
+          Do You Want To Approve The Data ?
+        </h3>
+      </div>
+      <div class="modal-body" *ngIf="save =='Reject'">
+        <h3 *ngIf="this.save ==='Reject'">
+          Do You Want To Reject The Data ?
+        </h3>
+      </div>
+      <div class="modal-footer">
+        <button mat-raised-button type="button" class="btn m-2" style="background-color: green;color: white;"
+          data-bs-dismiss="modal" (click)="getSave()">Yes</button>
+        <button mat-raised-button type="button" class="btn m-2" color="warn" data-bs-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" id="Save" data-bs-toggle="modal" data-bs-target="#Saved"></button>
+<div class="modal fade" id="Saved" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">SAVE:</div>
+      <div class="modal-body" style="margin-left: 1%;">
+        <div style="font-size: medium;font-weight: 600;color: rgb(140, 232, 140);" *ngIf="this.Sts == 'Y'">
+          {{Msg}}
+        </div>
+        <div style="font-size: medium;font-weight: 600;color: lightcoral" *ngIf="this.Sts == 'N'">
+          {{Msg}}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div *ngIf="this.Sts == 'Y'">
+          <button mat-raised-button style="background-color: #92d87e;" type="button" data-bs-dismiss="modal"
+            (click)="finalSave()">OK</button>
+        </div>
+        <div *ngIf="this.Sts == 'N'">
+          <button mat-raised-button class="btn btn-secondary" style="background-color: rgb(247, 107, 75);" type="button"
+            data-bs-dismiss="modal" (click)="savetimeerror()">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

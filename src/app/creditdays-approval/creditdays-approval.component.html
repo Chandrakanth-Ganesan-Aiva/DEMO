@@ -1,0 +1,80 @@
+<app-navigation></app-navigation>
+<h1>Credit Days Approval</h1>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <label for="" class="form-label">Approved By</label>
+                <select name="" id="" (change)="approver($event)" class="form-select">
+                    <option *ngFor="let load of loadArray" [value]="load.empid">{{load.empname}}</option>
+                </select>
+            </div>
+        </div>
+        <div class="table-responsive mt-3" *ngIf="this.show">
+            <table class="table table-bordered table-fixed"
+                style="width: 100%; table-layout: fixed; border: 1px solid #ddd;">
+                <thead>
+                    <tr>
+                        <th style="width: 100px;">Approve</th>
+                        <th style="width: 100px;">Rejection</th>
+                        <th style="width: 300px;">Supplier_Name</th>
+                        <th style="width: 100px;">Old_Days</th>
+                        <th style="width: 100px;">New_Days</th>
+                        <th style="width: 500px;">Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let table of tableArray; let i = index">
+                        <td style="width: 100px;">
+                            <input type="checkbox" class="form-check-input"
+                                [checked]="selectedRowApprove.includes(table)" (change)="ApproveCheck($event, table)" />
+                        </td>
+                        <td style="width: 100px;">
+                            <input type="checkbox" class="form-check-input" [checked]="selectedRowRej.includes(table)"
+                                (change)="rejectionCheck($event, table)" />
+                        </td>
+                        <td style="width: 300px;text-align: left;">{{ table.supname }}</td>
+                        <td style="width: 100px;">{{ table.oldcreditperiod.toFixed(2) }}</td>
+                        <td style="width: 100px;">{{ table.newcreditperiod.toFixed(2) }}</td>
+                        <td style="width: 500px;text-align: left;">{{ table.reason }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div class="col-12 text-right">
+                <button mat-raised-button
+                    style="background-color: rgb(86, 190, 86);font-family: 'Times New Roman', Times, serif;color: white;"
+                    (click)=" update()">Update</button>
+                <button mat-raised-button
+                    style="background-color: red;font-family: 'Times New Roman', Times, serif;margin-left: 3px;color: white;"
+                    (click)="clear()">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--  -->
+<div class="modal fade" id="confirmModal" data-bs-backdrop="static" tabindex="-1" aria-labelledby="confirmModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confirmModalLabel"
+                    style="font-family: 'Times New Roman', Times, serif;font-size: 20px;color: #5161b6;font-weight: 800;">
+                    Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body"
+                style="font-family: 'Times New Roman', Times, serif;font-size: 20px;text-align: center;">
+                Are you sure to change your selection?
+            </div>
+            <div class="text-end mt-3 mb-3">
+                <button type="button" mat-raised-button data-bs-dismiss="modal" (click)="confirmChange()"
+                    style="margin-right: 10px;padding-left: 20px;padding-right: 20px;background-color: green;color: white;">Yes</button>
+                <button type="button" mat-raised-button data-bs-dismiss="modal" (click)="cancelChange()"
+                    style="margin-right: 10px;padding-left: 20px;padding-right: 20px;background-color: red;color: white;">No</button>
+            </div>
+        </div>
+    </div>
+</div>

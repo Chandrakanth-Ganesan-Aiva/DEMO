@@ -1,0 +1,23 @@
+button,p{
+  font-family: 'Times New Roman', Times, serif;
+}
+p{
+  color: black;
+  font-weight: bolder;
+}
+mat-dialog-actions{
+  justify-content: flex-end;
+  button{
+      font-weight: bold;
+  }
+}
+
+@media screen and (max-width:575px){
+  p,button{
+    font-size: small;
+  }
+
+  h2{
+    font-size: medium;
+  }
+}

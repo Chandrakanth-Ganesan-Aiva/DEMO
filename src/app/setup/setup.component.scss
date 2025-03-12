@@ -1,0 +1,169 @@
+.logout {
+  color: white;
+  text-decoration: none;
+  padding-right: 10px;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.title {
+  font-size: x-large;
+  color: brown;
+  font-weight: 600;
+  font-size: 28px;
+  font-weight: bold;
+  margin: 0;
+
+}
+
+.exit,
+.home {
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.navbar {
+  background-color: #0077c0;
+  display: flex;
+  justify-content: space-between;
+  font-family: Georgia, Helvetica, serif;
+  position: sticky;
+  top: 0;
+  height: 50px;
+
+}
+
+.centernavbar .head {
+  margin-right: 90px;
+  color: white;
+  font-weight: bold;
+  font-size: x-large;
+}
+
+
+
+//
+mat-card {
+  width: 30%;
+  margin-left: 35%;
+  margin-top: 5%;
+  background-color: rgb(255, 255, 255);
+  border-radius: 10px;
+  -webkit-box-shadow: 0 2px 10px 1px rgb(55, 127, 194);
+  box-shadow: 0 1px 2px 1px #4162b5;
+  font-family: 'Times New Roman', Times, serif;
+}
+
+.form-control {
+  margin-left: 0%;
+  -webkit-box-shadow: 0 2px 10px 1px rgb(55, 127, 194);
+  box-shadow: 0 1px 2px 1px #757474;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+@media only screen and (max-width:599.98px) {
+  .logout {
+    font-size: medium;
+  }
+
+  .title {
+    font-size: x-large;
+    color: brown;
+    font-weight: 600;
+
+  }
+
+  .centernavbar .head {
+    margin-right: 30px;
+    font-size: medium;
+  }
+
+  mat-card {
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 15%;
+  }
+
+  .form-control {
+    margin-left: 0%;
+  }
+
+  button {
+    font-size: small;
+    width: fit-content;
+  }
+}
+
+@media only screen and (min-width: 600px) and (max-width: 959.98px) {
+  .logout {
+    font-size: medium;
+  }
+
+  .title {
+    font-size: x-large;
+    color: brown;
+    font-weight: 600;
+
+  }
+
+  .centernavbar .head {
+    margin-right: 30px;
+    font-size: medium;
+  }
+
+  mat-card {
+    width: 50%;
+    margin-left: 25%;
+    margin-top: 15%;
+  }
+
+  .form-control {
+    margin-left: 0%;
+  }
+
+  button {
+    font-size: small;
+    width: fit-content;
+  }
+}
+
+@media only screen and (min-width: 960px) and (max-width: 1279.98px) {
+  .logout {
+    font-size: medium;
+  }
+
+  .title {
+    font-size: x-large;
+    color: brown;
+    font-weight: 600;
+
+  }
+
+  .centernavbar .head {
+    margin-right: 30px;
+    font-size: medium;
+  }
+
+  .mat-card {
+    width: 100%;
+    margin-left: 25%;
+    margin-top: 15%;
+  }
+
+  .form-control {
+    margin-left: 0%;
+  }
+
+  button {
+    font-size: small;
+    width: fit-content;
+  }
+}

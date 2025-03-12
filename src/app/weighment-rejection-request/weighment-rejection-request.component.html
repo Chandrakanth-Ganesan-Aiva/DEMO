@@ -1,0 +1,86 @@
+
+<app-navigation></app-navigation>
+  <mat-card>
+
+<mat-card-header class="justify-content-center mt-1">
+  <mat-card-title class="" style="color: brown;">Weighment Rejection Request</mat-card-title>
+</mat-card-header>
+<mat-divider></mat-divider>
+    <mat-card-content>
+      <form [formGroup]="WeighRejReqForm" >
+        <div class="row">
+          <div class="col-12 col-sm-12 col-md-8 col-lg-8">
+            <mat-form-field>
+              <mat-label>Supplier</mat-label>
+              <mat-select formControlName="Supplier">
+                <mat-option><ngx-mat-select-search [formControl]="filterControl" placeholderLabel="Search..."
+                    noEntriesFoundLabel="No Results Found"></ngx-mat-select-search></mat-option>
+                <mat-option *ngFor="let item of filteredOptions"
+                  [value]="item.Supid">{{item.supname}}</mat-option>
+              </mat-select>
+              <mat-error>Field must be required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-12 col-sm-12 col-md-4 col-lg-4">
+            <button mat-raised-button type="button" class="view button" color="primary" (click)="Submit()">View</button>
+            <button mat-raised-button type="button" [disabled]="Savebtn" class="button ml-3" style="background-color: green;color: white;" (click)="SaveVaildation()">Save</button>
+          </div>
+        </div>
+      </form>
+    </mat-card-content>
+    <div class="mat-elevation-z3 p-2 " [hidden]="Tabel">
+      <table mat-table [dataSource]="dataSource" >
+        <ng-container matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> <mat-checkbox
+              [(ngModel)]="selectAll" (change)="SelectAll()">
+            </mat-checkbox>Select </th>
+          <td mat-cell *matCellDef="let element;let i=index" style="text-align: center;"> <mat-checkbox [(ngModel)]="element.selected"
+              (change)="RowSelect()"> </mat-checkbox></td>
+        </ng-container>
+
+        <ng-container matColumnDef="Supplier">
+          <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Supplier </th>
+          <td mat-cell *matCellDef="let element"> {{element.supname}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Material">
+          <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Material </th>
+          <td mat-cell *matCellDef="let element"> {{element.rawmatname}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Trano">
+          <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Trano </th>
+          <td mat-cell *matCellDef="let element"> {{element.tranno}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="TranDate">
+          <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> TranDate </th>
+          <td mat-cell *matCellDef="let element"> {{element.tranno}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="LoadedWt">
+          <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> LoadedWt </th>
+          <td mat-cell *matCellDef="let element"> {{element.loadedweight}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="TareWt">
+          <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> TareWt </th>
+          <td mat-cell *matCellDef="let element"> {{element.tareweight}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="Vechno">
+          <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Vechno </th>
+          <td mat-cell *matCellDef="let element"> {{element.vehno}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="TabelHeaders"></tr>
+        <tr mat-row *matRowDef="let row; columns: TabelHeaders;">
+        </tr>
+      </table>
+      <mat-paginator #paginator [pageSizeOptions]="[8, 10, 20]"
+        showFirstLastButtons aria-label="Select page of periodic elements">
+      </mat-paginator>
+    </div>
+  </mat-card>
+
+

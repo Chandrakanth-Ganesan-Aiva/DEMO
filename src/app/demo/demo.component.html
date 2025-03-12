@@ -1,0 +1,75 @@
+<div class="sidenav-container">
+    <mat-sidenav-container class="sidenav-container overflow-hidden -mt-2">
+        <mat-toolbar class=" navbar ">
+            <button mat-mini-fab (click)="Close1()" [hidden]="close1btn"><mat-icon>menu</mat-icon></button>
+            <!-- <mat-icon (click)="Close1()" [hidden]="close1btn" color="accent">menu</mat-icon> -->
+            <button mat-button class="Tool btn">Back
+            </button>
+            <button mat-button class="Tool" routerLink="/Dashboard">Home </button>
+            <span class="example-spacer"></span>
+            <h1 class="heading">AIVA VENTURES</h1>
+            <span class="example-spacer"></span>
+            <button mat-button class="example-icon btn" aria-label="Example icon-button with share icon">
+                Logout
+            </button>
+        </mat-toolbar>
+        <mat-sidenav [class]="sidenavClass" [@sidenavState]="isSidenavOpen ? 'open' : 'closed'" [mode]="'over'"
+            position="start" [opened]="isSidenavOpen">
+            <mat-nav-list class="nav-list overflow-hidden">
+                <div class="sidenavHeader">
+                    <div class="d-flex m-1">
+                        <!-- <mat-icon (click)="Close()" color="accent">menu</mat-icon> -->
+                        <button mat-mini-fab (click)="Close()"><mat-icon>menu</mat-icon></button>
+                        <label class="m-1" style="font-size: medium; text-align: center;">Welcome {{ UserName }}</label>
+                    </div>
+                </div>
+                <div id="main-container">
+                    <div *ngFor="let menu of menus" class="sidenavRow border-bottom" (click)="toggleSubTitles(menu)">
+                        <div class="menu-title-container">
+                            <div class="menu-item">
+                                <div class="icon-container">
+                                    <mat-icon>{{ menu.icon }}</mat-icon>
+                                </div>
+                                <span class="menu-title">{{ menu.Name }}</span>
+                            </div>
+                            <mat-icon class="mat-18" style="font-size: x-large; color: #8e9090;">
+                                {{ getArrowIcon(menu) }}
+                            </mat-icon>
+                        </div>
+                        <div class="sidenavSubtitle" *ngIf="selectedMainMenuTitle === menu.Name">
+                            <ul class="main">
+                                <li *ngFor="let subtitle of subTitle" (click)="navigateToSubContainer(subtitle)">
+                                    <label>
+                                        {{ subtitle.MainMenuName }}
+                                    </label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+                <div id="sub-container" style="display: none;">
+                    <div id="mainMenu">
+                        <mat-icon class="mat-18" style="font-size: x-large; margin-top: -2%; color: #080808;"
+                            (click)="navigateToMainContainer()">
+                            keyboard_arrow_left
+                        </mat-icon>
+                        <div class="sidenavContentHeader  fs-4">
+                            {{ Subtitle }}
+                        </div>
+                    </div>
+                    <div>
+                        <div class="m-lg-2">
+                            <input type="search" class="form-control" placeholder="Search"
+                                (input)="SearchEvent($event)">
+                        </div>
+                        <div *ngFor="let subMenu of SubMenuArr" class="sidenavContent">
+                            <a [routerLink]="['/', subMenu.route]">
+                                {{ subMenu.SubMenuName }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </mat-nav-list>
+        </mat-sidenav>
+    </mat-sidenav-container>
+</div>

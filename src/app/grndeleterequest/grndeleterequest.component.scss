@@ -1,0 +1,215 @@
+mat-card-title {
+  font-size: 1.5rem;
+  color: brown;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: bold;
+}
+
+mat-card {
+  margin: 1%;
+  padding: 1.5%;
+  border: 1px solid rgb(40, 108, 197);
+}
+
+mat-form-field {
+  width: 100%;
+  border-radius: 17px;
+}
+::ng-deep .mat-mdc-text-field-wrapper {
+  height: 43px !important;
+}
+
+::ng-deep .mat-mdc-form-field-flex {
+  margin-top: -7px !important;
+}
+
+mat-label {
+  font-size: medium;
+}
+table {
+  margin: 0%;
+  padding: 0%;
+  th {
+    margin: 0%;
+    background-color: #3f51b5;
+    color: white;
+    border: 1px solid silver;
+    text-align: center;
+  }
+  td{
+    
+    border: 1px solid silver;
+  }
+
+}
+tr:last-child {
+  border: 1px solid silver !important;
+ 
+}
+
+button{
+  border-radius: 20px;
+}
+
+@media screen and (min-width: 350px) and (max-width: 575px) {
+
+  .title {
+    font-size: medium;
+  }
+
+  .container-fluid {
+    margin-top: 1%;
+  }
+
+  span {
+    font-size: x-small;
+  }
+
+  .form-label {
+    font-size: x-small;
+    margin: .1%;
+  }
+
+  input {
+    font-size: x-small;
+    margin: .1%;
+  }
+
+  ng-select {
+    font-size: x-small;
+    margin: .1%;
+  }
+
+  .form-control {
+    font-size: x-small;
+    margin: .1%;
+  }
+
+
+
+  button {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: small;
+    width: fit-content;
+  }
+  .input-group{
+    width: 75%;
+  }
+
+  .add{
+    margin-top: 0%;
+    float: right;
+    margin: 1%;
+  }
+}
+
+@media screen and (min-width: 576px) and (max-width: 749px) {
+
+  .title {
+    font-size: x-large;
+  }
+
+  .container-fluid {
+    margin-top: 1%;
+  }
+
+  span {
+    font-size: small;
+  }
+
+  .form-label {
+    font-size: small;
+    margin: .1%;
+  }
+
+  input {
+    font-size: small;
+    margin: .1%;
+  }
+
+  ng-select {
+    font-size: small;
+    margin: .1%;
+  }
+
+  .form-control {
+    font-size: small;
+    margin: .1%;
+  }
+
+  button {
+    font-size: smaller;
+  }
+
+  .input-group{
+    width: 85%;
+  }
+
+  .add{
+    margin-top: 0%;
+    float: right;
+    margin: 1%;
+  }
+}
+
+@media screen and (min-width: 749px) and (max-width: 992px) {
+
+  .title {
+    font-size: x-large;
+  }
+
+  .container-fluid {
+    margin-top: 1%;
+  }
+
+  span {
+    font-size: medium;
+  }
+
+  .form-label {
+    font-size: smaller;
+    margin: .1%;
+  }
+
+  input {
+    font-size: smaller;
+    margin: .1%;
+  }
+
+  ng-select {
+    font-size: smaller;
+    margin: .1%;
+  }
+
+  .form-control {
+    font-size: smaller;
+    margin: .1%;
+  }
+
+  button {
+    font-size: smaller;
+  }
+
+  .input-group{
+    width: 95%;
+  }
+
+  .add{
+    margin-top: 0%;
+    float: right;
+    margin: 1%;
+  }
+}
+.mat-elevation-z8{
+  overflow-x: auto;
+  overflow-y: auto;
+}
+th:last-child {
+  border-top: 1px solid #4863a0;; /* Adjust thickness and color as needed */
+}
+td:last-child {
+  border-top: 1px solid #4863a0;; /* Adjust thickness and color as needed */
+}
+tr:last-child {
+  border-top: 1px solid #4863a0;; /* Adjust thickness and color as needed */
+}

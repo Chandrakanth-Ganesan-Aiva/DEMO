@@ -1,0 +1,194 @@
+mat-form-field{
+  width: 100%;
+}
+table {
+  margin: 0%;
+  padding: 0%;
+  th {
+    margin: 0%;
+    background-color: #3f51b5;
+    color: white;
+    border: 1px solid silver;
+    text-align: center;
+  }
+  td{
+    
+    border: 1px solid silver;
+  }
+
+}
+tr:last-child {
+  border: 1px solid silver !important;
+}
+button{
+  border-radius: 20px;
+}
+
+@media screen and (min-width: 350px) and (max-width: 575px) {
+
+  .title {
+    font-size: medium;
+  }
+
+  .container-fluid {
+    margin-top: 1%;
+  }
+
+  span {
+    font-size: x-small;
+  }
+
+  .form-label {
+    font-size: x-small;
+    margin: .1%;
+  }
+
+  input {
+    font-size: x-small;
+    margin: .1%;
+  }
+
+  ng-select {
+    font-size: x-small;
+    margin: .1%;
+  }
+
+  .form-control {
+    font-size: x-small;
+    margin: .1%;
+  }
+
+  th {
+    font-size: xx-small;
+  }
+
+  td {
+    font-size: xx-small;
+  }
+
+  button {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: small;
+    width: fit-content;
+  }
+  .input-group{
+    width: 75%;
+  }
+
+  .add{
+    margin-top: 0%;
+    float: right;
+    margin: 1%;
+  }
+}
+
+@media screen and (min-width: 576px) and (max-width: 749px) {
+
+  .title {
+    font-size: x-large;
+  }
+
+  .container-fluid {
+    margin-top: 1%;
+  }
+
+  span {
+    font-size: small;
+  }
+
+  .form-label {
+    font-size: small;
+    margin: .1%;
+  }
+
+  input {
+    font-size: small;
+    margin: .1%;
+  }
+
+  ng-select {
+    font-size: small;
+    margin: .1%;
+  }
+
+  .form-control {
+    font-size: small;
+    margin: .1%;
+  }
+  th {
+    font-size: small;
+  }
+
+  td {
+    font-size: small;
+  }
+  button {
+    font-size: smaller;
+  }
+
+  .input-group{
+    width: 85%;
+  }
+
+  .add{
+    margin-top: 0%;
+    float: right;
+    margin: 1%;
+  }
+}
+
+@media screen and (min-width: 749px) and (max-width: 992px) {
+
+  .title {
+    font-size: x-large;
+  }
+
+  .container-fluid {
+    margin-top: 1%;
+  }
+
+  span {
+    font-size: medium;
+  }
+
+  .form-label {
+    font-size: smaller;
+    margin: .1%;
+  }
+
+  input {
+    font-size: smaller;
+    margin: .1%;
+  }
+
+  ng-select {
+    font-size: smaller;
+    margin: .1%;
+  }
+
+  .form-control {
+    font-size: smaller;
+    margin: .1%;
+  }
+
+  th {
+    font-size: medium;
+  }
+
+  td {
+    font-size: medium;
+  }
+  button {
+    font-size: smaller;
+  }
+
+  .input-group{
+    width: 95%;
+  }
+
+  .add{
+    margin-top: 0%;
+    float: right;
+    margin: 1%;
+  }
+}

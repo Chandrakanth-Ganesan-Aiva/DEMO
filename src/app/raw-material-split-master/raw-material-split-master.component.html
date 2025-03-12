@@ -1,0 +1,27 @@
+<app-navigation></app-navigation>
+<div class="container-fluid">
+    <mat-card>
+        <div class="center-content mt-3">
+            RawMaterial Spilt Master
+        </div>
+        <mat-divider class="mt-4"></mat-divider>
+        <mat-card-content>
+            <form [formGroup]="RawMatSpliytForm" (ngSubmit)="View()">
+                <div class="row mt-3">
+                    <div class="col -10">
+                        <mat-form-field>
+                            <mat-label>Material</mat-label>
+                             <mat-select>
+                                <mat-option></mat-option>
+                             </mat-select>
+                        </mat-form-field>
+                    </div>
+                     <div class="col mt-2">
+                         <button mat-raised-button type="submit"  color="primary">View</button>
+                         <button mat-raised-button type="button" style="margin-left: 2%;"  color="primary">Update</button>
+                     </div>
+                </div>
+            </form>
+        </mat-card-content>
+    </mat-card>
+</div>

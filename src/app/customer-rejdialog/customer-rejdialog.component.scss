@@ -1,0 +1,53 @@
+mat-card-title {
+    font-size: 1.5rem;
+    color: brown;
+  }
+  
+  mat-card {
+    margin: 1%;
+    padding: 1.5%;
+    border: 1px solid rgb(40, 108, 197);
+  }
+  
+  mat-form-field {
+    width: 100%;
+    border-radius: 17px;
+  }
+  .md-select-menu-container, 
+  .md-open-menu-container {
+      z-index:999999important;
+  }
+  
+  td {
+    padding: 8px;
+    border: 1px solid #4863a0;
+    font-family: 'Times New Roman', Times, serif;
+  }
+  
+  th {
+    color: #ffffff;
+    text-align: center;
+    border: 1px solid #050505;
+    font-family: 'Times New Roman', Times, serif;
+    font-size: medium;
+    font-weight: 540;
+    margin: 0%;
+  }
+  
+  button {
+    border-radius: 17px;
+    cursor: progress;
+    margin-top: 2%;
+  }
+  
+  .search {
+    width: 50%;
+  }
+
+  ::ng-deep .custom-select-panel {
+    position: fixed !important;
+    top: 60% !important;  /* Adjust this based on your layout */
+    left: 0 !important;
+    z-index: 2200 !important; /* Ensure it appears above dialog */
+  }
+  

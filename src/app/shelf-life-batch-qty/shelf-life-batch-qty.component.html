@@ -1,0 +1,141 @@
+<app-navigation></app-navigation>
+<mat-card>
+  <mat-card-header class="justify-content-center   mb-2">
+    <mat-card-title style="color: brown;font-family: 'Times New Roman', Times, serif;">Batch Quantity
+      Entry</mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content class="mt-2">
+    <form [formGroup]="selflife">
+      <div class="row">
+        <div class="col-12 col-sm-12 col-md-4 col-lg-6">
+          <mat-form-field>
+            <mat-label>GRN No</mat-label>
+            <mat-select formControlName="GrnRefno" (selectionChange)="grnnoEvent()">
+              <mat-option><ngx-mat-select-search [formControl]="filterControl" placeholderLabel="Search..."
+                  noEntriesFoundLabel="No Results Found"></ngx-mat-select-search></mat-option>
+              <mat-option *ngFor="let item of filteredOptions" [value]="item.GRN_NO">{{item.GRN_Ref_No}}</mat-option>
+            </mat-select>
+            <mat-error>Field must be required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-12 col-md-8 col-lg-6">
+          <mat-form-field>
+            <mat-label>Supplier</mat-label>
+            <input type="text" matInput formControlName="party">
+            <mat-error>Field must be required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-12 col-md-8 col-lg-6 ">
+          <mat-form-field>
+            <mat-label>DC NO</mat-label>
+            <input type="text" matInput formControlName="dcno">
+            <mat-error>Field must be required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-12 col-md-4 col-lg-6">
+          <!-- <button mat-raised-button class="button mr-3" type="button"  color="primary" (click)="View()">View</button> -->
+          <button mat-raised-button class="button" type="button" style="background-color: green;"
+            (click)="saveVaild()" [disabled]="saveBtnDisabled">Save</button>
+        </div>
+      </div>
+    </form>
+    <div class="mat-elevation-z2  p-2 mt-4" *ngIf="Viewclick">
+      <table mat-table [dataSource]="ViewItem">
+        <ng-container matColumnDef="GRN_Date">
+          <th mat-header-cell *matHeaderCellDef>GRN_Date</th>
+          <td mat-cell *matCellDef="let element; let i = index" style="text-align: center;">{{element.GRN_Date| date :
+            'dd-MM-yyyy '}}</td>
+        </ng-container>
+        <ng-container matColumnDef="GRN_Id">
+          <th mat-header-cell *matHeaderCellDef>GRN_Id</th>
+          <td mat-cell *matCellDef="let element; let i = index" style="text-align: center;">{{element.GRN_Id}}</td>
+        </ng-container>
+        <ng-container matColumnDef="Spilt">
+          <th mat-header-cell *matHeaderCellDef> Spilt </th>
+          <td mat-cell *matCellDef="let element; let i = index"
+            style="align-items: center;justify-content: center;text-align: center;width: 70px;">
+            <button mat-raised-button class="buttton" color="primary" type="button" (click)="SpiltBatchwise(i) "
+              [disabled]="i !== enabledIndex">Spilt</button>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Rawmatname">
+          <th mat-header-cell *matHeaderCellDef> Rawmatname </th>
+          <td mat-cell *matCellDef="let element" style="text-align: left;"> {{element.Rawmatname}} </td>
+        </ng-container>
+        <ng-container matColumnDef="UOM">
+          <th mat-header-cell *matHeaderCellDef> UOM </th>
+          <td mat-cell *matCellDef="let element"> {{element.Uom}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Qty">
+          <th mat-header-cell *matHeaderCellDef> Qty </th>
+          <td mat-cell *matCellDef="let element" style="text-align: right;"> {{element.GRN_Qty}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Rate">
+          <th mat-header-cell *matHeaderCellDef> Rate </th>
+          <td mat-cell *matCellDef="let element" style="text-align: right;"> {{element.GRN_BasicPrice}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+    <div class="mat-elevation-z2   p-2 mt-4 secondtable w-auto " *ngIf="SpiltClick">
+      <table mat-table  [dataSource]="SplitBtachwiseArr" class="mat-elevation">
+        <ng-container matColumnDef="BatchNo">
+          <th mat-header-cell *matHeaderCellDef> BatchNo </th>
+          <td mat-cell *matCellDef="let element" class="w-15rem p-2" style="text-align: left;">
+            <input type="text" class="form-control "  [disabled]="element?.disabled" [(ngModel)]="element.Batchno" (ngModelChange)="BatchnoEvent($event,element)" >
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Qty">
+          <th mat-header-cell *matHeaderCellDef> Qty </th>
+          <td mat-cell *matCellDef="let element; let i=index" class="w-15rem p-2" style="text-align: left;">
+            <input type="number" class="form-control " [disabled]="element?.disabled" [(ngModel)]="element.SplitQty" (ngModelChange)="SpiltQtyEvent(i)">
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="GRN_Id">
+          <th mat-header-cell *matHeaderCellDef>GRN_Id</th>
+          <td mat-cell *matCellDef="let element; let i = index" class="w-5rem" style="text-align: center;" >{{element.GrnId}}</td>
+        </ng-container>
+        <ng-container matColumnDef="Manfacture-Date">
+          <th mat-header-cell *matHeaderCellDef> Manufacture -Date </th>
+          <td mat-cell *matCellDef="let element" class="w-10rem p-2">
+            <mat-form-field>
+              <mat-label>Manufacture-Date</mat-label>
+              <input matInput [matDatepicker]="picker" readonly [(ngModel)]="element.Manfacturedate" [disabled]="element?.disabled" (dateChange)="ManfDtEvent(element)">
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Batch-Date">
+          <th mat-header-cell *matHeaderCellDef> Batch-Date </th>
+          <td mat-cell *matCellDef="let element" class="w-10rem p-2">
+            <mat-form-field>
+              <mat-label> Batch-Date </mat-label>
+              <input matInput [matDatepicker]="picker1" [min]="getNextDay(element.Manfacturedate)" readonly [(ngModel)]="element.BatchDate" [disabled]="element?.disabled">
+              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+              <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="Action" >
+          <th mat-header-cell *matHeaderCellDef class="w-1rem"> Action </th>
+          <td mat-cell *matCellDef="let element;let i= index" class=" pt-3"
+            style="display: flex;align-items: center;justify-content: center;gap: 20px;">
+            <mat-icon (click)="add(i)" class="fs-3" color="primary" [ngStyle]="{'pointer-events':element?.disabled?'none':''}" >add</mat-icon>
+            <mat-icon (click)="DeleteBatchSplit(i)" color="warn" [ngStyle]="{'pointer-events':element?.disabled?'none':''}">delete</mat-icon>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['BatchNo','Qty','GRN_Id','Manfacture-Date','Batch-Date','Action']"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['BatchNo','Qty','GRN_Id','Manfacture-Date','Batch-Date','Action']">
+        </tr>
+      </table>
+    </div>
+    <div class="pt-3 pr-3" *ngIf="SpiltClick">
+      <button mat-raised-button type="button" class="float-end button ml-3" color="warn" (click)="ItemClear()">Item Clear</button>
+      <button mat-raised-button type="button" class=" float-end mb-2" color="primary" [disabled]="updateBtnDisable" (click)="ItemUpdate()">Item 
+        Update</button>
+    </div>
+  </mat-card-content>
+</mat-card>

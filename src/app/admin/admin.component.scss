@@ -1,0 +1,31 @@
+
+::ng-deep .mat-mdc-text-field-wrapper {
+  height: 43px !important;
+}
+
+::ng-deep .mat-mdc-form-field-flex {
+  margin-top: -7px !important;
+}
+
+mat-label {
+  font-size: medium;
+}
+
+mat-form-field {
+  width: 100%;
+}
+
+table {
+  th {
+    margin: 0%;
+    background-color: #3f51b5;
+    color: white;
+    border: 1px solid black;
+    text-align: center;
+  }
+  td{
+    
+    border: 1px solid black;
+  }
+
+}

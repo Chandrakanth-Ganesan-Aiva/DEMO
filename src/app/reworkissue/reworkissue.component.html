@@ -1,0 +1,229 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true">
+  <p style="font-size: 20px; color: rgb(255, 255, 255)">Loading...</p>
+</ngx-spinner>
+<app-navigation></app-navigation>
+<mat-card-header class="justify-content-center mt-1">
+  <mat-card-title class="title" style="font-family: 'Times New Roman', Times, serif;">REWORK ISSUE</mat-card-title>
+</mat-card-header>
+
+<div class="container-fluid">
+  <mat-card>
+    <mat-card-content>
+      <form [formGroup]="ReworkIssueForm" #invalidfocus>
+        <div class="row mb-2">
+          <div class="col">
+            <label for="exampleFormControlInput3" class="form-label">Issue No <span>*</span> </label>
+            <input type="text" class="form-control" formControlName="IssueNo" readonly>
+            <mat-error *ngIf="viewbtn && ReworkIssueForm.controls['IssueNo'].invalid">Issue No Required</mat-error>
+          </div>
+          <div class="col">
+            <label for="exampleFormControlInput3" class="form-label">Issue Date <span>*</span> </label>
+            <input type="date" class="form-control" [value]="this.Issuedate" readonly>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col ">
+            <label for="exampleFormControlInput3" class="form-label">From Dt <span>*</span> </label>
+            <input type="date" class="form-control" formControlName="FrmDate" (change)="Frmdatevent($event)">
+          </div>
+          <div class="col ">
+            <label for="exampleFormControlInput3" class="form-label">To Dt <span>*</span> </label>
+            <input type="date" class="form-control" formControlName="Todate">
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col" style="width: fit-content;">
+            <label for="exampleFormControlInput3" class="form-label">Department <span>*</span> </label>
+            <mat-select class="form-control" placeholder="--Select--" formControlName='Department'
+              (selectionChange)="DeptEvent()">
+              <mat-option *ngFor="let item of Deptdata" [value]="item.DeptId">{{item.DeptName}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="viewbtn && ReworkIssueForm.controls['Department'].invalid">Department
+              Required</mat-error>
+          </div>
+          <div class="col">
+            <label for="exampleFormControlInput3" class="form-label">Ref. No <span>*</span> </label>
+            <mat-select class="form-control" placeholder="--Select--" formControlName="Refno"
+              (selectionChange)="RefnoEvent()">
+              <mat-option *ngFor="let item of RefnoData" [value]="item.SrNo">{{item.Sr_Ref_No}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="viewbtn && ReworkIssueForm.controls['Department'].invalid">Ref.No Required</mat-error>
+          </div>
+        </div>
+        <div class="row mb-2">
+          <div class="col">
+            <label for="exampleFormControlInput3" class="form-label">Warehouse <span>*</span> </label>
+            <mat-select class="form-control" placeholder="--Select--" formControlName="Warehouse">
+              <mat-option selected *ngFor="let item of warehouseData"
+                [value]="item.Location_ID">{{item.LocationName}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="viewbtn && ReworkIssueForm.controls['Department'].invalid">Warehouse Required</mat-error>
+          </div>
+          <div class="col">
+            <label for="exampleFormControlInput3" class="form-label">Material <span>* </span>
+            </label>
+            <mat-select class="form-control" placeholder="--Select--" formControlName="material"
+              (selectionChange)="getMaterialDetails()">
+              <mat-option *ngFor="let item of Materialdata" [value]="item.RawMatID">{{item.RawMatName}}</mat-option>
+            </mat-select>
+            <mat-error *ngIf="viewbtn && ReworkIssueForm.controls['Department'].invalid">Material Required</mat-error>
+          </div>
+        </div>
+        <div class="col model-footer viewbtn">
+          <button mat-raised-button type="button" color="primary" (click)="View()" [disabled]="Addbtn">Add</button>
+        </div>
+      </form>
+
+    </mat-card-content>
+    <mat-card-content *ngIf="ViewMaterial">
+      <mat-tab-group mat-align-tabs="start" [selectedIndex]="Tab1" (selectedTabChange)="tabChangedRegular($event)"
+        class="mattab mt-2">
+        <mat-tab label="Material Detalis">
+          <table style="width: 100%;padding:1%">
+            <thead>
+              <tr>
+                <th class="head" style="width: 10%;">Ref_No</th>
+                <th class="head" style="width: 8%;">Date</th>
+                <th class="head">Material</th>
+                <th class="head">UOM</th>
+                <th class="head">SR_qty</th>
+                <th class="head">Pend_Qty</th>
+                <th class="head">Issue_Qty</th>
+                <th class="head">Release</th>
+                <th class="head">Avl_Stock</th>
+                <th class="head">Min_Qty</th>
+                <th class="head">Max_Qty</th>
+                <th class="head">Reorder_Qty</th>
+                <th class="head">Dept_Name</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let material of materialTabel let i =index;">
+              <td class="body" style="width: fit-content;">{{material.Sr_Ref_No}}</td>
+              <td class="body" style="width: fit-content;">{{material.SRDate | date : 'dd-MM-yyyy ' }}</td>
+              <td class="body">{{material.gStrMatDisp}}</td>
+              <td class="body">{{material.SRUom}}</td>
+              <td class="body" style="text-align: right;">{{material.srqty}}</td>
+              <td class="body" style="text-align: right;">{{this.PendingQty}}</td>
+              <td class="body"><input type="number" class="form-control noscroll"  [(ngModel)]="material.IssueQty"
+                  [disabled]="material.IssueQtydis" (input)="ReleaseVaildation(i)"></td>
+              <td class="body"><button mat-raised-button type="button" color="primary" (click)="Release(i)"
+                  [disabled]="material.Releasebtn">Release</button></td>
+              <td class="body" style="text-align: right;" id="Avlstock">{{material.stock}}</td>
+              <td class="body" style="text-align: right;">{{material.min_level }}</td>
+              <td class="body" style="text-align: right;">{{material.max_level}}</td>
+              <td class="body" style="text-align: right;">{{material.reorder_level}}</td>
+              <td class="body">{{material.deptname}}</td>
+            </tbody>
+          </table>
+        </mat-tab>
+        <mat-tab label="Issue Detalis">
+          <table style="width: 100%;">
+            <thead>
+              <tr>
+                <th class="head" style="width: 12%;">Ref_No</th>
+                <th class="head" style="width: 8%;">Date</th>
+                <th class="head">Material</th>
+                <th class="head">UOM</th>
+                <th class="head">SR_qty</th>
+                <th class="head">Issue_Qty</th>
+                <th class="head">GrnRefNo</th>
+                <th class="head">GrnQty</th>
+                <th class="head">Dept.Name</th>
+                <th class="head">Actions</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let material of IssueDetalisArray; let i =index;">
+              <td class="body" style="width: fit-content;">{{material.Refno}}</td>
+              <td class="body" style="width: fit-content;">{{material.Date | date : 'dd-MM-yyyy ' }}</td>
+              <td class="body">{{material.Material}}</td>
+              <td class="body">{{material.Uom}}</td>
+              <td class="body" style="text-align: right;">{{material.SRQty}}</td>
+              <td class="body" style="text-align: right;">{{material.IssueQty}}</td>
+              <td class="body" style="text-align: right;">{{material.GrnRefno}}</td>
+              <td class="body" style="text-align: right;">{{material.GrnQty }}</td>
+              <td class="body">{{material.Department}}</td>
+              <td><i class="fa-regular fa-trash-can" style="color: #f91f4b;" (click)="Deletematl(i)"></i></td>
+            </tbody>
+          </table>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+    <mat-card-footer align=end *ngIf="ViewMaterial">
+      <button mat-raised-button type="button" color="primary"
+        style="background-color: green;color: white;font-weight: bolder;" (click)="getSave()">Save</button>
+    </mat-card-footer>
+  </mat-card>
+</div>
+
+
+<button style="display: none;" data-bs-toggle="modal" data-bs-target="#ErrorD" #ErrorNative></button>
+<div class="modal" id="ErrorD" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="font-size: medium;color: rgb(252, 83, 83);font-weight: bold;">Warning!!!</div>
+      <div class="modal-body">
+        <h3>
+          <p style="font-family: 'Times New Roman', Times, serif;font-weight:550;font-size: large;color: rgb(0, 0, 0);">
+            {{Error}}</p><br>
+        </h3>
+        <div class="modal-footer m-0 p-0" style="margin: 0%;">
+          <div *ngIf="Errornum!==1">
+            <button mat-raised-button type="button" class="btn  m-2" color="warn" data-bs-dismiss="modal">OK</button>
+          </div>
+          <div *ngIf="Errornum==1">
+            <button mat-raised-button type="button" class="btn  m-2" color="primary" data-bs-dismiss="modal"
+              (click)="MinmumStckchckY()">Yes</button>
+            <button mat-raised-button type="button" class="btn  m-2" color="warn" data-bs-dismiss="modal"
+              (click)="MinmumStckchckN()">No</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" data-bs-toggle="modal" data-bs-target="#Savemenudialog" #SaveVaild></button>
+<div class="modal fade" id="Savemenudialog" data-bs-backdrop='static'>
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="font-size: medium;background-color: rgb(240, 255, 241);">SAVE:</div>
+      <div class="modal-body" style="margin: 0%;">
+        <div>
+          <h4 style="color: rgb(3, 3, 3);font-weight: 550;">Do you yant to Save Data?</h4>
+        </div>
+      </div>
+      <div class="modal-footer" style="background-color: rgb(214, 248, 206);">
+        <button mat-raised-button type="button" style="background-color: #92d87e;" data-bs-dismiss="modal"
+          (click)="Save()">Yes</button>
+        <button mat-raised-button type="button" style="background-color: #f57c7c;" data-bs-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" data-bs-toggle="modal" data-bs-target="#Savedialog" #Savenative></button>
+<div class="modal fade" id="Savedialog" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">SAVE:</div>
+      <div class="modal-body" style="margin-left: 1%;">
+        <div style="font-size: medium;font-weight: 600;color: rgb(140, 232, 140);" *ngIf="this.Sts == 'Y'">
+          {{Msg}}
+        </div>
+        <div style="font-size: medium;font-weight: 600;color: lightcoral" *ngIf="this.Sts == 'N'">
+          {{Msg}}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div *ngIf="this.Sts == 'Y'">
+          <button mat-raised-button style="background-color: #92d87e;" type="button" data-bs-dismiss="modal"
+            (click)="finalSave()">OK</button>
+        </div>
+        <div *ngIf="this.Sts == 'N'">
+          <button mat-raised-button class="btn btn-secondary" style="background-color: rgb(247, 107, 75);" type="button"
+            data-bs-dismiss="modal" (click)="savetimeerror()">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

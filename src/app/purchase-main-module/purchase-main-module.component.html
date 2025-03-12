@@ -1,0 +1,88 @@
+<app-navigation></app-navigation>
+<div class="container-fluid">
+  <div class="sidebar close">
+    <ul class="nav-links">
+      <li style="padding-top: 10px;">
+        <a>
+          <h1 class="link_name" routerLink="/approval">Enquiry</h1>
+        </a>
+      </li>
+      <li>
+        <a>
+          <h1 class="link_name" routerLink="/approval">Transactions</h1>
+        </a>
+        <ul class="sub-menu blank">
+          <li *ngIf="IndentApprovalPending" [ngClass]="{'disable-link':!IndentApprovalPending}">
+            <a routerLink="/IndentApprovalPending" id="menu" class="subhead">Indent Approval Pending</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a>
+          <h1 class="link_name" routerLink="/approval">Approvals</h1>
+        </a>
+        <ul class="sub-menu blank">
+          <li *ngIf="POClose" [ngClass]="{ 'disable-link': !POClose }">
+            <a routerLink="/POClose1" id="menu" class="subhead">PO Short Close First Level</a>
+          </li>
+          <li *ngIf="poclose2" [ngClass]="{ 'disable-link': !poclose2 }">
+            <a routerLink="/poclose2" id="menu" class="subhead">PO Short Close Second Level</a>
+          </li>
+          <li *ngIf="poclose3" [ngClass]="{ 'disable-link': !poclose3 }">
+            <a routerLink="/poclose3" id="menu" class="subhead">PO Short Close Third Level</a>
+          </li>
+          <li *ngIf="creditdays" [ngClass]="{ 'disable-link': !creditdays }">
+            <a routerLink="/creditdaysApprovals" id="menu" class="subhead">Creditdays Approval</a>
+          </li>
+          <li *ngIf="clearingApproval" [ngClass]="{ 'disable-link': !clearingApproval }">
+            <a routerLink="/clearingFrechargesApprovals" id="menu" class="subhead">Clearing and Freight Charges
+              Approval</a>
+          </li>
+          <li *ngIf="SupplierRegAppPurchase" [ngClass]="{'disable-link':!SupplierRegAppPurchaseId}">
+            <a routerLink="/SupplierRegAppApurchase" id="menu" class="subhead">Supplier Registration Approval -
+              Purchase</a>
+          </li>
+          <li *ngIf="SupplierRegAppFinance" [ngClass]="{'disable-link':!SupplierRegAppFinanceId}">
+            <a routerLink="/SupplierRegAppFin" id="menu" class="subhead">Supplier Registration Approval - Finance</a>
+          </li>
+          <li *ngIf="SupplierRegAppTec" [ngClass]="{'disable-link':!SupplierRegAppTecId}">
+            <a routerLink="/SupplierRegAppTec" id="menu" class="subhead">Supplier Registration Approval - Technical</a>
+          </li>
+        </ul>
+      </li>
+      <li>
+        <a>
+          <h1 class="link_name" routerLink="/approval">Master</h1>
+        </a>
+        <ul class="sub-menu blank">
+          <li>
+            <a routerLink="/PaymentTerms">Payment Terms</a>
+          </li>
+          <li>
+            <a routerLink="/MailNumberUpdate">Mail and Number Update</a>
+          </li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- Error Modal -->
+<button id="apierror" style="display: none;" data-bs-toggle="modal" data-bs-target="#apierrorDialog"></button>
+<div class="modal fade" id="apierrorDialog" tabindex="-1" aria-labelledby="apiErrorLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="apiErrorLabel">Error</h5>
+      </div>
+      <div class="modal-body">
+        <p>{{ apiErrorMsg }}</p>
+        <span>Please wait a few minutes and check the internet connection.</span>
+        <h2>Contact Admin...</h2>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>

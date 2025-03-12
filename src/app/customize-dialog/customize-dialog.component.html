@@ -1,0 +1,358 @@
+<!-- ---------------------------------------------------PD Rawmaterial Consumaption Update------------- ---------------------------------------->
+<mat-card *ngIf="data.Comp_Name=='PdRawmaterialChange_Edit'">
+    <mat-card-header class="justify-content-center m-0 p-1">
+        <mat-card-title>PD Rawmaterial Consumaption Update</mat-card-title>
+    </mat-card-header>
+    <mat-divider class="pt-2"></mat-divider>
+    <mat-card-content class="mt-3">
+        <form [formGroup]="PdRawmaterialFormEdit">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6 ">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Product</mat-label>
+                        <mat-select placeholder="---Search---" [(ngModel)]="selectedMaterialId"
+                            (selectionChange)="onMaterialSelect()" formControlName="Material">
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="MaterialfilterControll" [clearSearchInput]="true"
+                                    placeholderLabel="---Search---" (input)="inputSelect()"
+                                    noEntriesFoundLabel="No Matching Item Found">
+                                </ngx-mat-select-search></mat-option>
+                            <mat-option *ngFor="let item of filteredMaterial"
+                                [value]="item.rawmatid">{{item.rawmatname}}</mat-option>
+                        </mat-select>
+                        <mat-hint style="color: brown;">Type Atleast 2 letters Of MaterialName To View
+                            Material</mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Uom</mat-label>
+                        <input matInput type="text" required placeholder="" formControlName="Uom" readonly>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+        <div class="modal-footer">
+            <button mat-raised-button type="button" color="primary" (click)="pdRawmaterialUpdate()">Update</button>
+            <button mat-raised-button type="button" color="warn" class="ml-3" [mat-dialog-close]="Status"
+                cdkFocusInitial>Close</button>
+        </div>
+    </mat-card-content>
+</mat-card>
+<!-- ---------------------------------------------------PD Rawmaterial Consumaption Add------------- ---------------------------------------->
+<mat-card *ngIf="data.Comp_Name=='PdRawmaterialChange_Add'">
+    <mat-card-header class="justify-content-center m-0 p-1">
+        <mat-card-title>PD Rawmaterial Consumaption Add</mat-card-title>
+    </mat-card-header>
+    <mat-divider class="pt-2"></mat-divider>
+    <mat-card-content class="mt-3">
+        <form [formGroup]="PdRawmaterialFormAdd">
+            <div class="row">
+                <div class="col-12 col-sm-12 col-md-6 col-lg-12 ">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Product</mat-label>
+                        <mat-select placeholder="---Search---" [(ngModel)]="selectedMaterialId"
+                            (selectionChange)="onMaterialSelect()" formControlName="Material" required>
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="MaterialfilterControll" [clearSearchInput]="true"
+                                    placeholderLabel="---Search---" (input)="inputSelect()"
+                                    noEntriesFoundLabel="No Matching Item Found">
+                                </ngx-mat-select-search></mat-option>
+                            <mat-option *ngFor="let item of filteredMaterial"
+                                [value]="item.rawmatid">{{item.rawmatname}}</mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="PdRawmaterialFormAdd.controls['Material'].invalid">Material
+                            Required</mat-error>
+                        <mat-hint style="color: brown;">Type Atleast 2 letters Of MaterialName To View
+                            Material</mat-hint>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Uom</mat-label>
+                        <input matInput type="text" placeholder="Uom" formControlName="Uom" required readonly>
+                        <mat-error *ngIf="PdRawmaterialFormAdd.controls['Uom'].invalid">Uom Required</mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-12 col-sm-12 col-md-6 col-lg-6">
+                    <mat-form-field appearance="fill">
+                        <mat-label>Cons_Qty</mat-label>
+                        <input matInput type="text" placeholder="Consumaption Quantity" formControlName="cons_qty"
+                            required>
+                        <mat-error *ngIf="PdRawmaterialFormAdd.controls['cons_qty'].invalid">Consumaption Quantity
+                            Required</mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+        </form>
+        <div class="modal-footer mt-2 ">
+            <button mat-raised-button type="button" color="primary" (click)="pdRawmaterialAdd()">Add</button>
+            <button mat-raised-button type="button" color="accent" class="ml-3" (click)="pdRawmaterialAddUpdate()"
+                [disabled]="pdRawMatAddUpdatebtn">Update</button>
+            <button mat-raised-button type="button" color="warn" class="ml-3" [mat-dialog-close]="Status"
+                cdkFocusInitial>Close</button>
+        </div>
+        <div class="mat-elevation-z8 mt-3">
+            <table mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="Material">
+                    <th mat-header-cell *matHeaderCellDef> Material</th>
+                    <td mat-cell *matCellDef="let element; let i = index">{{element.material}}</td>
+                </ng-container>
+                <ng-container matColumnDef="uom">
+                    <th mat-header-cell *matHeaderCellDef>Uom</th>
+                    <td mat-cell *matCellDef="let element; let i = index">{{element.uom}}</td>
+                </ng-container>
+                <ng-container matColumnDef="consumption">
+                    <th mat-header-cell *matHeaderCellDef>Consumaption</th>
+                    <td mat-cell *matCellDef="let element; let i = index">{{element.consumption}} </td>
+                </ng-container>
+                <ng-container matColumnDef="delete">
+                    <th mat-header-cell *matHeaderCellDef>Delete</th>
+                    <td class="centeralign" mat-cell *matCellDef="let element; let i = index">
+                        <mat-icon color="warn" (click)="Delete(i)">delete</mat-icon>
+                    </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+            </table>
+        </div>
+    </mat-card-content>
+</mat-card>
+<!-------------------------------------------------------------- Grn Delete Request -------------------------------------------------------->
+<!-- Material Tabel -->
+<mat-card class="p-1 m-1 overflow-hidden" *ngIf="data.Comp_Name=='grnDeleteRequest'">
+    <mat-card-header>
+        <mat-card-subtitle style="color: brown;font-size: medium;">Material</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-contet>
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="fill">
+                    <mat-label>Grn_Ref_No</mat-label>
+                    <input type="text" matInput value="{{data.grnRefno}}" readonly>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="fill">
+                    <mat-label>Supplier</mat-label>
+                    <input type="text" matInput value="{{data.SupName}}" readonly>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="mat-elevation-z8 mt-3 mb-4">
+            <table mat-table [dataSource]="grnDeleteReqMatlDatasource">
+                <ng-container matColumnDef="Material">
+                    <th mat-header-cell *matHeaderCellDef> Material</th>
+                    <td mat-cell *matCellDef="let element; let i = index">{{element.RawMatName}}</td>
+                </ng-container>
+                <ng-container matColumnDef="Uom">
+                    <th mat-header-cell *matHeaderCellDef>Uom</th>
+                    <td mat-cell *matCellDef="let element; let i = index">{{element.Uom}}</td>
+                </ng-container>
+                <ng-container matColumnDef="Quantity">
+                    <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                    <td mat-cell *matCellDef="let element; let i = index" class="border-bottom-1">{{element.Gqty}}</td>
+                </ng-container>
+                <ng-container matColumnDef="Rejection_Qty">
+                    <th mat-header-cell *matHeaderCellDef>Rejection_Qty</th>
+                    <td mat-cell *matCellDef="let element; let i = index" class="border-bottom-1">{{element.GrejQty}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Rate">
+                    <th mat-header-cell *matHeaderCellDef>Rate</th>
+                    <td mat-cell *matCellDef="let element; let i = index">{{element.GRate}}</td>
+                    <td mat-footer-cell *matFooterCellDef colspan="5" style="text-align: end;"><strong>Gross</strong>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Value">
+                    <th mat-header-cell *matHeaderCellDef>Value</th>
+                    <td mat-cell *matCellDef="let element; let i = index">{{element.GrnBasicPrice}}</td>
+                    <td mat-footer-cell *matFooterCellDef>{{getTotalGross() | number:'1.2-2' }} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="['Material','Uom','Quantity','Rejection_Qty','Rate','Value']"></tr>
+                <tr mat-row
+                    *matRowDef="let row; columns: ['Material','Uom','Quantity','Rejection_Qty','Rate','Value'];"></tr>
+                <tr mat-footer-row *matFooterRowDef="[ 'Rate', 'Value']; sticky: true"></tr>
+                <mat-divider class="border-bottom-1"></mat-divider>
+
+            </table>
+        </div>
+    </mat-card-contet>
+</mat-card>
+<!-- Tax Tabel -->
+<mat-card class="p-2" *ngIf="data.Comp_Name=='grnDeleteRequest'">
+    <mat-card-header>
+        <mat-card-subtitle style="color: brown;font-size: medium;">Tax</mat-card-subtitle>
+    </mat-card-header>
+    <div class="mat-elevation-z18 mt-3">
+        <!-- Tax Tabel -->
+        <table mat-table [dataSource]="grnDeleteReqTaxDatasource">
+            <ng-container matColumnDef="TaxType">
+                <th mat-header-cell *matHeaderCellDef> TaxType</th>
+                <td mat-cell *matCellDef="let element; let i = index">{{element.TaxType}}</td>
+            </ng-container>
+            <ng-container matColumnDef="DefaultValue">
+                <th mat-header-cell *matHeaderCellDef>DefaultValue</th>
+                <td mat-cell *matCellDef="let element; let i = index">{{element.DefaultValue}}</td>
+                <td mat-footer-cell *matFooterCellDef colspan="2" style="text-align: end;"><strong>Net amount</strong>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Amount">
+                <th mat-header-cell *matHeaderCellDef>Amount</th>
+                <td mat-cell *matCellDef="let element; let i = index">{{element.Amount}}</td>
+                <td mat-footer-cell *matFooterCellDef>{{getTotalNetAmount() | number:'1.2-2' }} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['TaxType','DefaultValue','Amount']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['TaxType','DefaultValue','Amount'];"></tr>
+            <tr mat-footer-row *matFooterRowDef="[ 'DefaultValue', 'Amount']; sticky: true"></tr>
+        </table>
+        <mat-divider class="border-bottom-1"></mat-divider>
+        <div class="row">
+            <div class="col">
+                <button mat-raised-button type="button" color="warn" class="float-lg-end mr-3"
+                    [mat-dialog-close]="Status" cdkFocusInitial>Close</button>
+            </div>
+        </div>
+    </div>
+</mat-card>
+
+<!-------------------------------------------------------------- Grn Delete -------------------------------------------------------->
+<!-- Material Tabel -->
+<mat-card class="p-1 m-1 overflow-hidden" *ngIf="data.Comp_Name=='grnDelete'">
+    <mat-card-header>
+        <mat-card-subtitle style="color: brown;font-size: medium;">Material</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-contet>
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="fill">
+                    <mat-label>Grn_Ref_No</mat-label>
+                    <input type="text" matInput value="{{data.grnRefno}}" readonly>
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field appearance="fill">
+                    <mat-label>Supplier</mat-label>
+                    <input type="text" matInput value="{{data.SupName}}" readonly>
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="mat-elevation-z8 mt-3 mb-4">
+            <table mat-table [dataSource]="grnDeleteMatlDatasource">
+                <ng-container matColumnDef="Material">
+                    <th mat-header-cell *matHeaderCellDef> Material</th>
+                    <td mat-cell *matCellDef="let element; let i = index">{{element.RawMatName}}</td>
+                </ng-container>
+                <ng-container matColumnDef="Uom">
+                    <th mat-header-cell *matHeaderCellDef>Uom</th>
+                    <td mat-cell *matCellDef="let element; let i = index">{{element.Uom}}</td>
+                </ng-container>
+                <ng-container matColumnDef="Quantity">
+                    <th mat-header-cell *matHeaderCellDef>Quantity</th>
+                    <td mat-cell *matCellDef="let element; let i = index" class="border-bottom-1">{{element.Gqty}}</td>
+                </ng-container>
+                <ng-container matColumnDef="Rejection_Qty">
+                    <th mat-header-cell *matHeaderCellDef>Rejection_Qty</th>
+                    <td mat-cell *matCellDef="let element; let i = index" class="border-bottom-1">{{element.GrejQty}}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Rate">
+                    <th mat-header-cell *matHeaderCellDef>Rate</th>
+                    <td mat-cell *matCellDef="let element; let i = index">{{element.GRate}}</td>
+                    <td mat-footer-cell *matFooterCellDef colspan="5" style="text-align: end;"><strong>Gross</strong>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Value">
+                    <th mat-header-cell *matHeaderCellDef>Value</th>
+                    <td mat-cell *matCellDef="let element; let i = index">{{element.GrnBasicPrice}}</td>
+                    <td mat-footer-cell *matFooterCellDef>{{getGrnDeleteTotalNetAmount() | number:'1.2-2' }} </td>
+                </ng-container>
+                <tr mat-header-row *matHeaderRowDef="['Material','Uom','Quantity','Rejection_Qty','Rate','Value']"></tr>
+                <tr mat-row
+                    *matRowDef="let row; columns: ['Material','Uom','Quantity','Rejection_Qty','Rate','Value'];"></tr>
+                <tr mat-footer-row *matFooterRowDef="[ 'Rate', 'Value']; sticky: true"></tr>
+                <mat-divider class="border-bottom-1"></mat-divider>
+
+            </table>
+        </div>
+    </mat-card-contet>
+</mat-card>
+<!-- Tax Tabel -->
+<mat-card class="p-2" *ngIf="data.Comp_Name=='grnDelete'">
+    <mat-card-header>
+        <mat-card-subtitle style="color: brown;font-size: medium;">Tax</mat-card-subtitle>
+    </mat-card-header>
+    <div class="mat-elevation-z18 mt-3">
+        <!-- Tax Tabel -->
+        <table mat-table [dataSource]="grnDeleteReqTaxDatasource">
+            <ng-container matColumnDef="TaxType">
+                <th mat-header-cell *matHeaderCellDef> TaxType</th>
+                <td mat-cell *matCellDef="let element; let i = index">{{element.TaxType}}</td>
+            </ng-container>
+            <ng-container matColumnDef="DefaultValue">
+                <th mat-header-cell *matHeaderCellDef>DefaultValue</th>
+                <td mat-cell *matCellDef="let element; let i = index">{{element.DefaultValue}}</td>
+                <td mat-footer-cell *matFooterCellDef colspan="2" style="text-align: end;"><strong>Net amount</strong>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="Amount">
+                <th mat-header-cell *matHeaderCellDef>Amount</th>
+                <td mat-cell *matCellDef="let element; let i = index">{{element.Amount}}</td>
+                <td mat-footer-cell *matFooterCellDef>{{getGrnDeleteTotalGross() | number:'1.2-2' }} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['TaxType','DefaultValue','Amount']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['TaxType','DefaultValue','Amount'];"></tr>
+            <tr mat-footer-row *matFooterRowDef="[ 'DefaultValue', 'Amount']; sticky: true"></tr>
+        </table>
+        <mat-divider class="border-bottom-1"></mat-divider>
+        <div class="row">
+            <div class="col">
+                <button mat-raised-button type="button" color="warn" class="float-lg-end mr-3"
+                    [mat-dialog-close]="Status" cdkFocusInitial>Close</button>
+            </div>
+        </div>
+    </div>
+</mat-card>
+<!-------------------------------------------------------------- Grn Entry -------------------------------------------------------->
+<mat-card class="p-2" *ngIf="data.Comp_Name=='grnEntry'">
+    <mat-card-header>
+        <mat-card-subtitle style="color: brown;font-size: medium;">Gate Entry Delay Detalis</mat-card-subtitle>
+    </mat-card-header>
+    <div class="mat-elevation-z18 mt-3">
+        <!-- Tax Tabel -->
+        <table mat-table [dataSource]="grnEntryoldGateEntryDet">
+            <ng-container matColumnDef="GateEntryNo">
+                <th mat-header-cell *matHeaderCellDef> GateEntryNo</th>
+                <td mat-cell *matCellDef="let element; let i = index">{{element.GateEntryNo}}</td>
+            </ng-container>
+            <ng-container matColumnDef="GateEntryDate">
+                <th mat-header-cell *matHeaderCellDef>GateEntryDate</th>
+                <td mat-cell *matCellDef="let element; let i = index">{{element.gateentrydate}}</td>
+            </ng-container>
+            <ng-container matColumnDef="name">
+                <th mat-header-cell *matHeaderCellDef>Supplier</th>
+                <td mat-cell *matCellDef="let element; let i = index">{{element.name}}</td>
+            </ng-container>
+            <ng-container matColumnDef="VechicleNo">
+                <th mat-header-cell *matHeaderCellDef>VechicleNo</th>
+                <td mat-cell *matCellDef="let element; let i = index">{{element.VechicleNo}}</td>
+            </ng-container>
+            <ng-container matColumnDef="RefNo">
+                <th mat-header-cell *matHeaderCellDef>RefNo</th>
+                <td mat-cell *matCellDef="let element; let i = index">{{element.RefNo}}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="['GateEntryNo','GateEntryDate','name','VechicleNo','RefNo']"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['GateEntryNo','GateEntryDate','name','VechicleNo','RefNo'];">
+            </tr>
+        </table>
+        <mat-divider class="border-bottom-1"></mat-divider>
+        <mat-paginator #grnEntryPaginator [pageSizeOptions]="[5, 10]" showFirstLastButtons>
+        </mat-paginator>
+        <div class="row">
+            <div class="col">
+                <button mat-raised-button type="button" color="warn" class="float-lg-end mr-3"
+                    [mat-dialog-close]="Status" routerLink="/Inventory">Close</button>
+            </div>
+        </div>
+    </div>
+</mat-card>

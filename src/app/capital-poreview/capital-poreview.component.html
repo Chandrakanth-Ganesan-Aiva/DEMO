@@ -1,0 +1,60 @@
+<app-navigation></app-navigation>
+<h1>Capital PO Review</h1>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <label for="">Review by</label>
+                <select name="" id="" class="form-select" [(ngModel)]="empid">
+                    <option value="" *ngFor="let review of LoadArray" [value]="review.empid">{{review.empname}}</option>
+                </select>
+            </div>
+            <div class="col-6">
+                <button mat-raised-button
+                    style="background-color: grey;font-family: 'Times New Roman', Times, serif; color:white;margin-top:1.5rem;"
+                    (click)="view()">View</button>
+            </div>
+        </div>
+        <div class="table-responsive" *ngIf="show">
+            <table class="table table-bordered table-fixed"
+                style="width: 100%; table-layout: fixed; border: 1px solid #ddd;">
+                <thead>
+                    <tr>
+                        <th style="width: 100px;">
+                            <input type="checkbox" class="form-check-input" [checked]="selectedAll"
+                                (change)="allchecked($event)" style="display: inline-block; text-align: center;">
+                            Select_All
+                        </th>
+                        <th style="width: 200px;">PONO</th>
+                        <th style="width: 150px;">PO Date</th>
+                        <th style="width: 200px;">Supplier Name</th>
+                        <th style="width: 300px;">Reason</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let table of tableArray">
+                        <td style="width: 100px;">
+                            <input type="checkbox" class="form-check-input"
+                                style="border: 1px solid rgb(142, 142, 223);;"
+                                [checked]="selectedrowArray.includes(table)" (change)="selectedrows($event, table)" />
+                        </td>
+                        <td style="width: 200px;">{{ table.Pono }}</td>
+                        <td style="width: 150px;">{{ table.podate | date: 'dd-MM-yyyy' }}</td>
+                        <td style="width: 200px; text-align: left;">{{ table.supname }}</td>
+                        <td style="width: 300px; text-align: left;">{{ table.reason }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row text-end mt-3">
+            <div class="col-12">
+                <button mat-raised-button
+                    style="background-color: rgb(18, 133, 18);font-family: 'Times New Roman', Times, serif;color:white;font-size: 16px;"
+                    (click)="review()">Review</button>
+                <button mat-raised-button
+                    style="background-color: red;font-family: 'Times New Roman', Times, serif;color: white;margin-left:3px"
+                    (click)="clear()">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>

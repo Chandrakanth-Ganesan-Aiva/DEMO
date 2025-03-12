@@ -1,0 +1,67 @@
+<app-navigation></app-navigation>
+<h1>Rejection PO Approval</h1>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <label for="">Supplier Name</label>
+                <ng-select [items]="SupplierArray" bindLabel="supname" bindValue="supid" (change)="supidfun($event)"
+                    [(ngModel)]="selectedSupplier" [clearable]="false">
+                </ng-select>
+            </div>
+            <div class="col-6">
+                <button mat-raised-button
+                    style="font-family: 'Times New Roman', Times, serif;background-color:orange;color:white;margin-top:1.1rem"
+                    (click)="view()">View</button>
+            </div>
+        </div>
+        <div class="table-responsive" *ngIf="show">
+            <table class="table table-bordered table-fixed"
+                style="width: 100%; table-layout: fixed; border: 1px solid #ddd;">
+                <thead>
+                    <tr>
+                        <th style="width: 100px;">
+                            <input type="checkbox" class="form-input-check"
+                                style="display:inline-flex; text-align: center;" [checked]="allSelected"
+                                (change)="selectAll($event)">Select_All
+                        </th>
+                        <th style="width: 200px;">PO_NO</th>
+                        <th style="width: 200px;">PO_Date</th>
+                        <th style="width: 300px;">Supplier_Name</th>
+                        <th style="width: 300px;">Material_Name</th>
+                        <th style="width: 100px;">UOM</th>
+                        <th style="width: 100px;">Qty</th>
+                        <th style="width: 100px;">Rate</th>
+                        <th style="width: 100px;">Value</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let table of tableArray">
+                        <td style="width: 100px;">
+                            <input type="checkbox" class="form-input-check" [checked]="selectedRows.includes(table)"
+                                (change)="selectedrows($event, table)" />
+                        </td>
+                        <td style="width: 200px;">{{ table.pono }}</td>
+                        <td style="width: 200px;">{{ table.podate | date:'dd-MM-yyyy' }}</td>
+                        <td style="width: 300px; text-align: left;">{{ table.supname }}</td>
+                        <td style="width: 300px; text-align: left;">{{ table.rawmatname }}</td>
+                        <td style="width: 100px;">{{ table.uom }}</td>
+                        <td style="width: 100px;">{{ table.ord_qty }}</td>
+                        <td style="width: 100px;">{{ table.Rate }}</td>
+                        <td style="width: 100px;">{{ table.gvalue }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row mt-3">
+            <div style="text-align: end;">
+                <button mat-raised-button
+                    style="background-color: green;color: white;font-family: 'Times New Roman', Times, serif;font-size: 16px;"
+                    (click)="Approve()">Approve</button>
+                <button mat-raised-button
+                    style="background-color:red;color: white;font-family: 'Times New Roman', Times, serif;font-size: 16px;margin-left: 2px;"
+                    (click)=" clear()">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>

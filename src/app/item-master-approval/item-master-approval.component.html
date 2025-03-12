@@ -1,0 +1,176 @@
+<app-navigation></app-navigation>
+<div class="container-fluid mt-0">
+    <mat-card class=" p-2">
+        <mat-card-header class="justify-content-center mt-0 pt-2">
+            <mat-card-title>Item Master Approval</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content class="mt-3">
+            <form [formGroup]="ItemMasterForm" (ngSubmit)="View()">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>Department</mat-label>
+                            <mat-select placeholder="--Select a Department--" formControlName="Dept">
+                                <mat-option *ngFor="let item of Department"
+                                    [value]="item.deptid">{{item.deptname}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <button mat-raised-button class="button" type="submit" color="primary">View</button>
+                        <button mat-raised-button class="button" type="button"
+                            style="color: white;background-color: green;margin-left: 3%;"
+                            (click)="Approve()">Approve</button>
+                        <button mat-raised-button class="button" type="button"
+                            style="color: white;background-color: brown;margin-left: 3%;">UnApprove</button>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+        <mat-card-content>
+            <div class="mat-elevation-z2" [hidden]="ItemTabelHidden">
+                <table mat-table [dataSource]="dataSource">
+                    <ng-container matColumnDef="select">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Select </th>
+                        <td mat-cell *matCellDef="let element"><mat-checkbox [(ngModel)]="element.selected"
+                                (change)="RowSelect()"> </mat-checkbox></td>
+                    </ng-container>
+                    <ng-container matColumnDef="ItemCode">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> ItemCode </th>
+                        <td 
+                        contenteditable="true" 
+                        mat-cell 
+                        *matCellDef="let element; let i = index"
+                        (focus)="moveCaretToEnd($event)" 
+                        (input)="onEdit(element, 'itemcode', $event)">
+                        {{ element.itemcode }}
+                      </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Material" sticky>
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Material </th>
+                        <td mat-cell *matCellDef="let element; let i = index">
+                            <div contenteditable="" class="col" (input)="onEdit(element, 'itemname', $event)">
+                                {{element.itemname }}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Spec">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Spec </th>
+                        <td mat-cell *matCellDef="let element">
+                            <div contenteditable="" class="col" (input)="onEdit(element, 'spec', $event)">
+                                {{element.spec}}</div>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Make">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Make </th>
+                        <td mat-cell *matCellDef="let element">{{element.make}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Category">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Category </th>
+                        <td mat-cell *matCellDef="let element;let i=index">
+                            <select class="form-select" style="width: fit-content;" [(ngModel)]="element.grntypeid"
+                                [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let item of Category" [value]="item.grntypeid">{{item.grntype}}</option>
+                            </select>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Uom">
+                        <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5;"> Uom </th>
+                        <td mat-cell *matCellDef="let element; let i = index">
+                            <select class="form-select" style="width: fit-content;" [(ngModel)]="element.uomid"
+                                [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let item of Uom" [value]="item.uomid">{{ item.uom }}</option>
+                            </select>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="Minqty">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Minqty </th>
+                        <td mat-cell contenteditable="true" *matCellDef="let element">{{element.min_level}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Maxqty">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Maxqty </th>
+                        <td mat-cell *matCellDef="let element">{{element.max_level}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Reorder">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Reorder </th>
+                        <td mat-cell *matCellDef="let element">{{element.reorder_level}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Uomid">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Uomid </th>
+                        <td mat-cell *matCellDef="let element">{{element.uomid}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Grntypeid">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Grntypeid </th>
+                        <td mat-cell *matCellDef="let element">{{element.grntypeid}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Weight">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Weight </th>
+                        <td mat-cell *matCellDef="let element">{{element.weight}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Saleable">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Saleable </th>
+                        <td mat-cell *matCellDef="let element"><mat-checkbox color="primary"
+                                [checked]="element.saleable =='Y'"></mat-checkbox></td>
+                    </ng-container>
+                    <ng-container matColumnDef="DrawingNo">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> DrawingNo </th>
+                        <td mat-cell *matCellDef="let element">{{element.drgno}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Grade">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Grade </th>
+                        <td mat-cell *matCellDef="let element; let i = index">
+                            <select class="form-select" style="width: fit-content;" [(ngModel)]="element.gradeid"
+                                [ngModelOptions]="{standalone: true}">
+                                <option *ngFor="let item of GradeArr" [value]="item.gradeid">{{ item.gradename }}
+                                </option>
+                            </select>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Gradeid">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Gradeid </th>
+                        <td mat-cell *matCellDef="let element">{{element.gradeid}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Email">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Email </th>
+                        <td mat-cell *matCellDef="let element">{{element.email}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Location">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Location </th>
+                        <td mat-cell *matCellDef="let element">{{element.loc_id}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Qcreq">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Qcreq </th>
+                        <td mat-cell *matCellDef="let element">{{element.qcreq}}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="Shelflife">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Shelflife </th>
+                        <td mat-cell *matCellDef="let element">
+                            <input type="text" class="form-control" [(ngModel)]="element.Shelflife">
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Hsncode">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Hsncode </th>
+                        <td mat-cell *matCellDef="let element">
+                            <select class="form-select " style="width: fit-content;" [(ngModel)]="element.hsncode"
+                                [ngModelOptions]="{standalone: true}">
+                                <option value="" hidden disabled selected>--Select--</option>
+                                <option *ngFor="let item of HsnCode">{{item.hsncode}}</option>
+                            </select>
+                        </td>
+                    </ng-container>
+                    <ng-container matColumnDef="Department">
+                        <th mat-header-cell *matHeaderCellDef style="  background-color: #3f51b5;"> Department </th>
+                        <td mat-cell *matCellDef="let element">{{element.deptid1}}</td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="TabelHeaders"></tr>
+                    <tr mat-row *matRowDef="let row; columns: TabelHeaders;">
+                    </tr>
+                </table>
+                <mat-divider style="border:  .5px solid #4863a0;"></mat-divider>
+                <mat-paginator [pageSizeOptions]="[3, 20, 50]" showFirstLastButtons>
+                </mat-paginator>
+            </div>
+        </mat-card-content>
+    </mat-card>
+</div>

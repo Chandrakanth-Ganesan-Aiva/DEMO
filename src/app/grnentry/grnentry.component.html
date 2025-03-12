@@ -1,0 +1,542 @@
+<app-navigation></app-navigation>
+<!-- <mat-sidenav-content> -->
+    <!-- <app-demo></app-demo> -->
+    <mat-card>
+        <mat-card-header class="justify-content-center">
+            <mat-card-title style="color: brown;font-family: 'Times New Roman', Times, serif;" class="fs-3">GRN
+                ENTRY</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content class="p-2 m-1">
+            <div class="row">
+                <div class="col-lg-6 ">
+                    <form class="mat-elevation-z5 p-2" [formGroup]="form">
+                        <div class="row">
+                            <div class="col-6 col-sm-6 col-md-3 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>GRN Type</mat-label>
+                                    <mat-select formControlName="grnType" (selectionChange)="GrnTypeEvent()">
+                                        <mat-option *ngFor="let item of grnTypeArr"
+                                            [value]="item.TypeID">{{item.TypeName}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>Field Requird</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-3 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>GRN Date</mat-label>
+                                    <input matInput [matDatepicker]="picker" formControlName="grnDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                    <mat-error>Field Requird</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12 col-sm-6 col-md-3 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>GRN No</mat-label>
+                                    <input type="text" matInput formControlName="grnRefNo">
+                                    <mat-error>Field Requird</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-12 col-lg-12">
+                                <mat-form-field>
+                                    <mat-label>Supplier Name</mat-label>
+                                    <mat-select formControlName="supplier" (selectionChange)="PartyChangeEvent()">
+                                        <mat-option>
+                                            <ngx-mat-select-search [formControl]="filterControl"
+                                                [clearSearchInput]="true" placeholderLabel="---Search---">
+                                            </ngx-mat-select-search></mat-option>
+                                        <mat-option *ngFor="let item of grnPatyDetArrfilter"
+                                            [value]="item.PartyID">{{item.PartyName}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>Field Requird</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-8 col-sm-3 col-md-3 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>Gate Entry No</mat-label>
+                                    <mat-select placeholder="---Search---" formControlName="gateEntryNo"
+                                        (selectionChange)="gateEntryChangeEvent()">
+                                        <mat-option>
+                                            <ngx-mat-select-search [formControl]="gateEntryNofilter"
+                                                [clearSearchInput]="true" placeholderLabel="---Search---">
+                                            </ngx-mat-select-search></mat-option>
+                                        <mat-option *ngFor="let item of gateEntryNofilteredOptions"
+                                            [value]="item.gateentryno">{{item.GateEntry_Ref_No}}</mat-option>
+                                    </mat-select>
+                                    <mat-error>Field Requird</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-4 col-sm-3 col-md-3 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>Credit Period</mat-label>
+                                    <input type="text" matInput formControlName="creditPeriod" readonly>
+                                    <mat-error>Field Requird</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-6 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>Gate Date</mat-label>
+                                    <input matInput [matDatepicker]="picker1" formControlName="gateDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker1></mat-datepicker>
+                                    <mat-error>Field Requird</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 col-sm-6 col-md-6 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>Vechile No</mat-label>
+                                    <input type="text" matInput formControlName="vechileNo" readonly>
+                                    <mat-error>Field Requird</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-4 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>DC No</mat-label>
+                                    <input type="text" matInput formControlName="DcNo" readonly>
+                                    <mat-error>Field Requird</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-4 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>Dc Date</mat-label>
+                                    <input matInput [matDatepicker]="picker2" formControlName="dcDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                    <mat-error>Field Requird</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-4 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>InVoice No</mat-label>
+                                    <input type="text" matInput formControlName="invoiceNo" readonly>
+                                    <met-error>Field Reqiured</met-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-4 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>Invoice Date</mat-label>
+                                    <input matInput [matDatepicker]="picker3" formControlName="invoiceDate">
+                                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+                                    <mat-datepicker #picker3></mat-datepicker>
+                                    <mat-error>Field Requird</mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-4 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>Ticket No</mat-label>
+                                    <mat-select formControlName="ticketNo" (selectionChange)="ticketChangeEvent()">
+                                        <mat-option *ngFor="let item of TicketNumberArr"
+                                            [value]="item.id">{{item.ticketnumber}}</mat-option>
+                                    </mat-select>
+                                    <met-error>Field Reqiured</met-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-4 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>Load Weight</mat-label>
+                                    <input type="number" matInput formControlName="loadWeight">
+                                    <met-error>Field Reqiured</met-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-4 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>Tare Weight</mat-label>
+                                    <input type="number" matInput formControlName="tareWeight">
+                                    <met-error>Field Reqiured</met-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-4 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>Net Weight</mat-label>
+                                    <input type="number" matInput formControlName="netWeight">
+                                    <met-error>Field Reqiured</met-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-4 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>Net Weight 1</mat-label>
+                                    <input type="number" matInput formControlName="netWeight1" readonly>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-4 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>Packing Weight</mat-label>
+                                    <input type="number" matInput formControlName="packingWeight">
+                                    <met-error>Field Reqiured</met-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="col-6 col-sm-4 col-md-4 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>Supplier Rate</mat-label>
+                                    <input type="number" matInput formControlName="supplierRate">
+                                    <met-error>Field Reqiured</met-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-4 col-lg-4">
+                                <mat-form-field>
+                                    <mat-label>Freight Incl</mat-label>
+                                    <input type="number" matInput formControlName="frieghtIncl">
+                                    <met-error>Field Reqiured</met-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-4 col-lg-4  m-2 h-25 w-auto checkbox">
+                                <mat-radio-group formControlName="Type" [align]="'start'">
+                                    <mat-radio-button value="single">Single</mat-radio-button>
+                                    <mat-radio-button value="multi">Multi</mat-radio-button>
+                                </mat-radio-group>
+                            </div>
+                            <div class="col-6 col-sm-4 col-md-4 col-lg-4  m-2 h-25 w-auto">
+                                <button mat-raised-button type="button" color="warn" (click)="Clear()">Clear</button>
+                            </div>
+                        </div>
+                    </form>
+                    <div class="row mt-2 mat-elevation-z5 overflow-x-scroll overflow-y-hidden m-lg-1 p-2">
+                        <span>GridMain</span>
+                        <table mat-table #table [dataSource]="materialDataSource">
+                            <ng-container matColumnDef="radio">
+                                <th mat-header-cell *matHeaderCellDef> Action </th>
+                                <td mat-cell *matCellDef="let row"><mat-radio-button color="accent"
+                                        (click)="getPackingDet(row)"></mat-radio-button></td>
+                            </ng-container>
+                            <ng-container matColumnDef="Material">
+                                <th mat-header-cell *matHeaderCellDef> Material </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <div matTooltipClass="custom-tooltip" *ngIf="this.LocationId !==2"
+                                        [matTooltip]="row.description">
+                                        {{row.rawmatname}}
+                                    </div>
+                                    <div matTooltipClass="custom-tooltip" *ngIf="this.LocationId ==2"
+                                        [matTooltip]="row.description1">
+                                        {{row.rawmatname}}
+                                    </div>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="UOM">
+                                <th mat-header-cell *matHeaderCellDef> UOM </th>
+                                <td mat-cell *matCellDef="let row"> {{row.uom}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="OrdQty">
+                                <th mat-header-cell *matHeaderCellDef> OrdQty </th>
+                                <td mat-cell *matCellDef="let row"> {{row.ord_qty}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="received">
+                                <th mat-header-cell *matHeaderCellDef class="received"> Received </th>
+                                <td mat-cell *matCellDef="let row"><input type="number" class="form-control received"
+                                        [(ngModel)]="row.received" onwheel="return false;"></td>
+                            </ng-container>
+                            <ng-container matColumnDef="Edit">
+                                <th mat-header-cell *matHeaderCellDef> PODeatail </th>
+                                <td mat-cell *matCellDef="let row" style="text-align: center;" > <mat-icon color="accent" (click)="POdetalis(row)">visibility</mat-icon></td>
+                            </ng-container>
+                            <ng-container matColumnDef="Rate">
+                                <th mat-header-cell *matHeaderCellDef> Rate </th>
+                                <td mat-cell *matCellDef="let row"> {{row.rate}} </td>
+                            </ng-container>
+                            <tr mat-header-row
+                                *matHeaderRowDef="['radio','Material','UOM','OrdQty','received','Edit','Rate']">
+                            </tr>
+                            <tr mat-row
+                                *matRowDef="let row; columns: ['radio','Material','UOM','OrdQty','received','Edit','Rate'];">
+                            </tr>
+                        </table>
+                        <mat-paginator #MaterialPaginator [pageSizeOptions]="[3,5,50]"
+                            showFirstLastButtons></mat-paginator>
+                        <span>gridtoken</span>
+                        <table mat-table #table [dataSource]="WeightDataSource"
+                            *ngIf=" this.form.controls['Type'].value!='single'">
+                            <ng-container matColumnDef="id">
+                                <th mat-header-cell *matHeaderCellDef> Id </th>
+                                <td mat-cell *matCellDef="let row">{{row.id}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="ticketnumber">
+                                <th mat-header-cell *matHeaderCellDef> TicketNumber </th>
+                                <td mat-cell *matCellDef="let row">{{row.ticketnumber}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="EmptyWeight">
+                                <th mat-header-cell *matHeaderCellDef> EmptyWeight </th>
+                                <td mat-cell *matCellDef="let row"> {{row.EmptyWeight}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="LoadedWeight">
+                                <th mat-header-cell *matHeaderCellDef> LoadedWeight </th>
+                                <td mat-cell *matCellDef="let row"> {{row.loadedweight}} </td>
+                            </ng-container>
+                            <ng-container matColumnDef="NetWeight">
+                                <th mat-header-cell *matHeaderCellDef> NetWeight </th>
+                                <td mat-cell *matCellDef="let row"> {{row.NetWeight}} </td>
+                            </ng-container>
+                            <tr mat-header-row
+                                *matHeaderRowDef="['id','ticketnumber','EmptyWeight','LoadedWeight','NetWeight']">
+                            </tr>
+                            <tr mat-row
+                                *matRowDef="let row; columns: ['id','ticketnumber','EmptyWeight','LoadedWeight','NetWeight'];">
+                            </tr>
+                        </table>
+                        <mat-paginator #WeightPaginator [pageSizeOptions]="[3,5,20]" showFirstLastButtons
+                            *ngIf=" this.form.controls['Type'].value!='single'"></mat-paginator>
+                    </div>
+
+                </div>
+                <div class="col-lg-6 ">
+                    <div class="mat-elevation-z5 p-2">
+                        <form [formGroup]="subform">
+                            <div class="row">
+                                <div class="col-6 col-sm-4 col-md-3 col-lg-3">
+                                    <mat-form-field>
+                                        <mat-label>Rate</mat-label>
+                                        <input type="number" matInput formControlName="rate">
+                                        <mat-error>Field Required</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6 col-sm-4 col-md-3 col-lg-3">
+                                    <mat-form-field>
+                                        <mat-label>Currency</mat-label>
+                                        <input type="number" matInput formControlName="currency">
+                                        <mat-error>Field Required</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6 col-sm-4 col-md-3 col-lg-2">
+                                    <mat-form-field>
+                                        <mat-label>Ex-Rate</mat-label>
+                                        <input type="number" matInput formControlName="exRate">
+                                        <mat-error>Field Required</mat-error>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6 col-sm-4 col-md-3 col-lg-2  w-auto  mt-1">
+                                    <mat-radio-group formControlName="qcReq" class="ml-4 " [align]="'start'">
+                                        <mat-radio-button value="QcReq">QcReq</mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                                <div class="col-6 col-sm-4 col-md-3 col-lg-2 w-auto modal-footer mt-1">
+                                    <button mat-raised-button type="button" class="ml-4" color="accent">OK</button>
+                                </div>
+                            </div>
+                        </form>
+                        <mat-tab-group [disableRipple]="false" class="mt-3 overflow-y-hidden"
+                            (selectedTabChange)="MainTab($event)">
+                            <mat-tab label="PO Detail">
+                                <div class="mat-elevation-z2 ">
+                                    <table mat-table #table [dataSource]="PoDetailsDdatasource">
+                                        <ng-container matColumnDef="Chk">
+                                            <th mat-header-cell *matHeaderCellDef> Chk </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.column}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="PONO">
+                                            <th mat-header-cell *matHeaderCellDef> PONO </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.pono}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="PODate">
+                                            <th mat-header-cell *matHeaderCellDef> PODate </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.podate}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="POQty">
+                                            <th mat-header-cell *matHeaderCellDef> POQty </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.ord_qty}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="PORec">
+                                            <th mat-header-cell *matHeaderCellDef> PORecived </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.grnqty}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="PORej">
+                                            <th mat-header-cell *matHeaderCellDef> PORejection </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.rejqty}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Pending">
+                                            <th mat-header-cell *matHeaderCellDef> Pending </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.pending}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Rate">
+                                            <th mat-header-cell *matHeaderCellDef> Rate </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.rate}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="SupRate">
+                                            <th mat-header-cell *matHeaderCellDef> SupRate </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.rate}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Received">
+                                            <th mat-header-cell *matHeaderCellDef> Received </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.Received}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Tolerance">
+                                            <th mat-header-cell *matHeaderCellDef> Tolerance </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.column}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="GRNQty">
+                                            <th mat-header-cell *matHeaderCellDef> GRNQty </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.GRNQty}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Diff">
+                                            <th mat-header-cell *matHeaderCellDef> Diff </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.Diff}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Debit">
+                                            <th mat-header-cell *matHeaderCellDef> Debit </th>
+                                            <td mat-cell *matCellDef="let row"><input type="number" [(ngModel)]="row.Debit" [disabled]="row.uom =='Kg' || row.uom =='Ton' || row.uom =='MT'"> </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Excess">
+                                            <th mat-header-cell *matHeaderCellDef> Excess </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.column}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Discount">
+                                            <th mat-header-cell *matHeaderCellDef> Discount </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.column}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="GRate">
+                                            <th mat-header-cell *matHeaderCellDef> GRate </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.GRate}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="BatchNo">
+                                            <th mat-header-cell *matHeaderCellDef> BatchNo </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.column}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Box">
+                                            <th mat-header-cell *matHeaderCellDef> Box </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.column}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Pack">
+                                            <th mat-header-cell *matHeaderCellDef> Pack </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.column}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="GRate1">
+                                            <th mat-header-cell *matHeaderCellDef> G_Rate </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.column}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="ExpiryDate">
+                                            <th mat-header-cell *matHeaderCellDef> ExpiryDate </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.column}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="ExRate">
+                                            <th mat-header-cell *matHeaderCellDef> ExRate </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.column}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="Freight">
+                                            <th mat-header-cell *matHeaderCellDef> Freight </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.Freight}} </td>
+                                        </ng-container>
+                                        <ng-container matColumnDef="ActFreight">
+                                            <th mat-header-cell *matHeaderCellDef> ActFreight </th>
+                                            <td mat-cell *matCellDef="let row"> {{row.ActFreight}} </td>
+                                        </ng-container>
+                                        <tr mat-header-row
+                                            *matHeaderRowDef="['Chk','PONO','PODate','POQty','PORec','PORej','Pending','Rate','SupRate','Received','Tolerance',
+                                'GRNQty','Diff','Debit','Excess','Discount','GRate','BatchNo','Box','Pack','GRate1','ExpiryDate','ExRate','Freight','ActFreight' ]">
+                                        </tr>
+                                        <tr mat-row
+                                            *matRowDef="let row; columns: ['Chk','PONO','PODate','POQty','PORec','PORej','Pending', 'Rate','SupRate','Received','Tolerance',
+                                'GRNQty','Diff','Debit','Excess','Discount','GRate','BatchNo','Box','Pack','GRate1','ExpiryDate','ExRate','Freight','ActFreight' ]">
+                                        </tr>
+                                    </table>
+                                    <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]"
+                                        showFirstLastButtons></mat-paginator>
+                                </div>
+                                <div class="modal-footer p-3 mt-2">
+                                    <button mat-raised-button type="button" class="button  overflow-y-hidden mr-3"
+                                        color="primary">View</button>
+                                    <button mat-raised-button type="button" class="button  overflow-y-hidden"
+                                        color="accent" [disabled]="Splibtn">Spilt</button>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="Schedule"></mat-tab>
+                            <mat-tab label="PTCD">
+                                <div class="row">
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label>PO Value</mat-label>
+                                            <input type="number" matInput>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4">
+                                        <mat-form-field>
+                                            <mat-label>Supplier Value</mat-label>
+                                            <input type="number" matInput>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-4">
+                                        <button mat-raised-button class="button mt-1" type="button"
+                                            color="primary">Calculate</button>
+                                    </div>
+                                </div>
+                            </mat-tab>
+                            <mat-tab label="ShelfLife"></mat-tab>
+                            <mat-tab label="CleaningCharges" *ngIf="CleaningChargesTabHide">
+                                <form [formGroup]="CleaningChargesForm">
+                                    <div class="row">
+                                        <div class="col-12 col-sm-8 col-md-3 col-lg-6">
+                                            <mat-form-field>
+                                                <mat-label>Clearing Agent</mat-label>
+                                                <mat-select formControlName="ClearingAgent">
+                                                    <mat-option *ngFor="let item of clearingAgentArr"
+                                                        [value]="item.supid">{{item.supname}}</mat-option>
+                                                </mat-select>
+                                                <mat-error>Reqiured Field</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="col">
+                                            <mat-form-field>
+                                                <mat-label>PORT</mat-label>
+                                                <mat-select formControlName="Port">
+                                                    <mat-option *ngFor="let item of PortArr"
+                                                        [value]="item.id">{{item.portname}}</mat-option>
+                                                </mat-select>
+                                                <mat-error>Reqiured Field</mat-error>
+                                            </mat-form-field>
+                                        </div>
+                                        <!-- <div class="col">
+                                            <mat-form-field>
+                                                <mat-label></mat-label>
+                                                <mat-error>Reqiured Field</mat-error>
+                                            </mat-form-field>
+                                        </div> -->
+                                    </div>
+                                </form>
+                                <mat-tab-group class="mt-3 overflow-y-hidden" mat-stretch-tabs="false"
+                                    mat-align-tabs="start">
+                                    <mat-tab label="General">
+                                        <form [formGroup]="GeneralForm">
+                                            <div class="row">
+                                                <div class="col-12 col-sm-8 col-md-3 col-lg-6">
+                                                    <mat-form-field>
+                                                        <mat-label>Tax Type</mat-label>
+                                                        <mat-select formControlName="taxType">
+                                                            <mat-option>
+                                                                <ngx-mat-select-search
+                                                                    [formControl]="TaxTypefilterControl"
+                                                                    [clearSearchInput]="true"
+                                                                    placeholderLabel="---Search---">
+                                                                </ngx-mat-select-search></mat-option>
+                                                            <mat-option *ngFor="let item of TaxTypeFilterOption"
+                                                                [value]="item.taxgroupid">{{item.taxgroup}}</mat-option>
+                                                        </mat-select>
+                                                        <mat-error>Reqiured Field</mat-error>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </mat-tab>
+                                    <mat-tab label="Others">
+                                        <form [formGroup]="OthersForm">
+                                            <div class="row">
+                                                <div class="col-12 col-sm-8 col-md-3 col-lg-6">
+                                                    <mat-form-field>
+                                                        <mat-label>Liner Name</mat-label>
+                                                        <mat-select formControlName="linerName">
+                                                            <mat-option *ngFor="let item of LinearArr"
+                                                                [value]="item.supid">{{item.supname}}</mat-option>
+                                                        </mat-select>
+                                                        <mat-error>Reqiured Field</mat-error>
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </mat-tab>
+                                    <mat-tab label="Contract"></mat-tab>
+                                </mat-tab-group>
+                            </mat-tab>
+                        </mat-tab-group>
+                    </div>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+<!-- </mat-sidenav-content> -->

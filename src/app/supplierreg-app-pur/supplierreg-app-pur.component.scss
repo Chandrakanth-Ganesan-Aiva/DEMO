@@ -1,0 +1,84 @@
+h1 {
+    font-family: 'Times New Roman', Times, serif;
+    color: brown;
+    text-align: center;
+}
+
+.card {
+    overflow-x: hidden;
+    max-width: 100%;
+    margin: 30px;
+}
+
+.row {
+    margin: 0;
+}
+
+mat-tab-group {
+    overflow-x: hidden;
+}
+
+select {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+mat-tab {
+    overflow: auto;
+    padding: 0 16px;
+}
+
+.row,
+.col-3,
+.col-4 {
+    margin: 0;
+}
+
+
+label {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 18px;
+}
+
+//
+.custom-tab-group {
+    background-color: #f0f8ff;
+    font-family: 'Times New Roman', Times, serif;
+    margin: 30px;
+    border-radius: 10px;
+    border: 2px solid #418cce;
+    ;
+}
+
+.custom-tab-header {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 18px;
+    color: #333;
+}
+
+.custom-tab-content {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 16px;
+    color: #555;
+}
+
+// .custom-label {
+//     // font-weight: bold; /* Bold labels */
+//     // font-size: 1px; /* Slightly larger font size for labels */
+// }
+
+// .custom-input {
+//     border: 1px solid #ccc; /* Add a border to inputs */
+//     border-radius: 5px; /* Rounded corners */
+// }
+
+th {
+    background-color: #5161b6;
+    color: white;
+    font-size: 16px;
+    text-align: center;
+}
+
+td {
+    text-align: center;
+    font-size: 16px;
+}

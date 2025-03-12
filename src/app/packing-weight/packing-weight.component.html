@@ -1,0 +1,126 @@
+<app-navigation></app-navigation>
+<div class="container-fluid mt-0">
+    <mat-card class=" p-2">
+        <mat-card-header class="justify-content-center mt-0 pt-2 ">
+            <mat-card-title class="mt-0 pt-0">Packing Weight</mat-card-title>
+        </mat-card-header>
+        <mat-divider class="pt-2"></mat-divider>
+
+        <mat-card-content appearance="fill">
+            <form [formGroup]="PackingweightForm">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field appearance="fill">
+                            <mat-label>Product</mat-label>
+                            <mat-select placeholder="---Search---" formControlName="Material"
+                                (selectionChange)="onSelectionChange()" required>
+                                <mat-option>
+                                    <ngx-mat-select-search [formControl]="filterControl" [clearSearchInput]="true"
+                                        placeholderLabel="---Search---" noEntriesFoundLabel="No Matching Item Found">
+                                    </ngx-mat-select-search>
+                                </mat-option>
+                                <mat-option *ngFor="let item of filteredOptions" [value]="item.rawmatid">
+                                    {{ item.rawmatname }}
+                                </mat-option>
+                            </mat-select>
+                            <mat-hint style="color: brown;">Type Two Letters of Material Name TO View The Material
+                            </mat-hint>
+                            <mat-error
+                                *ngIf="PackingweightForm.controls['Material'].invalid && PackingweightForm.controls['Material'].touched">
+                                Material Required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>Gross Weight</mat-label>
+                            <input matInput formControlName="GWeight" type="number">
+                            <mat-error
+                                *ngIf="PackingweightForm.controls['GWeight'].invalid && PackingweightForm.controls['GWeight'].touched">
+                                GrossWeight Required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>Net Weight</mat-label>
+                            <input matInput formControlName="NWeight" type="number">
+                            <mat-error
+                                *ngIf="PackingweightForm.controls['NWeight'].invalid && PackingweightForm.controls['NWeight'].touched">
+                                NetWeight Required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field>
+                            <mat-label>Tare Weight</mat-label>
+                            <input matInput formControlName="TWeight" type="number">
+                            <mat-error
+                                *ngIf="PackingweightForm.controls['TWeight'].invalid && PackingweightForm.controls['TWeight'].touched">
+                                Tare Weight Required
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col ">
+                        <button mat-raised-button class="button" type="button ml-2" color="primary" (click)="Wt()"
+                            [disabled]="mode =='Edit'">Add</button>
+                        <button mat-raised-button class="button  ml-3" type="button"
+                            style="background-color: green;color: white;" [disabled]="savebtn"
+                            (click)="Save()">Save</button>
+                        <button mat-raised-button class="button ml-3  mt-2" type="reset" color="warn"
+                            (click)="clear()">Clear
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+        <!-- <mat-card-content> -->
+        <div class="mat-elevation-z8  mt-2 p-3">
+            <mat-form-field class="mb-2">
+                <mat-label>Search</mat-label>
+                <input matInput type="text" placeholder="Search Material" (input)="materialInput($event)">
+            </mat-form-field>
+            <table mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="View">
+                    <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5;"> View </th>
+                    <td mat-cell *matCellDef="let element;let i=index"
+                        style="justify-content: center;text-align: center;">
+                        <mat-radio-button (click)="ViewDet(i)"
+                            [ngStyle]="{'pointer-events':element.hasOwnProperty('selected')?'none':''}"></mat-radio-button>
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="Material">
+                    <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5;"> Material </th>
+                    <td mat-cell *matCellDef="let element">{{element.rawmatname}}</td>
+                </ng-container>
+                <ng-container matColumnDef="Materialid" hidden>
+                    <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5;"> Materialid </th>
+                    <td mat-cell *matCellDef="let element">{{element.rawmatid}}</td>
+                </ng-container>
+                <ng-container matColumnDef="GWeight">
+                    <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5;"> Gross weight </th>
+                    <td mat-cell *matCellDef="let element">{{element.grosswt}}</td>
+                </ng-container>
+                <ng-container matColumnDef="NWeight">
+                    <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5;"> Net Weight </th>
+                    <td mat-cell *matCellDef="let element">{{element.netwt}}</td>
+                </ng-container>
+                <ng-container matColumnDef="TWeight">
+                    <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5;"> Tare Weight </th>
+                    <td mat-cell *matCellDef="let element">{{element.tarewt}}</td>
+                </ng-container>
+
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+                    [ngStyle]="{'background-color':row.hasOwnProperty('selected')?'#ccc':''}"></tr>
+
+            </table>
+            <mat-divider style="border:  .5px solid #4863a0;"></mat-divider>
+            <mat-paginator [pageSizeOptions]="[5, 20, 50]" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+        <!-- </mat-card-content> -->
+    </mat-card>
+</div>

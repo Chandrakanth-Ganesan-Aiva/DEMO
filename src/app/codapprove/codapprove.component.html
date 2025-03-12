@@ -1,0 +1,62 @@
+<app-navigation></app-navigation>
+<h1>COD Approve</h1>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-6">
+                <label for="" class="form-label">Approved By</label>
+                <select [(ngModel)]="ApproverName" (change)="Approver($event)" class="form-select">
+                                <option *ngFor="let approver of ApproverArray" [value]="approver.empname">
+                        {{ approver.empname }}
+                    </option>
+                </select>
+            </div>
+            <div class="col-6">
+                <button mat-raised-button
+                    style="background-color: grey;font-family: 'Times New Roman', Times, serif;font-size: 16px;margin-top: 1.7rem;color: white;"
+                    (click)="view()">View</button>
+            </div>
+        </div>
+        <div class="table-responsive" *ngIf="show">
+            <table class="table table-bordered table-fixed"
+                style="width: 100%;table-layout:fixed;border:1px solid #ddd;">
+                <thead>
+                    <tr>
+                        <th style="width: 100px;">
+                            <input type="checkbox" class="form-input-check" [checked]="allSelected"
+                                style="display:inline-flex;text-align: center;" (change)="selectAll($event)">
+                            Select_All
+                        </th>
+                        <th style="width: 200px;">PO_No</th>
+                        <th style="width: 200px;">PO_Date</th>
+                        <th style="width: 300px;">Supplier_Name</th>
+                        <th style="width: 300px;">Transporter_Name</th>
+                        <th style="width: 200px;">Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let table of tableArray">
+                        <td style="width: 100px;">
+                            <input type="checkbox" class="form-input-check" [checked]="selectedRows.includes(table)"
+                                (change)="selectedrows($event, table)">
+                        </td>
+                        <td style="width: 200px;">{{ table.pono }}</td>
+                        <td style="width: 200px;">{{ table.podate | date:'yyyy-MM-dd' }}</td>
+                        <td style="text-align: left;width: 300px;">{{ table.name }}</td>
+                        <td style="text-align: left;width: 300px;">{{ table.supname }}</td>
+                        <td>{{ table.amount }}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="text-end">
+            <button mat-raised-button
+                style="background-color: green;color: white;font-family: 'Times New Roman', Times, serif;"
+                (click)="  approve()">Approve</button>
+            <button mat-raised-button
+                style="background-color: red;color: white;font-family: 'Times New Roman', Times, serif;margin-left: 2px;"
+                (click)="clear()">Clear</button>
+        </div>
+    </div>
+</div>

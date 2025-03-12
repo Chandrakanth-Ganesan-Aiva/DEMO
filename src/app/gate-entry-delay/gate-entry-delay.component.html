@@ -1,0 +1,80 @@
+<app-navigation></app-navigation>
+<div class="container-fuid">
+  <mat-card>
+    <mat-card-header style="text-align: center;justify-content: center;">
+      <mat-card-title style="text-transform: uppercase;">Gate Entry Delay</mat-card-title>
+    </mat-card-header>
+    <mat-divider></mat-divider>
+    <mat-card-content>
+      <form [formGroup]="gateEntryDelayForm" >
+        <div class="row">
+          <div class="col-12 col-sm-12 col-md-12 col-lg-8">
+            <mat-form-field >
+              <mat-label>Supplier</mat-label>
+              <mat-select (closed)="clear()" (input)="inputSelect($event)" formControlName="party" required>
+                <mat-option><ngx-mat-select-search (input)="inputSelect($event)"  [clearSearchInput]="true"
+                  placeholderLabel="---Search---"> </ngx-mat-select-search></mat-option>
+                <mat-option *ngFor="let item of partDetalisArr" [value]="item.partyid">{{item.partyname}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="Viewbtn && gateEntryDelayForm.get('party')?.invalid">Supplier Required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-12 col-sm-12 col-md-12 col-lg-4">
+            <button mat-raised-button color="primary" type="button" class="button" (click)="View()">View</button>
+            <button mat-raised-button type="button" style="background-color: green;color: white;margin-left: 2%;"
+              class="button" (click)="UpdateVaild()">Update</button>
+            <button mat-raised-button type="button" color="warn" style="margin-left: 2%"
+              (click)="ClearAll()">ClearAll</button>
+          </div>
+        </div>
+      </form>
+      <div [hidden]="Tabelhidden">
+        <mat-form-field appearance="outline">
+          <mat-label>Search</mat-label>
+          <input matInput (keyup)="applyFilter($event)" placeholder="---Search---" #input>
+        </mat-form-field>
+        <div class="mat-elevation-z2">
+          <table mat-table [dataSource]="dataSource">
+            <ng-container matColumnDef="Select">
+              <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5;text-align: center;"> Select <mat-checkbox
+                  [(ngModel)]="selectAll" (change)="SelectAll($event)"></mat-checkbox> </th>
+              <td mat-cell *matCellDef="let row" style="text-align: center;"><mat-checkbox [(ngModel)]="row.selected"
+                  (change)="RowSelect()"></mat-checkbox>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="GateEntryNo">
+              <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5;text-align: center;"> GateEntryNo </th>
+              <td mat-cell *matCellDef="let row" style="text-align: center;">{{row.gateentry_ref_no}}</td>
+            </ng-container>
+            <ng-container matColumnDef="EntryDate">
+              <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5;text-align: center;"> EntryDate </th>
+              <td mat-cell *matCellDef="let row" style="text-align: center;">{{row.GateEntryDate}}</td>
+            </ng-container>
+            <ng-container matColumnDef="Remarks">
+              <th mat-header-cell *matHeaderCellDef class="remarks" style="background-color: #3f51b5;text-align: center;"> Remarks </th>
+              <td mat-cell *matCellDef="let row">
+                <mat-form-field appearance="outline" style="height: 50%;">
+                  <mat-label>Remarks</mat-label>
+                  <textarea matInput [(ngModel)]="row.Remarks" style="field-sizing: content;resize: none;"></textarea>
+                </mat-form-field>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Descripation">
+              <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5;text-align: center;"> Descripation </th>
+              <td mat-cell *matCellDef="let row">{{row.description}}</td>
+            </ng-container>
+            <ng-container matColumnDef="Supplier" class="tab">
+              <th mat-header-cell *matHeaderCellDef style="background-color: #3f51b5;text-align: center;"> Supplier </th>
+              <td mat-cell *matCellDef="let row">{{row.name}}</td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedcolumns;sticky: true"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedcolumns;"></tr>
+          </table>
+          <mat-divider style="background-color: #3f51b5;"></mat-divider>
+          <mat-paginator [pageSizeOptions]="[3,5, 10, 25, 100]" aria-label="Select page of users"></mat-paginator>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+

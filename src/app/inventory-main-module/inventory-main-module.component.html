@@ -1,0 +1,122 @@
+<app-navigation></app-navigation>
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true">
+  <p style="font-size: 20px; color: rgb(255, 255, 255)">Loading...</p>
+</ngx-spinner>
+<div class="container-fluid">
+  <div class="sidebar close">
+    <ul class="nav-links" id="request">
+      <li style="padding-top: 10px;">
+        <a>
+          <!-- <img class="object-fit-cover border rounded" src="assets/PurchaseRequest.png"> -->
+          <h1 class="link_name" routerLink="/approval">Inventory</h1>
+        </a>
+        <ul class="sub-menu blank"
+          *ngIf="PurchaseRequest || IssueRequest || DirectIndent || StoreIssue || ReworkIssue || MatlReturnFrmDept||StorageQtyAlloc||Shelflife ||StoretoStore">
+          <li [ngClass]="{'disable-link':!PurchaseRequest}"><a routerLink="/PurchaseReq" id="menu"
+              class="subhead">Purchase Request</a></li>
+          <li [ngClass]="{'disable-link':!IssueRequest}"><a routerLink="/issueReq" id="menu" class="subhead">Issue
+              Request</a></li>
+          <li [ngClass]="{'disable-link':!DirectIndent}"><a class="subhead" id="menu" routerLink="/directIndent">Direct
+              Indent</a></li>
+          <li [ngClass]="{'disable-link':!StoreIssue}"><a class="subhead" (click)="getScreenLockVaildation()"
+              id="menu">Store
+              Issue</a></li>
+          <li [ngClass]="{'disable-link':!ReworkIssue}"><a class="subhead" id="menu" routerLink="/reworkissue">Rework
+              Issue</a></li>
+          <li [ngClass]="{'disable-link':!MatlReturnFrmDept}"><a class="subhead" id="menu"
+              routerLink="/MatlReceiveFrmDept">Material Return From Department</a></li>
+          <li [ngClass]="{'disable-link':!StorageQtyAlloc}"><a class="subhead" id="menu"
+              routerLink="/StorageQtyAlloc">Storage Quantity Allocation</a></li>
+          <li [ngClass]="{'disable-link':!Shelflife}"><a class="subhead" id="menu" routerLink="/Shelflife">Self-Life
+              Batch Quantity Entry</a></li>
+          <li [ngClass]="{'disable-link':!StoretoStore}"><a class="subhead" id="menu" routerLink="/StoretoStore">Store
+              To Store</a></li>
+          <li [ngClass]="{'disable-link':!shelflifeRecertificate}"><a class="subhead" id="menu"
+              routerLink="/shelflifeRecertificate">Shelflife
+              Recertificate</a></li>
+          <li [ngClass]="{'disable-link':!grnEntry}"><a class="subhead" id="menu" routerLink="/grnEntry">GRN Entry</a></li>
+          <li [ngClass]="{'disable-link':!customerreturn}"><a class="subhead" id="menu" routerLink="/customerreturn">Customer Return</a></li>
+          <li [ngClass]="{'disable-link':!Storelogout}"><a class="subhead" id="menu" routerLink="/Storelogout">Store
+              logout</a></li>
+              <li [ngClass]="{'disable-link':!grnwithoutbillentry}"><a class="subhead" id="menu" routerLink="/grnwithoutbillentry">Grm Without Bill Entry</a></li>
+              <!-- <li [ngClass]="{'disable-link':!grnwithoutbillentry}"><a class="subhead" id="menu" routerLink="/RawmatSpiltMaster">RawMaterialSpiltMaster</a></li> -->
+              
+              <!-- grnEntry -->
+        </ul>
+      </li>
+      <li>
+        <a>
+          <h1 class="link_name" routerLink="/approval">Transactions</h1>
+        </a>
+        <ul class="sub-menu blank" *ngIf="IndentEntry || GrnDeleteReq">
+          <li *ngIf="IndentEntry" [ngClass]="{'disable-link':!IndentEntry}"><a routerLink="/IndentEntry" id="menu"
+              class="subhead">Indent Entry</a></li>
+          <li *ngIf="GrnDeleteReq" [ngClass]="{'disable-link':!GrnDeleteReq}"><a routerLink="/GrnDeleteReq" id="menu"
+              class="subhead">GRN Delete Request</a></li>
+          <li *ngIf="QtyDelloac" [ngClass]="{'disable-link':!QtyDelloac}"><a routerLink="/QtyDellaco" id="menu"
+              class="subhead">Qty Deallocation</a></li>
+        </ul>
+      </li>
+      <li>
+        <a>
+          <h1 class="link_name" routerLink="/approval">Inspection</h1>
+        </a>
+        <ul class="sub-menu" *ngIf="">
+        </ul>
+      </li>
+      <li>
+        <a>
+          <h1 class="link_name" routerLink="/approval">Reports</h1>
+        </a>
+        <ul class="sub-menu" *ngIf="">
+        </ul>
+      </li>
+      <li>
+        <a>
+          <h1 class="link_name" routerLink="/approval">Weighment</h1>
+        </a>
+        <ul class="sub-menu blank" *ngIf="WeighRejReq ">
+          <li *ngIf="WeighRejReq" [ngClass]="{'disable-link':!WeighRejReq}"><a routerLink="/WeighRejReq" id="menu"
+              class="subhead">Weighment Rejection Request</a></li>
+          <li *ngIf="Weighprintoutdiamler" [ngClass]="{'disable-link':!Weighprintoutdiamler}"><a
+              routerLink="/WeighprintDailmr" id="menu" class="subhead">Weighment Printout (Diamler)</a></li>
+        </ul>
+      </li>
+      <li>
+        <a>
+          <h1 class="link_name" routerLink="/approval">Master</h1>
+        </a>
+        <ul class="sub-menu blank" *ngIf="GateEntryDelay  ">
+          <li *ngIf="GateEntryDelay" [ngClass]="{'disable-link':!GateEntryDelay}"><a routerLink="/GateEntryDelay"
+              id="menu" class="subhead">Gate Entry Delay</a></li>
+          <li *ngIf="minmaxEntry" [ngClass]="{'disable-link':!minmaxEntry}"><a routerLink="/minmaxEntry" id="menu"
+              class="subhead">Minimum Maximum Entry</a></li>
+          <li *ngIf="itemMasterAppr" [ngClass]="{'disable-link':!itemMasterAppr}"><a routerLink="/itemMasterAppr"
+              id="menu" class="subhead">Item Master Approval</a></li>
+          <li *ngIf="QcReq" [ngClass]="{'disable-link':!QcReq}"><a routerLink="/QcReq" id="menu" class="subhead">Qc
+              Required</a></li>
+          <!-- <li *ngIf="pdRawmatchange" [ngClass]="{'disable-link':!QcReq}"><a routerLink="/pdRawmatchange" id="menu"
+              class="subhead">PD Rawmaterial Change</a></li> -->
+              <li *ngIf="packweight" [ngClass]="{'disable-link':!QcReq}"><a routerLink="/packweight" id="menu"
+                class="subhead">Packing Weight</a></li>
+        </ul>
+        <!-- <ul class="sub-menu" *ngIf="">
+        </ul> -->
+      </li>
+      <li>
+        <a>
+          <h1 class="link_name" routerLink="/approval">Quality</h1>
+        </a>
+        <ul class="sub-menu" *ngIf="">
+        </ul>
+      </li>
+      <li>
+        <a>
+          <h1 class="link_name" routerLink="/approval">Tools</h1>
+        </a>
+        <ul class="sub-menu" *ngIf="">
+        </ul>
+      </li>
+    </ul>
+  </div>
+</div>

@@ -1,0 +1,477 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true">
+  <p style="font-size: 20px; color: rgb(255, 255, 255)">Loading...</p>
+</ngx-spinner>
+<app-navigation></app-navigation>
+<mat-card-header class="justify-content-center mt-1">
+  <mat-card-title class="title" style="text-transform: uppercase;font-weight: 600;">Issue Request</mat-card-title>
+</mat-card-header>
+<div class="main content mt-3">
+  <mat-card>
+    <mat-card-content>
+      <div class="container-fluid">
+        <form [formGroup]="IssueRequestForm">
+          <div class="row ">
+            <div class="col">
+              <label for="exampleFormControlInput3" class="form-label">Store Req. No <span>*</span> </label>
+              <input type="text" class="form-control" [value]="StockReqNo" readonly>
+            </div>
+            <div class="col" style="margin-top: 3px;">
+              <label for="exampleFormControlInput3" class="form-label">Req Date </label>
+              <input type="date" class="form-control" [value]="frmdate" disabled>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col">
+              <label for="exampleFormControlInput3" class="form-label">Indent Type <span>*</span> </label>
+              <mat-select class="form-control" placeholder="--Select--" formControlName="indentype"
+                (selectionChange)="IndentType($event)" [ngClass]="{ 'is-invalid':gobtn && go['indentype'].errors}">
+                <mat-option value="1">ISSUE</mat-option>
+                <mat-option value="2">Rework</mat-option>
+              </mat-select>
+              <div *ngIf="gobtn && go['indentype'].errors" class="invalid-feedback">
+                <div *ngIf="go['indentype'].errors['required']"> Field must be entered-Indent Type</div>
+              </div>
+            </div>
+            <div class="col">
+              <label for="exampleFormControlInput3" class="form-label">Plan Month <span>*</span> </label>
+              <input type="month" class="form-control" [value]="planmonth">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-6">
+              <label for="exampleFormControlInput3" class="form-label">Capex No </label>
+              <select class="form-select" (change)="capexnoEvent($event)">
+                <option value="" disabled selected hidden>--Select--</option>capexno
+                <option *ngFor="let item of CapexNodata" [value]="item.capexno">{{item.tranno}}</option>
+              </select>
+            </div>
+            <div class="col-5">
+              <label for="exampleFormControlInput3" class="form-label">Specification</label>
+              <textarea class="form-control" name="" id="" cols="10" rows="3" formControlName="SrDesc"></textarea>
+            </div>
+            <div class="col modal-footer">
+              <button mat-raised-button type="button" color="primary" class="gobtn" (click)="Go()">Go</button>
+              <button style="display: none;" id="stockmatrial" data-bs-toggle="modal"
+                data-bs-target="#Material"></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </mat-card-content>
+
+  </mat-card>
+  <mat-card class="mt-3" *ngIf="viewMat">
+    <mat-card-content>
+      <p-table [value]="Material" dataKey="code" [scrollable]="true" [resizableColumns]="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="head" pResizableColumn>MaterialName</th>
+            <th class="head" pResizableColumn>Quantity</th>
+            <th class="head" pResizableColumn>UOM</th>
+            <th class="head" pResizableColumn>Descripation</th>
+            <th class="head" pResizableColumn>MinStock</th>
+            <th class="head" pResizableColumn>MaxStock</th>
+            <th class="head" pResizableColumn>ReOrder</th>
+            <!-- <th class="head" pResizableColumn>IndentNo</th>
+            <th class="head" pResizableColumn>IssueNo</th> -->
+            <th class="head" pResizableColumn>MachineName </th>
+            <th class="head" pResizableColumn>Action </th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-Material let-i="rowIndex">
+          <tr [pContextMenuRow]="Material">
+            <td class="body">{{Material.MaterialName}}</td>
+            <td class="body" style="text-align: left;">{{Material.Quantity}}</td>
+            <td class="body">{{Material.Uom}}</td>
+            <td class="body">{{Material.Descripation}}</td>
+            <td class="body" style="text-align: right;">{{Material.MinStock}}</td>
+            <td class="body" style="text-align: right;">{{Material.MaxStock}}</td>
+            <td class="body" style="text-align: right;">{{Material.ReOrder}}</td>
+            <td class="body">{{Material.Machineid}}</td>
+            <!-- <td class="body">{{Material.Priority}}</td> -->
+            <td class="body">
+              <i class="fa-solid fa-trash" style="color: #e61919; padding-right: 5%;"
+                (click)="RemoveIntentMaterial(i)"></i>
+              <!-- <i class="fa-solid fa-pen-to-square" style="color: #46d733;padding-left: 5%;"
+                (click)="EditIntentMaterial(i)"></i> -->
+            </td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </mat-card-content>
+    <mat-card-footer class="d-grid gap-2 d-flex justify-content-end savebtn mt-4">
+      <button mat-raised-button type="button" class="" style="background-color: rgb(32, 178, 44);" (click)="savemenu()">Save</button>
+      <button mat-raised-button type="button" class="" style="background-color:lightcoral;">Clear</button>
+    </mat-card-footer>
+  </mat-card>
+</div>
+<!------<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< POUP START >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>-->
+<div class="modal" id="Material" data-bs-backdrop='static'>
+  <div class="modal-dialog modal-fullscreen modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header"
+        style="font-size: large;color: brown;  background-color: rgb(214, 247, 247);font-weight: bold;"> Store
+        Requestion Material Detail
+        <button type="button" class="btn-close btn btn-outline-danger" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body termsfrm">
+        <form [formGroup]="IssueRequestmaterialForm" #invalidfocus>
+          <div class="container-fluid">
+            <div class="row no-gutters">
+              <div class="col-10 col-md-10 col-lg-10">
+                <label for="exampleFormControlInput3" class="form-label">Material <span>* </span><span
+                    class="materialcursor">Search Atleast Four [2] Characters To View a RawMaterial</span>
+                </label>
+                <ng-select [(ngModel)]="Rawmatid"  (change)="getMaterialDetails()"
+                  (input)="Rawmat($event)" formControlName="material" placeholder="--Select--" [items]="RawmaterilData"
+                  class="form-control" bindLabel="RawmatName"
+                  [ngClass]="{ 'is-invalid':Materialupdatebtn && mat['material'].errors}" bindValue="RawmatId"
+                  [searchFn]="customSearchFn">
+                </ng-select>
+                <div *ngIf="Materialupdatebtn && mat['material'].errors" class="invalid-feedback">
+                  <div *ngIf="mat['material'].errors['required']"> Field must be select-Indent Type</div>
+                </div>
+              </div>
+              <div class="col-2 col-md-2 col-lg-2">
+                <label for="exampleFormControlInput3" class="form-label">UOM</label>
+                <input type="text" class="form-control" [value]="UOM" readonly>
+              </div>
+            </div>
+            <div class="row no-gutters">
+              <div class="col-6 col-md-3 col-lg-3" >
+                <label for="exampleFormControlInput3" class="form-label">In. Pending </label>
+                <input type="text" class="form-control" formControlName="IntentPendingNo" readonly>
+              </div>
+              <div class="col-6 col-md-3 col-lg-3" >
+                <button mat-stroked-button type="button" class="indentrecordviewbtn"
+                  (click)="GetIndentPendingViewDet()">View</button>
+              </div>
+              <div class="col-6 col-md-3 col-lg-3" >
+                <label for="exampleFormControlInput3" class="form-label stklabel">Stk Req. Pen </label>
+                <input type="text" class="form-control" formControlName="StoreRePending" readonly>
+              </div>
+              <div class="col-6 col-md-3 col-lg-3" >
+                <label for="exampleFormControlInput3" class="form-label">Stock Avl</label>
+                <input type="text" class="form-control" id="stock" formControlName="StockAvl" readonly>
+              </div>
+            </div>
+            <div class="row  no-gutters">
+              <div class="col-6 col-md-3 col-lg-3" >
+                <label for="exampleFormControlInput3" class="form-label">Quantity <span>*</span></label>
+                <input type="number" class="form-control" formControlName="MaterialQty"
+                  [ngClass]="{ 'is-invalid':Materialupdatebtn && mat['MaterialQty'].errors}"
+                  (input)="RequestQty($event)">
+                <div *ngIf="Materialupdatebtn && mat['MaterialQty'].errors" class="invalid-feedback">
+                  <div *ngIf="mat['MaterialQty'].errors['required']"> Field must be entered-Quantity</div>
+                </div>
+              </div>
+              <div class="col-6 col-md-3 col-lg-3" >
+                <button mat-stroked-button type="button" class="de"  (click)="GetMatQtyPending()">Alloc_Detail</button>
+              </div>
+              <div class="col txtQty" style="display: none;">
+                <input type="text" class="form-control avlqty" [value]="txtQty" readonly>
+              </div>
+              <div class="col-6 col-md-3 col-lg-3" >
+                <label for="exampleFormControlInput3" class="form-label stklabel">Allocated Qty </label>
+                <input type="text" class="form-control" formControlName="AllowQty" readonly>
+              </div>
+              <div class="col-6 col-md-3 col-lg-3" >
+                <label for="exampleFormControlInput3" class="form-label">Planned Quantity <span>*</span></label>
+                <input type="text" class="form-control" formControlName="plannedqty" readonly>
+              </div>
+            </div>
+            <!--  -->
+            <div class="row no-gutters">
+              <div class="col-6 col-md-6 col-lg-6" >
+                <label for="exampleFormControlInput3" class="form-label">Balance Quantity</label>
+                <input type="text" class="form-control" formControlName="blanaceqty" readonly>
+              </div>
+              <div class="col-6 col-md-6 col-lg-6" >
+                <label for="exampleFormControlInput3" class="form-label">Machine  </label>
+                <select class="form-select" (change)="machineEvent($event)" formControlName="machine" >
+                  <option value="" disabled selected >--Select--</option>
+                  <option *ngFor="let item of Machines" [value]="item.machid">{{item.machname}}</option>
+                </select>
+              </div>
+            </div>
+
+            <!--  -->
+            <div class="card mt-3" style="border-radius: 10px;">
+              <p-table [value]="IndentDetalisData" dataKey="code" [scrollable]="true" [resizableColumns]="true">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="head">Min_Qty</th>
+                    <th class="head">Max_Qty</th>
+                    <th class="head">ReOrder</th>
+                    <th class="head">Plan_Tol</th>
+                    <th class="head">Issue_Qty</th>
+                    <th class="head">Pack_Qty</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-Material>
+                  <tr>
+                    <td class="body right">{{Material.Min_level}}</td>
+                    <td class="body right">{{Material.Max_level}}</td>
+                    <td class="body right">{{Material.Reorder_level}}</td>
+                    <td class="body right">{{Material.Tolr_Plan_Qty}}</td>
+                    <td class="body right">{{Material.Issue_Qty}}</td>
+                    <td class="body right">{{Material.Pack_Qty}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div class="card mt-3">
+              <p-table [value]="IndentDetalisData" dataKey="code" [scrollable]="true" [resizableColumns]="true">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="head">Dept_Stock</th>
+                    <th class="head">Max_Stock </th>
+                    <th class="head">Allow_Stock</th>
+                    <th class="head">Dept_Pck_Qty </th>
+                    <th class="head">Allow_Pck_Qty </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-Material>
+                  <tr>
+                    <td class="body right">{{Material.Dept_Stk_Qty}}</td>
+                    <td class="body right">{{Material.Max_Stk_Qty}}</td>
+                    <td class="body right">{{Material.Alloc_Stk_Qty}}</td>
+                    <td class="body right">{{Material.Dept_Pack_Qty}}</td>
+                    <td class="body right">{{Material.Allow_Pack_Qty}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div class="row ">
+              <div class="col">
+                <label for="exampleFormControlInput3" class="form-label">Specification</label>
+                <textarea class="form-control" name="" id="" cols="10" [value]="Specification"
+                  formControlName="Specification" rows="3" readonly></textarea>
+              </div>
+            <!-- </div>
+            <div class="row "> -->
+              <div class="col">
+                <label for="exampleFormControlInput3" class="form-label">Description <span>*</span></label>
+                <textarea class="form-control" cols="10" rows="3" formControlName="Descripation"
+                  [ngClass]="{ 'is-invalid':Materialupdatebtn && mat['Descripation'].errors}"></textarea>
+                <div *ngIf="Materialupdatebtn && mat['Descripation'].errors" class="invalid-feedback">
+                  <div *ngIf="mat['Descripation'].errors['required']">Please fill the description. without Description
+                    you
+                    cannot save</div>
+                  <mat-hint *ngIf="Descripation.length < 10">Please fill the clear description. without
+                    clear Description you cannot save, It should be atleast 10 character</mat-hint>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button mat-raised-button color="primary" type="button" aria-label="Close" (click)="MaterialUpdate()"
+          [disabled]="Updatebtn">Update</button>
+          <button  class="btn btn-info" type="button" aria-label="Close"  data-bs-dismiss="modal">Back</button>
+          <button mat-raised-button type="button" aria-label="Close" color="warn"
+          (click)="clearRawmat()">Clear</button>
+        <!-- <button #Termsbtnupdate mat-raised-button id="Terms" color="primary" type="button" class="button termbtn btn"
+          data-bs-dismiss="modal" aria-label="Close" style="display: none;">Update</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" id="Error" data-bs-toggle="modal" data-bs-target="#ErrorDialog"></button>
+
+<div class="modal" id="ErrorDialog" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="font-size: medium;color: brown;font-weight: 600;">WARNING !!! </div>
+      <div class="modal-body">
+        <h4 *ngIf="Error === 1">Already this transactions No exists in Store Requisition Table. Please contact your Systemadmin !</h4>
+        <h4  *ngIf="Error === 2">Already Store issue Request for this Item. Now you canot request again !</h4>
+        <h4 *ngIf="Error === 3">You cannot Request more than Plan with Tolerance Qty !!!</h4>
+        <h4 *ngIf="Error === 4">Request Packing Qty wise !!!</h4>
+        <h4 *ngIf="Error === 5">You cannot issue more than Stock / Balance / Dept packing qty !!!</h4>
+        <h4 *ngIf="Error === 6">If You Want to Delete Material... !</h4>
+      </div>
+      <div class="modal-footer">
+        <div *ngIf="Error === 1">
+        </div>
+        <div *ngIf="this.Error !== 1 && this.Error !== 6">
+          <button mat-raised-button type="button" class="btn  m-2" style="background-color: lightgreen;"
+          data-bs-target="#Material" data-bs-toggle="modal">OK</button>
+        </div>
+        <div class="modal-footer" *ngIf="Error === 6">
+          <button mat-raised-button type="button" class="btn  m-2" style="background-color: lightgreen;"
+            (click)="deleteMat()" data-bs-dismiss="modal">Yes</button>
+          <button mat-raised-button type="button" class="btn  m-2" style="background-color:lightcoral"
+            data-bs-dismiss="modal">No</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<button style="display: none;" id="IntendPendingViewData" data-bs-toggle="modal"
+  data-bs-target="#intendrecordview"></button>
+
+<div class="modal" id="intendrecordview" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close btn btn-outline-danger" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body termsfrm">
+        <div class="card mt-2">
+          <table class="table-bordered border">
+            <thead>
+              <tr>
+                <th class="tabelhead">PrID</th>
+                <th class="tabelhead">Pr_Ref_No</th>
+                <th class="tabelhead">PrDate</th>
+                <th class="tabelhead">PO_Date</th>
+                <th class="tabelhead">IndentQty</th>
+                <th class="tabelhead">POqty</th>
+                <th class="tabelhead">Bal</th>
+                <th class="tabelhead">Deptname</th>
+                <th class="tabelhead">Status</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of IntendPendingViewData">
+                <td class="body"></td>
+                <td class="body"></td>
+                <td class="body"></td>
+                <td class="body"></td>
+                <td class="body"></td>
+                <td class="body"></td>
+                <td class="body"></td>
+                <td class="body"></td>
+                <td class="body"></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="modal-footer">
+            <button mat-raised-button type="button" class="btn  m-2" style="background-color: lightcoral;"
+              data-bs-target="#Material" data-bs-toggle="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" id="matlpending" data-bs-toggle="modal" data-bs-target="#Matlrecordview"></button>
+
+<div class="modal" id="Matlrecordview" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close btn btn-outline-danger" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body termsfrm">
+        <div class="card mt-2">
+          <table class="table-bordered border">
+            <thead>
+              <tr>
+                <th class="tabelhead">SR No</th>
+                <th class="tabelhead">SR Date</th>
+                <th class="tabelhead">SR Qty</th>
+                <th class="tabelhead">Deptname</th>
+                <th class="tabelhead">Entered By</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of MaterialPending">
+                <td class="body">{{item.Sr_Ref_No}}</td>
+                <td class="body">{{item.SRDate | date : 'dd-MM-yyyy '}}</td>
+                <td class="body">{{item.qty}}</td>
+                <td class="body">{{item.deptname}}</td>
+                <td class="body">{{item.empname}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="modal-footer">
+            <button mat-raised-button type="button" class="btn  m-2" style="background-color: lightcoral;"
+              data-bs-target="#Material" data-bs-toggle="modal" >Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<!-- <button style="display: none;" id="Editmaterial" data-bs-toggle="modal" data-bs-target="#Editmaterialdialog"></button>
+
+<div class="modal" id="Editmaterialdialog" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="font-size: medium;background-color: rgb(250, 223, 205);">!!!Warning</div>
+      <div class="modal-body">
+        <h4>Do You Want to Edit Quantity!</h4>
+      </div>
+      <div class="modal-footer">
+        <button mat-raised-button type="button" class="btn  m-2" style="background-color: lightgreen;"
+          (click)="GetEditQty()">Yes</button>
+        <button mat-raised-button type="button" class="btn  m-2" style="background-color:lightcoral"
+          data-bs-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div> -->
+
+
+
+<button style="display: none;" id="Savemenu" data-bs-toggle="modal" data-bs-target="#Savemenudialog"></button>
+
+<div class="modal" id="Savemenudialog" data-bs-backdrop='static'>
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="font-size: medium;background-color: rgb(240, 255, 241);">SAVE:</div>
+      <div class="modal-body" style="margin: 0%;">
+        <div>
+          <h4 style="color: rgb(3, 3, 3);font-weight: 550;">Do you yant to Save Data?</h4>
+        </div>
+      </div>
+      <div class="modal-footer" style="background-color: rgb(214, 248, 206);">
+        <button mat-raised-button type="button" style="background-color: #92d87e;" data-bs-dismiss="modal"
+          (click)="GetSave()">Yes</button>
+        <button mat-raised-button type="button" style="background-color: #f57c7c;" data-bs-dismiss="modal"
+        data-bs-dismiss="modal"  >No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" id="Save" data-bs-toggle="modal" data-bs-target="#Savedialog"></button>
+
+<div class="modal" id="Savedialog" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header"></div>
+      <div class="modal-body" style="margin-left: 1%;">
+        <div style="font-size: medium;font-weight: 600;color: rgb(140, 232, 140);" *ngIf="this.Sts == 'Y'">
+          {{Msg}}
+        </div>
+        <div style="font-size: medium;font-weight: 550;color: rgb(247, 107, 75)" *ngIf="this.Sts == 'N'">
+          {{Msg}}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div *ngIf="this.Sts == 'Y'">
+          <button mat-raised-button style="background-color: #92d87e;" type="button" data-bs-dismiss="modal"
+            (click)="finalSave()">OK</button>
+        </div>
+        <div *ngIf="this.Sts == 'N'">
+          <button mat-raised-button class="btn btn-secondary" style="background-color: rgb(247, 107, 75);" type="button" data-bs-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

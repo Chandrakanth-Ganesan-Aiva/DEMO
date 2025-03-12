@@ -1,0 +1,96 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      <span class="example-spacer"></span>
+      <h1 class="heading">AIVA VENTURES</h1>
+      <span class="example-spacer"></span>
+      <button mat-button class="example-icon" aria-label="Example icon-button with share icon" (click)="Logout()" >
+        Logout
+      </button>
+    </mat-toolbar>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<div class="grid-container">
+  <mat-grid-list cols="2" rowHeight="130px"   >
+    <mat-grid-tile *ngFor="let card of cards | async" [colspan]="card.cols" [rowspan]="card.rows" >
+      <mat-card class="dashboard-card">
+        <mat-card-header>
+          <mat-card-title>
+          </mat-card-title>
+        </mat-card-header>
+        <mat-card-content class="dashboard-card-content">
+          <div class="row">
+            <div class="col">
+              <div class="user ">
+                <div class="user-list">
+                  <figure>
+                    <a class="linkname" [routerLink]="['/asd']">
+                      <img  src="assets/Accounting.png">
+                      <figcaption>Finance</figcaption>
+                    </a>
+                  </figure>
+                </div>
+                <div class="user-list">
+                  <figure>
+                    <a class="linkname" [routerLink]="['/examble']">
+                      <img src="assets/sales.png">
+                      <figcaption>Sales</figcaption>
+                    </a>
+                  </figure>
+                </div>
+                <div class="user-list">
+                  <figure>
+                    <a class="linkname" [routerLink]="['/Purchase']">
+                      <img src="assets/purchase.png">
+                      <figcaption>Purchase</figcaption>
+                    </a>
+                  </figure>
+                </div>
+                <div class="user-list">
+                  <figure>
+                    <a class="linkname" [routerLink]="['/Inventory']">
+                      <img src="assets/Inventory.png">
+                      <figcaption>Inventory</figcaption>
+                    </a>
+                  </figure>
+                </div>
+                <div class="user-list">
+                  <figure>
+                    <a class="linkname" [routerLink]="['/examble']">
+                      <img src="assets/payroll.png">
+                      <figcaption>PayRoll</figcaption>
+                    </a>
+                  </figure>
+                </div>
+                <div class="user-list">
+                  <figure>
+                    <a class="linkname" [routerLink]="['/Approval']">
+                      <img src="assets/Approval.png">
+                      <figcaption>Approvals</figcaption>
+                    </a>
+                  </figure>
+                </div>
+                <div class="user-list">
+                  <figure>
+                    <a class="linkname" [routerLink]="['/setup']">
+                      <img src="assets/setup.png">
+                      <figcaption>SetUp</figcaption>
+                    </a>
+                  </figure>
+                </div>
+                <div class="user-list"  [ngClass]="{'disable-link':!Admin}" >
+                  <figure>
+                    <a class="linkname" [routerLink]="['/admin']"  >
+                      <img src="assets/Admin.png">
+                      <figcaption>Admin</figcaption>
+                    </a>
+                  </figure>
+                </div>
+              </div>
+            </div>
+          </div>
+        </mat-card-content>
+      </mat-card>
+    </mat-grid-tile>
+  </mat-grid-list>
+</div>

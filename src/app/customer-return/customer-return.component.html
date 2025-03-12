@@ -1,0 +1,116 @@
+<app-navigation></app-navigation>
+<div class="container-fluid mt-0 ">
+    <mat-card class=" p-2 ">
+        <mat-card-header class="justify-content-center mt-0 pt-2 ">
+            <mat-card-title>Customer Return</mat-card-title>
+        </mat-card-header>
+        <mat-divider></mat-divider>
+        <mat-card-content class="mt-3 " >
+            <form [formGroup]="CustomerReturnForm" (ngSubmit)="View()" >
+                <div class="row " >
+                    <div class="col">
+                        <mat-form-field appearance="fill">
+                            <mat-label>GRN NO</mat-label>
+                            <input matInput formControlName="GrnPathNo">
+                        </mat-form-field>
+                        <mat-error *ngIf="CustomerReturnForm.controls['GrnPathNo'].invalid">GRNO IS Required</mat-error>
+                    </div>
+                    <div class="col ">
+                        <mat-form-field appearance="fill">
+                            <mat-label>GRN DATE</mat-label>
+                            <input matInput [matDatepicker]="picker" formControlName="GrnDate">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row " >
+                    <div class="col">
+                        <mat-form-field appearance="fill">
+                            <mat-label >COST CENTER</mat-label>
+                            <mat-select formControlName="CostCenter">
+                                <mat-option *ngFor="let item of CostCenter"
+                                    [value]="item.costcentreid">{{item.costcentre}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="CustomerReturnForm.controls['CostCenter'].invalid">Cost Center Is Required</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field appearance="fill">
+                            <mat-label>BILL DATE</mat-label>
+                            <input matInput [matDatepicker]="picker1" formControlName="Billdate">
+                            <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                            <mat-datepicker #picker1></mat-datepicker>
+                            <mat-error *ngIf="CustomerReturnForm.controls['Billdate'].invalid">BillDate Is Required</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field appearance="fill">
+                            <mat-label>CUSTOMER</mat-label>
+                            <mat-select (closed)="clear()" (input)="inputSelect($event)" placeholder=""
+                                formControlName="Customer" (selectionChange)="CustomerChangeEvent($event)">
+                                <ngx-mat-select-search (input)="inputSelect($event)" class="form-control"
+                                    [clearSearchInput]="true" placeholderLabel="---Search---"> </ngx-mat-select-search>
+                                <mat-option *ngFor="let item of Customer"
+                                    [value]="item.custid">{{item.custname}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="CustomerReturnForm.controls['Customer'].invalid">Customer Is Required</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field appearance="fill">
+                            <mat-label>GATE ENTRY NO</mat-label>
+                            <mat-select formControlName="GateEntryNo" (selectionChange)="GateEntryChange($event)">
+                                <mat-option *ngFor="let item of GateEntryNo"
+                                    [value]="item.refno">{{item.GateEntry_Ref_No}}</mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="CustomerReturnForm.controls['GateEntryNo'].invalid">GateEntryNo Is Required</mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row mt-2">
+                    <div class="col-6">
+                        <mat-form-field appearance="fill">
+                            <mat-label>DCNO</mat-label>
+                            <input type="text" matInput formControlName="DcNo" readonly>
+                            <mat-error *ngIf="CustomerReturnForm.controls['DcNo'].invalid">DcNo Is Required</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col-4">
+                        <mat-form-field appearance="fill">
+                            <mat-label>BILL NO</mat-label>
+                            <input matInput formControlName="BillNo">
+                            <mat-error *ngIf="CustomerReturnForm.controls['BillNo'].invalid">BillNo Is Required</mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="col mt-2">
+                        <button mat-raised-button class="button" color="primary" type="submit">View</button>
+                        <button mat-raised-button style="background-color: green;color: white;margin-left: 4%;">Save</button>
+                    </div>
+                </div>
+            </form>
+        </mat-card-content>
+        <mat-card-content>
+            <div class="row">
+                <div class="col">
+                    <!-- <mat-table #table [dataSource]="dataSource" class="mat-elevation-z8">
+                        <ng-container matColumnDef="slno">
+                            <mat-header-cell *matHeaderCellDef> SL NO </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.slno}} </mat-cell>
+                        </ng-container>
+                        <ng-container matColumnDef="slno">
+                            <mat-header-cell *matHeaderCellDef> SL NO </mat-header-cell>
+                            <mat-cell *matCellDef="let element"> {{element.slno}} </mat-cell>
+                        </ng-container>
+                    </mat-table> -->
+                </div>
+            </div>
+        </mat-card-content>
+        <mat-card-actions>
+         
+        </mat-card-actions>
+    </mat-card>
+</div>
+

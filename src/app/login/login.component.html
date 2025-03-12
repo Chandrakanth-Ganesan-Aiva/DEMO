@@ -1,0 +1,36 @@
+<div class="body">
+  <div class="container">
+    <div class="form-box login">
+      <form [formGroup]="loginForm" (ngSubmit)="login()">
+        <h1>Login</h1>
+        <div class="input-box">
+          <input type="text" placeholder="Username" formControlName="username" required>
+          <mat-error *ngIf="loginvaildbtn && loginForm.get('username')?.invalid">UserName Required</mat-error>
+        </div>
+        <div class="input-box">
+          <input type="password" placeholder="Password" formControlName="password" required>
+          <mat-error *ngIf="loginvaildbtn && loginForm.get('password')?.invalid">Password Required</mat-error>
+        </div>
+        <div class="input-box">
+          <select class="form-select" formControlName="location">
+            <option value="" disabled selected hidden>Select Unit</option>
+            <option *ngFor="let item of Loaction" [value]="item.CompanyID">{{item.CompShort}}</option>
+          </select>
+          <mat-error *ngIf="loginvaildbtn && loginForm.get('location')?.invalid">Location Required</mat-error>
+          <!-- <div class="forgot-link">
+                    <a href="#">Forgot Password?</a>
+                </div> -->
+        </div>
+        <button type="submit" class="btn">Login</button>
+      </form>
+    </div>
+
+    <div class="toggle-box">
+      <div class="toggle-panel toggle-left">
+        <h1>Welcome</h1>
+        <h1 class="mt-4">AIVA VENTURES</h1>
+      </div>
+
+    </div>
+  </div>
+</div>

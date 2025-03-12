@@ -1,0 +1,681 @@
+<ngx-spinner bdColor="rgba(51,51,51,0.8)" size="medium" color="#fff" type="ball-scale-multiple" [fullScreen]="true">
+  <p style="font-size: 20px; color: rgb(255, 255, 255)">Loading...</p>
+</ngx-spinner>
+<app-navigation></app-navigation>
+<mat-card-header class="justify-content-center mt-1">
+  <mat-card-title class="title" style="text-transform: uppercase;font-weight: 600;">Purchase Request</mat-card-title>
+</mat-card-header>
+<div class="main content mt-3">
+  <mat-card>
+    <mat-card-content>
+      <div class="container-fluid">
+        <form [formGroup]="Purchaseindenttypeform">
+          <div class="row">
+            <div class="col ">
+              <label for="exampleFormControlInput3" class="form-label">Stock Req. No <span>*</span> </label>
+              <input type="text" class="form-control" [value]="StockReqNo" readonly>
+            </div>
+            <div class="col " style="margin-top: 3px;">
+              <label for="exampleFormControlInput3" class="form-label">Date </label>
+              <input type="date" class="form-control" [value]="frmdate" disabled>
+            </div>
+          </div>
+          <div class="row ">
+            <div class="col">
+              <label for="exampleFormControlInput3" class="form-label">Indent Type <span>*</span> </label><br>
+              <div class="card">
+                <mat-radio-group aria-label="Select an option" (change)="IndentypeEvent($event)">
+                  <mat-radio-button class="" value="Regular" checked>Regular</mat-radio-button>
+                  <mat-radio-button class="" value="Capex" style="padding-right: 2%;">Capex</mat-radio-button>
+                </mat-radio-group>
+              </div>
+            </div>
+            <div class="col">
+              <label for="exampleFormControlInput3" class="form-label">Plan Month <span>*</span> </label>
+              <input type="month" class="form-control" [value]="planmonth">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6">
+              <label for="exampleFormControlInput3" class="form-label">Indent Type <span>*</span> </label>
+              <select class="form-control" formControlName="indentype">
+                <option value="1" selected>Indent</option>
+              </select>
+              <mat-error *ngIf="gobtn && this.Purchaseindenttypeform.controls['indentype'].value==''">Field must be entered-Indent Type</mat-error>
+            </div>
+            <div class="col-md-6 mt-2">
+              <label for="exampleFormControlInput3" class="form-label">Description</label>
+              <textarea class="form-control" formControlName="SrDesc"></textarea>
+            </div>
+            <div class="col modal-footer" *ngIf="this.indentype!=='Capex'">
+              <button mat-raised-button type="button" color="primary" class="gobtn" (click)="Go()">Go</button>
+              <button style="display: none;" id="stockmatrial" data-bs-toggle="modal"
+                data-bs-target="#Material"></button>
+            </div>
+          </div>
+          <div class="row " *ngIf="this.indentype ==='Capex'">
+            <div class="col-3" style="display: none;">
+              <label for="exampleFormControlInput3" class="form-label">Status </label>
+              <input type="text" class="form-control" [value]="" readonly>
+            </div>
+            <div class="col-3">
+              <label for="exampleFormControlInput3" class="form-label">Capex No </label>
+              <select class="form-select" (change)="capexnoEvent($event)">
+                <option value="" disabled selected hidden>--Select--</option>capexno
+                <option *ngFor="let item of CapexNodata" [value]="item.capexno">{{item.tranno}}</option>
+              </select>
+            </div>
+            <div class="col-3">
+              <label for="exampleFormControlInput3" class="form-label">ProjDetail</label>
+              <input type="text" class="form-control" [value]="this.capexdescripation" readonly>
+            </div>
+            <div class="col-3">
+              <label for="exampleFormControlInput3" class="form-label">Attachmnet</label>
+              <br>
+              <button mat-raised-button (click)="fileInput.click()" class="btn"
+                style=" margin-right: 2%; background-color: rgb(60, 150, 235);">Browse</button>
+              <button style="background-color: rgb(54, 221, 54);" id='uploadserver' mat-raised-button class="btn"
+                (click)="AddAttackment()">Upload</button>
+            </div>
+          </div>
+          <div class="">
+            <input id="i_file" type="file" #fileInput style="display: none" (change)="upload($event)">
+            <button style="display: none;" id="noimage" type="submit" data-bs-toggle="modal"
+              data-bs-target="#noimagechck"></button>
+            <div>
+            </div>
+            <div class="col modal-footer">
+              <button mat-raised-button type="button" color="primary" class="go2btn" *ngIf="this.indentype=='Capex'"
+                (click)="Go()">Go</button>
+              <button style="display: none;" id="stockmatrial" data-bs-toggle="modal"
+                data-bs-target="#Material"></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="mt-3" *ngIf="Viewbtn">
+    <mat-card-content>
+      <p-table [value]="Material" dataKey="code" id="myTable" [scrollable]="true" [resizableColumns]="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="head" pResizableColumn>MaterialName</th>
+            <th class="head" pResizableColumn>Quantity</th>
+            <th class="head" pResizableColumn>Schedule</th>
+            <th class="head" pResizableColumn>UOM</th>
+            <th class="head" pResizableColumn>Descripation</th>
+            <th class="head" pResizableColumn>MinStock</th>
+            <th class="head" pResizableColumn>MaxStock</th>
+            <th class="head" pResizableColumn>ReOrder</th>
+            <th class="head" pResizableColumn>IndentNo</th>
+            <th class="head" pResizableColumn>Priority</th>
+            <th class="head" pResizableColumn>Actions</th>
+
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-Material let-i="rowIndex">
+          <tr [pContextMenuRow]="Material" [ngStyle]="{'background-color':Material.color==='Tomato' ? 'Tomato' :''}">
+            <td class="body" id="mat">{{Material.MaterialName}}</td>
+            <td class="body right" (click)="Qtycorrection(i)">{{Material.Quantity}}</td>
+            <td class="body">
+              <button mat-raised-button color="primary" class="split-button-right" [matMenuTriggerFor]="menu">
+                <mat-icon aria-hidden="false" aria-label="Example home icon">expand_more</mat-icon>
+                Schedule</button>
+            </td>
+            <td class="body">{{Material.UOM}}</td>
+            <td class="body ">{{Material.Descripation}}</td>
+            <td class="body right">{{Material.MinStock}}</td>
+            <td class="body right">{{Material.MaxStock}}</td>
+            <td class="body right">{{Material.ReOrder}}</td>
+            <td class="body right">{{Material.IndentNo}}</td>
+            <td class="body ">{{Material.Priority}}</td>
+            <td class="body">
+              <button mat-stroked-button type="button" (click)="RemoveIntentMaterial(i)"><i class="fa-solid fa-trash"
+                  style="color: #d02f37;"></i></button>
+            </td>
+          </tr>
+          <mat-menu #menu="matMenu" xPosition="before">
+            <button mat-menu-item (click)="IndentSchedule(i)" [disabled]="POIntentDisablebtn[i]">
+              Indent Schedule
+            </button>
+            <button mat-menu-item (click)="OldPo(i)">
+              Old Po
+            </button>
+          </mat-menu>
+        </ng-template>
+      </p-table>
+    </mat-card-content>
+  </mat-card>
+  <mat-card class="mt-3" *ngIf="IntentUpdateTabel">
+    <mat-card-content>
+      <p-table [value]="IntendScheduleSave" dataKey="code" [scrollable]="true" [resizableColumns]="true">
+        <ng-template pTemplate="header">
+          <tr>
+            <th class="head">S.No</th>
+            <th class="head">Rawmaterial</th>
+            <th class="head">Sch_Date</th>
+            <th class="head">Qty</th>
+            <th class="head">Edit_Qty</th>
+          </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-IntendSch let-i="rowIndex">
+          <tr>
+            <td class="body" style="text-align: center;justify-content: center;">{{i+1}} </td>
+            <td class="body">{{IntendSch.Rawmaterial}}</td>
+            <td class="body" style="text-align: center;">{{IntendSch.Sch_Dt}} </td>
+            <td class="body right">{{IntendSch.Qty}} </td>
+            <td class="body"><button mat-raised-button class="button" type="button" color="primary"
+                (click)="EditQty()">Edit Qty</button></td>
+          </tr>
+        </ng-template>
+      </p-table>
+    </mat-card-content>
+    <mat-card-footer class="d-grid gap-2 d-flex justify-content-end savebtn">
+      <button mat-raised-button type="button" class="" style="background-color: rgb(32, 178, 44);"
+      data-bs-toggle="modal" data-bs-target="#Savemenudialog" >Save</button>
+      <button mat-raised-button type="button" class="" style="background-color:lightcoral;">Clear</button>
+    </mat-card-footer>
+  </mat-card>
+</div>
+<!------<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< POUP START >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>-->
+<div class="modal" id="Material" data-bs-backdrop='static'>
+  <div class="modal-dialog modal-fullscreen modal-dialog-centered modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header"
+        style="font-size: large;color: brown;  background-color: rgb(214, 247, 247);font-weight: bold;"> Store
+        Requestion Material Detail
+        <button type="button" class="btn-close btn btn-outline-danger" data-bs-dismiss="modal" aria-label="Close"
+          #closeButton></button>
+      </div>
+      <div class="modal-body termsfrm">
+        <form [formGroup]="StockRequestmaterialForm" id="formId" appInvalidControlScroll>
+          <div class="container-fluid">
+            <div class="row no-gutters">
+              <div class="col-10">
+                <label for="exampleFormControlInput3" class="form-label">Material <span>* </span><span
+                    class="materialcursor">Search Atleast Two [2] Characters To View a RawMaterial</span>
+                </label>
+                <ng-select [(ngModel)]="Rawmatid" (change)="getMaterialDetails()" (input)="Rawmat($event)"
+                  formControlName="material" placeholder="--Select--" [items]="Rawmateriladata" class="form-control"
+                  bindLabel="gstrmatdisp" bindValue="rawmatid" [searchFn]="customSearchFn">
+                </ng-select>
+                <mat-error *ngIf="Materialupdatebtn &&StockRequestmaterialForm.controls['material'].value ==''">Material
+                  Required</mat-error>
+              </div>
+              <div class="col">
+                <label for="exampleFormControlInput3" class="form-label">UOM</label>
+                <input type="text" class="form-control" [value]="UOM" readonly>
+              </div>
+            </div>
+            <div class="row no-gutters">
+              <div class="col-6 col-md-3 col-lg-3">
+                <label for="exampleFormControlInput3" class="form-label">In. Pending </label>
+                <input type="text" class="form-control" formControlName="IntentPendingNo" readonly>
+              </div>
+              <div class="col-6 col-md-3 col-lg-3">
+                <button mat-stroked-button type="button" class="indentrecordviewbtn"
+                  (click)="GetIndentPendingViewDet()">View</button>
+              </div>
+              <div class="col-6 col-md-3 col-lg-3" style="margin: 0%;">
+                <label for="exampleFormControlInput3" class="form-label">Stock Avl</label>
+                <input type="text" class="form-control" id="stock" formControlName="StockAvl" readonly>
+              </div>
+              <div class="col-6 col-md-3 col-lg-3" style="margin: 0%;">
+                <label for="exampleFormControlInput3" class="form-label stklabel">Stk Req. Pen </label>
+                <input type="text" class="form-control" formControlName="StoreRePending" readonly>
+              </div>
+            </div>
+            <div class="row no-gutters">
+              <div class="col-6 col-md-3 col-lg-3">
+                <label for="exampleFormControlInput3" class="form-label">Quantity <span>*</span></label>
+                <input type="number" class="form-control" formControlName="MaterialQty" (input)="RequestQty($event)">
+                <mat-error
+                  *ngIf="Materialupdatebtn &&StockRequestmaterialForm.controls['MaterialQty'].value ==''">Quantity
+                  Required</mat-error>
+              </div>
+              <div class="col-6 col-md-3 col-lg-3">
+                <button mat-stroked-button type="button" class="de" (click)="GetMatQtyPending()">Detail</button>
+              </div>
+              <div class="col txtQty" style="display: none;">
+                <input type="text" class="form-control avlqty" [value]="txtQty" readonly>
+              </div>
+              <div class="col-6 col-md-3 col-lg-3">
+                <label for="exampleFormControlInput3" class="form-label stklabel">Allocated Qty </label>
+                <input type="text" class="form-control" formControlName="AllowQty" readonly>
+              </div>
+              <div class="col-6 col-md-3 col-lg-3">
+                <label for="exampleFormControlInput3" class="form-label">Planned Quantity <span>*</span></label>
+                <input type="text" class="form-control" [value]="plannedQty" readonly>
+              </div>
+            </div>
+            <div class="row no-gutters">
+              <div class="col-6 col-md-4 col-lg-4">
+                <label for="exampleFormControlInput3" class="form-label">Balance Quantity</label>
+                <input type="text" class="form-control" [value]="BalanceQty" readonly>
+              </div>
+              <div class="col-6 col-md-4 col-lg-4">
+                <label for="exampleFormControlInput3" class="form-label">Priority <span>*</span></label>
+                <select class="form-select" formControlName="Priority">
+                  <option value="" disabled selected hidden>--Select--</option>
+                  <option value="Low">Low</option>
+                  <option value="Medium">Medium</option>
+                  <option value="High">High</option>
+                </select>
+                <mat-error *ngIf="Materialupdatebtn &&StockRequestmaterialForm.controls['Priority'].value ==''">Priority
+                  Required</mat-error>
+              </div>
+              <div class="col-6 col-md-4 col-lg-4">
+                <label for="exampleFormControlInput3" class="form-label">Location <span>*</span> </label>
+                <ng-select class="form-select" (change)="LocationstoreEvent($event)" formControlName="storelocation">
+                  <ng-option *ngFor="let item of LocationstoreData" [value]="item.id">{{item.locname}}</ng-option>
+                </ng-select>
+              </div>
+            </div>
+            <!--  -->
+            <div class="card mt-1" style="border-radius: 10px;">
+              <p-table [value]="IndentDetalisData" dataKey="code" [scrollable]="true" [resizableColumns]="true">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="head">Min_Qty</th>
+                    <th class="head">Max_Qty</th>
+                    <th class="head">ReOrder</th>
+                    <th class="head">Plan_Tol</th>
+                    <th class="head">Issue_Qty</th>
+                    <th class="head">Pack_Qty</th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-Material>
+                  <tr>
+                    <td class="body right">{{Material.Min_level}}</td>
+                    <td class="body right">{{Material.Max_level}}</td>
+                    <td class="body right">{{Material.Reorder_level}}</td>
+                    <td class="body right">{{Material.Tolr_Plan_Qty}}</td>
+                    <td class="body right">{{Material.Issue_Qty}}</td>
+                    <td class="body right">{{Material.Pack_Qty}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div class="card mt-1">
+              <p-table [value]="IndentDetalisData" dataKey="code" [scrollable]="true" [resizableColumns]="true">
+                <ng-template pTemplate="header">
+                  <tr>
+                    <th class="head">Dept_Stock</th>
+                    <th class="head">Max_Stock </th>
+                    <th class="head">Allow_Stock</th>
+                    <th class="head">Dept_Pck_Qty </th>
+                    <th class="head">Allow_Pck_Qty </th>
+                  </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-Material>
+                  <tr>
+                    <td class="body right">{{Material.Dept_Stk_Qty}}</td>
+                    <td class="body right">{{Material.Max_Stk_Qty}}</td>
+                    <td class="body right">{{Material.Alloc_Stk_Qty}}</td>
+                    <td class="body right">{{Material.Dept_Pack_Qty}}</td>
+                    <td class="body right">{{Material.Allow_Pack_Qty}}</td>
+                  </tr>
+                </ng-template>
+              </p-table>
+            </div>
+            <div class="row no-gutters">
+              <div class="col-6 col-md-6 col-lg-6">
+                <label for="exampleFormControlInput3" class="form-label">Machine <span>*</span> </label>
+                <select class="form-select" (change)="machineEvent($event)">
+                  <option value="" disabled selected hidden>--Select--</option>
+                  <option *ngFor="let item of Machines" [value]="item.machid">{{item.machname}}</option>
+                </select>
+              </div>
+              <div class="col-6 col-md-6 col-lg-6">
+                <label for="exampleFormControlInput3" class="form-label">Warehouse <span>*</span> </label>
+                <select class="form-select" (change)="WarehouseEvent($event)">
+                  <option value="" disabled selected hidden>--Select--</option>
+                  <option *ngFor="let item of warehouses" [value]="item.location_id">{{item.locationname}}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row ">
+              <div class="col-md-6">
+                <label for="exampleFormControlInput3" class="form-label">Specification</label>
+                <textarea class="form-control" name="" id="" cols="10" [value]="Specification"
+                  formControlName="Specification" rows="3" readonly></textarea>
+              </div>
+              <!-- </div>
+            <div class="row mt-1"> -->
+              <div class="col-md-6">
+                <label for="exampleFormControlInput3" class="form-label">Description <span>*</span></label>
+                <textarea class="form-control" cols="10" rows="3" formControlName="Descripation"></textarea>
+                <mat-error
+                  *ngIf="Materialupdatebtn && StockRequestmaterialForm.controls['Descripation'].value ==''">Description
+                  Required</mat-error><br>
+                <mat-error *ngIf="Materialupdatebtn && StockRequestmaterialForm.controls['Descripation'].value.length < 10">Please fill the clear description. without
+                  clear Description you cannot save, It should be atleast 10 character</mat-error>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button mat-raised-button color="primary" type="button" aria-label="Close" (click)="MaterialUpdate()"
+          [disabled]="MatlUpdatedisable">Update</button>
+        <button class="btn btn-info" type="button" aria-label="Close" data-bs-dismiss="modal">Back</button>
+        <button mat-raised-button type="button" aria-label="Close" color="warn" (click)="clearRawmat()">Clear</button>
+        <!-- <button #Termsbtnupdate mat-raised-button id="Terms" color="primary" type="button" class="button termbtn btn"
+          data-bs-dismiss="modal" aria-label="Close" style="display: none;">Update</button> -->
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" id="indentscheduledialog" data-bs-toggle="modal" data-bs-target="#IndentsModal"></button>
+
+<div class="modal" id="IndentsModal" data-bs-backdrop='static'>
+  <div class=" modal-dialog  modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header INDENT">Add Delivery Schedules For The Material
+        <button type="button" class="btn-close btn btn-outline-danger" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body termsfrm">
+        <!-- <form> -->
+        <div class="container-fluid">
+          <div class="row mt-1 mb-2">
+            <div class="col">
+              <label for="exampleFormControlInput3" class="form-label">Material <span>*</span> </label>
+              <input type="text" class="form-control" [value]="IntentSchRawMatName" readonly>
+            </div>
+          </div>
+          <div class="row mt-1 ">
+            <div class="col">
+              <label for="exampleFormControlInput3" class="form-label">Order Quantity </label>
+              <input type="text" class="form-control" [value]="IntentSchQty" readonly>
+            </div>
+            <div class="col">
+              <label for="exampleFormControlInput3" class="form-label">UOM </label>
+              <input type="text" class="form-control" [value]="IntentUom" readonly>
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col">
+              <label for="exampleFormControlInput3" class="form-label">Quantity <span>*</span> </label>
+              <input type="text" class="form-control" [(ngModel)]="IntentQty" [disabled]="QuantityDisable">
+              <!-- <input type="text" class="form-control" *ngIf=" this.vaild==1" (input)="CheckPOQty($event)"
+                [value]="diffIntentQty" [disabled]="QuantityDisable"> -->
+            </div>
+            <div class="col">
+              <label for="exampleFormControlInput3" class="form-label">Commitment Date <span>*</span> </label>
+              <input type="date" id="date" class="form-control" [value]="Commitmentdate"
+                (change)="Commitment_dt_Event($event)">
+            </div>
+          </div>
+          <div class="row mt-1">
+            <div class="col">
+              <label for="exampleFormControlInput3" class="form-label">Comments</label>
+              <textarea class="form-control" name="" id="" cols="10" rows="3"
+                [(ngModel)]="IndentSchComments"></textarea>
+            </div>
+          </div>
+          <!-- </form> -->
+          <div class=" mt-2 d-flex justify-content-end">
+            <button mat-raised-button type="button" class="Insertbtn" color="primary" (click)="InsertIntent()"
+              [disabled]="Insertbtn">Insert</button>
+          </div>
+          <div class="card mt-2">
+            <p-table [value]="IntendScheduleInsertArr" dataKey="code" [scrollable]="true" [resizableColumns]="true">
+              <ng-template pTemplate="header">
+                <tr>
+                  <th class="head">S.No</th>
+                  <th class="head">Qty</th>
+                  <!-- <th class="head">UOM</th> -->
+                  <th class="head">Commitment_Date</th>
+                  <th class="head">Supplier Commitment</th>
+                  <th class="head">Remove</th>
+                </tr>
+              </ng-template>
+              <ng-template pTemplate="body" let-IntendSch let-i="rowIndex">
+                <tr>
+                  <td class="body" style="text-align: center;justify-content: center;">{{i+1}} </td>
+                  <td class="body right">{{IntendSch.Qty}} </td>
+                  <!-- <td class="body">{{IntendSch.UOM}} </td> -->
+                  <td class="body" style="text-align: center;justify-content: center;">{{IntendSch.Sch_Dt}} </td>
+                  <td class="body" style="text-align: center;justify-content: center;">{{IntendSch.Sch_Commitment_Dt}}
+                  </td>
+                  <td class="body">
+                    <button mat-raised-button type="button" id="remove" class="Insertbtn" color="warn"
+                      (click)="RemoveIndent(i)">Remove</button>
+                  </td>
+                </tr>
+              </ng-template>
+            </p-table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer" style="margin-right: 12px;">
+        <button mat-raised-button type="button" style="background-color: limegreen;" (click)="IndentSchSave()"
+          data-bs-dismiss="modal">Save</button>
+        <button mat-raised-button type="button" style="background-color: lightcoral;" (click)="IndentSchClear()"
+          data-bs-dismiss="modal">Clear</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" data-bs-toggle="modal" data-bs-target="#er" #Error01>bbbb</button>
+<div class="modal" id="er" data-bs-backdrop='static'>
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="font-size: medium;color: rgb(5, 5, 5);font-weight: bold;">Warning</div>
+      <div class="modal-body">
+        <h3>{{this.ErrorMsg}}</h3>
+      </div>
+      <div class="modal-footer" *ngIf="this.error===1">
+        <button mat-raised-button type="button" class="btn  m-2" color="primary" data-bs-toggle="modal"
+          data-bs-target="#Material">Yes</button>
+        <button mat-raised-button type="button" class="btn  m-2" color="warn" data-bs-dismiss="modal">No</button>
+      </div>
+      <div class="modal-footer" *ngIf="this.error===2">
+        <button mat-raised-button type="button" class="btn  m-2" color="primary" (click)="deleteMat()"
+          data-bs-dismiss="modal">Yes</button>
+        <button mat-raised-button type="button" class="btn  m-2" color="warn" data-bs-dismiss="modal">No</button>
+      </div>
+      <div class="modal-footer" *ngIf="this.error===3">
+        <button mat-raised-button type="button" class="btn  m-2" color="primary" data-bs-target="#IndentsModal"
+          data-bs-toggle="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<button style="display: none;" id="apierror" data-bs-toggle="modal" data-bs-target="#apierrorDialog"></button>
+<div class="modal" id="apierrorDialog" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="font-size: medium;color: rgb(14, 13, 13);font-weight: bold;">Error!!!</div>
+      <div class="modal-body">
+        <h3>
+          <p class="errorptag">
+            {{this.apiErrorMsg}}</p>
+          <h2>Please Wait Few Minutes and Check The Internet Connection</h2>
+          <h2> Contact Admin...</h2>
+        </h3>
+      </div>
+      <div class="modal-footer">
+        <button mat-raised-button type="button" class="btn m-2" color="warn" data-bs-dismiss="modal">OK</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" id="OldPo" data-bs-toggle="modal" data-bs-target="#OldPodialog"></button>
+<div class="modal" id="OldPodialog" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close btn btn-outline-danger" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body ">
+        <div class="card mt-2">
+          <table class="table table-bordered">
+            <thead>
+              <tr>
+                <th class="tabelhead">PONO</th>
+                <th class="tabelhead">Po Date</th>
+                <th class="tabelhead">Supplier</th>
+                <th class="tabelhead">Discount</th>
+                <th class="tabelhead">Freight</th>
+                <th class="tabelhead">CST</th>
+              </tr>
+            </thead>
+            <tbody *ngFor="let item of OldPOData">
+              <tr>
+                <td class="tabelbody">{{item.pono}}</td>
+                <td class="tabelbody" style="text-align: center;">{{item.podate | date : 'dd-MM-yyyy '}}</td>
+                <td class="tabelbody">{{item.supname}}</td>
+                <td class="tabelbody right">{{item.discount}}</td>
+                <td class="tabelbody right">{{item.freight}}</td>
+                <td class="tabelbody right">{{item.cst}}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- intendrecordview -->
+<button style="display: none;" id="IntendPendingViewData" data-bs-toggle="modal"
+  data-bs-target="#intendrecordview"></button>
+
+<div class="modal" id="intendrecordview" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close btn btn-outline-danger" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body termsfrm">
+        <div class="card mt-2">
+          <table class="table-bordered border">
+            <thead>
+              <tr>
+                <th class="tabelhead">PrID</th>
+                <th class="tabelhead">Pr_Ref_No</th>
+                <th class="tabelhead">PrDate</th>
+                <th class="tabelhead">PO_Date</th>
+                <th class="tabelhead">IndentQty</th>
+                <th class="tabelhead">POqty</th>
+                <th class="tabelhead">Bal</th>
+                <th class="tabelhead">Deptname</th>
+                <th class="tabelhead">Status</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of IntendPendingViewData">
+                <td class="body"></td>
+                <td class="body"></td>
+                <td class="body"></td>
+                <td class="body"></td>
+                <td class="body"></td>
+                <td class="body"></td>
+                <td class="body"></td>
+                <td class="body"></td>
+                <td class="body"></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="modal-footer">
+            <button mat-raised-button type="button" class="btn  m-2" style="background-color: lightcoral;"
+              data-bs-target="#Material" data-bs-toggle="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" id="matlpending" data-bs-toggle="modal" data-bs-target="#Matlrecordview"></button>
+
+<div class="modal" id="Matlrecordview" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-lg modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="btn-close btn btn-outline-danger" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body termsfrm">
+        <div class="card mt-2">
+          <table class="table-bordered border">
+            <thead>
+              <tr>
+                <th class="tabelhead">SR No</th>
+                <th class="tabelhead">SR Date</th>
+                <th class="tabelhead">SR Qty</th>
+                <th class="tabelhead">Deptname</th>
+                <th class="tabelhead">Entered By</th>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of MaterialPending">
+                <td class="body">{{item.Sr_Ref_No}}</td>
+                <td class="body">{{item.SRDate | date : 'dd-MM-yyyy '}}</td>
+                <td class="body">{{item.qty}}</td>
+                <td class="body">{{item.deptname}}</td>
+                <td class="body">{{item.empname}}</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="modal-footer">
+            <button mat-raised-button type="button" class="btn  m-2" style="background-color: lightcoral;"
+              data-bs-target="#Material" data-bs-toggle="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" id="Savemenu" data-bs-toggle="modal" data-bs-target="#Savemenudialog" ></button>
+
+<div class="modal" id="Savemenudialog" data-bs-backdrop='static'>
+  <div class="modal-dialog modal-sm modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header" style="font-size: medium;background-color: rgb(240, 255, 241);">SAVE:</div>
+      <div class="modal-body" style="margin: 0%;">
+        <div>
+          <h4 style="color: rgb(3, 3, 3);font-weight: 550;">Do you yant to Save Data?</h4>
+        </div>
+      </div>
+      <div class="modal-footer" style="background-color: rgb(214, 248, 206);">
+        <button mat-raised-button type="button" style="background-color: #92d87e;" data-bs-dismiss="modal"
+          (click)="GetSave() ">Yes</button>
+        <button mat-raised-button type="button" style="background-color: #f57c7c;" data-bs-dismiss="modal"
+          data-bs-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<button style="display: none;" id="Save" data-bs-toggle="modal" data-bs-target="#Savedialog"></button>
+<div class="modal" id="Savedialog" data-bs-backdrop='static'>
+  <div class=" modal-dialog modal-dialog-centered">
+    <div class="modal-content">
+      <div class="modal-header"></div>
+      <div class="modal-body" style="margin-left: 1%;">
+        <div style="font-size: medium;font-weight: 600;color: rgb(140, 232, 140);">
+          {{Msg}}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div *ngIf="this.Sts == 'Y'">
+          <button mat-raised-button style="background-color: #92d87e;" type="button" data-bs-dismiss="modal"
+            (click)="finalSave()">OK</button>
+        </div>
+        <div *ngIf="this.Sts == 'N'">
+          <button mat-raised-button class="btn btn-secondary" style="background-color: rgb(247, 107, 75);" type="button"
+            data-bs-dismiss="modal">OK</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,139 @@
+<app-navigation></app-navigation>
+<h1>Supplier Registration Approval - Technical</h1>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-4">
+                <label for="">Approved By</label>
+                <select name="" id="" class="form-select" *ngFor="let load of loadArray">
+                    <option value="load.empid">{{load.empname}}</option>
+                </select>
+            </div>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-bordered table-fixed"
+                style="width: 100%;table-layout: fixed;border: 1px solid #ddd;">
+                <thead>
+                    <tr>
+                        <th style="width: 100px;">Approve</th>
+                        <th style="width: 120px;">Party_Code</th>
+                        <th style="width: 200px;">Party_Name</th>
+                        <th style="width: 500px;">Address</th>
+                        <th style="width: 100px;">City</th>
+                        <th style="width: 100px;">State</th>
+                        <th style="width: 100px;">Country</th>
+                        <th style="width: 100px;">PinCode</th>
+                        <th style="width: 200px;">GST_No</th>
+                        <th style="width: 100px;">Cr_Days</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let table of tableArray">
+                        <td style="width: 100px;"><input type="checkbox" class="form-check-input"
+                                (change)="select($event,table)" style="border:1px solid  #5161b6;" /></td>
+                        <td style="width: 100px;">{{table.code}}</td>
+                        <td style="width: 200px;text-align: left;">{{table.name}}</td>
+                        <td style="width: 500px;text-align: left;">{{table.address}}</td>
+                        <td style="width: 100px;">{{table.AreaName}}</td>
+                        <td style="width: 100px;">{{table.StateName}}</td>
+                        <td style="width: 100px;">{{table.CountryName}}</td>
+                        <td style="width: 100px;">{{table.pincode}}</td>
+                        <td style="width: 100px;">{{table.gstno}}</td>
+                        <td style="width: 100px;">{{table.Creditperiod}}</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row mt-5">
+            <div class="col-4">
+                <label for="">Party Id</label>
+                <input type="text" class="form-control" name="" id="" [(ngModel)]="partyid" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <label for="">Machinery Details</label>
+                <input type="text" class="form-control" [(ngModel)]="MachineryDetails" readonly>
+            </div>
+            <div class="col-4">
+                <label for="">Measuring Inst. Details</label>
+                <input type="text" class="form-control" [(ngModel)]="Measuring" readonly>
+            </div>
+            <div class="col-4">
+                <label for="">Quality System</label>
+                <input type="text" class="form-control" [(ngModel)]="Qs" readonly>
+            </div>
+        </div>
+        <h1>Organisational Chart</h1>
+        <div class="card mt-0">
+            <div class="card-body">
+                <h1>Man Power Details</h1>
+                <div class="row">
+                    <div class="col-6">
+                        <label for="">Production</label>
+                        <input type="text" class="form-control" [(ngModel)]="production" readonly>
+                    </div>
+                    <div class="col-6">
+                        <label for="">Quality</label>
+                        <input type="text" class="form-control" [(ngModel)]="quality" readonly>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-6">
+                        <label for="">Others</label>
+                        <input type="text" class="form-control" [(ngModel)]="others" readonly>
+                    </div>
+                    <div class="col-6">
+                        <label for="">Total</label>
+                        <input type="text" class="form-control" [(ngModel)]="total" readonly>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label for="">Weekly Holiday</label>
+                <input type="text" class="form-control" [(ngModel)]="weeklyHoliday" readonly>
+            </div>
+            <div class="col-6">
+                <label for="">Working hours</label>
+                <input type="text" class="form-control" [(ngModel)]="workingHours" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label for="">Shift Details</label>
+                <input type="text" class="form-control" [(ngModel)]="shiftDetails" readonly>
+            </div>
+            <div class="col-6">
+                <label for="">Shift Timings</label>
+                <input type="text" class="form-control" [(ngModel)]="shiftTimings" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <label for="">Expansion plan</label>
+                <input type="text" class="form-control" [(ngModel)]="exp_plan" readonly>
+            </div>
+            <div class="col-4">
+                <label for="">Sanctioned Power Avl</label>
+                <input type="text" class="form-control" [(ngModel)]="this.sanctioned_pow_Avl" readonly>
+            </div>
+            <div class="col-4">
+                <label for="">Standby Power</label>
+                <input type="text" class="form-control" [(ngModel)]="standBy_Power" readonly>
+            </div>
+        </div>
+        <div class="row text-end custom-tab-content" style="margin-bottom: 30px;">
+            <div>
+                <button mat-raised-button
+                    style="background-color:green; color: white;font-family: 'Times New Roman', Times, serif;margin-left: 3px;"
+                    (click)="approve()">Approve</button>
+                <button mat-raised-button
+                    style="background-color:red;color:white;font-family: 'Times New Roman', Times, serif;margin-left: 3px;"
+                    (click)="clear()">Clear</button>
+            </div>
+        </div>
+    </div>
+</div>

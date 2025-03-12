@@ -1,0 +1,99 @@
+<app-navigation></app-navigation>
+<h1>Payment Terms and Condition</h1>
+<mat-card appearance="outlined">
+    <div class="row">
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6">
+            <div class="table-responsive" style="margin: 10px; max-height: 300px; overflow-y:auto;">
+                <table class="table table-bordered">
+                    <thead class="table-header">
+                        <tr>
+                            <th>Select</th>
+                            <th style="text-align: left;">Terms</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of loadArray; let i = index">
+                            <td style="text-align: center;">
+                                <input type="checkbox" class="form-check-input"
+                                    style="padding: 6px; border: 2px solid #5161b6;" (change)="term($event, item)"
+                                    [checked]="selectedTermId === item.id"
+                                    [disabled]="selectedTermId !==null && selectedTermId !== item.termid" />
+                            </td>
+                            <td style="text-align: left;">{{ item.terms }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6 col-xl-6 col-xxl-6" *ngIf="show">
+            <div class="table-responsive" style="margin: 10px;">
+                <table class="table table-bordered table-fixed">
+                    <thead>
+                        <tr>
+                            <th>Terms</th>
+                            <th>Percentage</th>
+                            <th>Advance</th>
+                            <th>Detail</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let item of table1Array">
+                            <td>{{item.term}}</td>
+                            <td>{{item.perc}}</td>
+                            <td>{{item.advance}}</td>
+                            <td style="text-align: left;">{{item.detail}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</mat-card>
+<mat-card appearance="outlined">
+    <div class="col-6">
+        <label>Description</label>
+        <input type="text" class="form-control" [(ngModel)]="terms" (ngModelChange)="description($event)">
+    </div>
+
+    <div class="table-responsive" style="margin: 10px;">
+        <table class="table table-bordered table-fixed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Terms</th>
+                    <th>Percentage</th>
+                    <th>Advance</th>
+                    <th>Detail</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let row of tableData; let i = index">
+                    <td>
+                        <button (click)="addRow()" mat-raised-button
+                            style="background-color: #5161b6; color:white;font-size: 26px;margin-right: 10px;">+</button>
+                        <button (click)="removeRow(i)" mat-raised-button
+                            style="background-color: #5161b6; color:white;font-size: 36px;margin-right: 10px;">-</button>
+                    </td>
+                    <td><input type="text" class="form-control" [(ngModel)]="row.terms"
+                            (input)="updateRow(i, 'terms', row.terms)" /></td>
+                    <td><input type="text" class="form-control" [(ngModel)]="row.percentage"
+                            (input)="updateRow(i, 'percentage', row.percentage)" /></td>
+                    <td>
+                        <input type="radio" class="form-check-input" [checked]="row.advance === 'Y'"
+                            (change)="updateRow(i, 'advance', 'Y')" value="Y" /> Yes
+                        <input type="radio" class="form-check-input" [checked]="row.advance === 'N'"
+                            (change)="updateRow(i, 'advance', 'N')" value="N" /> No
+                    </td>
+                    <td><input type="text" class="form-control" [(ngModel)]="row.detail"
+                            (input)="updateRow(i, 'detail', row.detail)" /></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="text-end" style="margin-bottom: 10px;">
+        <button (click)="save()" mat-raised-button
+            style="background-color: green;color:white;margin-right: 10px;">Save</button>
+        <button mat-raised-button style="background-color: red;color: white;margin-right: 10px;"
+            (click)="Clear()">Clear</button>
+    </div>
+</mat-card>

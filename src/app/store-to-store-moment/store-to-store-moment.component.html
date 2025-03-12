@@ -1,0 +1,116 @@
+<app-navigation></app-navigation>
+<mat-card>
+  <mat-card-header class="justify-content-center">
+    <mat-card-title class="fs-3 mb-2" style="color: brown;">Store To Store Moment</mat-card-title>
+  </mat-card-header>
+  <mat-divider></mat-divider>
+  <mat-card-content>
+    <form [formGroup]="storetostoreform">
+      <div class="row">
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+          <mat-form-field>
+            <mat-label>Tranno</mat-label>
+            <input type="text" matInput formControlName="Trannopath" readonly />
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+          <mat-form-field>
+            <mat-label>Tran Date</mat-label>
+            <input matInput [matDatepicker]="picker1" formControlName="Trandate" readonly>
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker #picker1></mat-datepicker>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+          <mat-form-field>
+            <mat-label>From Warehouse</mat-label>
+            <mat-select formControlName="frmwarehouse" (selectionChange)="FrmwarehouseEvent()">
+              <mat-option *ngFor="let item of WarehouseData"
+                [value]="item.WareHouse_Id">{{item.Warehouse_Name}}</mat-option>
+            </mat-select>
+            <mat-error>Field must be required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-6">
+          <mat-form-field>
+            <mat-label>To Warehouse</mat-label>
+            <mat-select formControlName="Towarehouse">
+              <mat-option *ngFor="let item of TowarehouseData"
+                [value]="item.WareHouse_Id">{{item.Warehouse_Name}}</mat-option>
+            </mat-select>
+            <mat-error>Field must be required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+          <mat-form-field>
+            <mat-label>Material</mat-label>
+            <mat-select formControlName="RawmaterialId" (selectionChange)="RawmaterialChangeEvent()">
+              <mat-option><ngx-mat-select-search [formControl]="filterControl" placeholderLabel="Search..."
+                  noEntriesFoundLabel="No Results Found"></ngx-mat-select-search></mat-option>
+              <mat-option *ngFor="let item of filteredOptions" [value]="item.RawmatId">{{item.RawmatName}}</mat-option>
+            </mat-select>
+            <mat-hint style="color: brown;">Type Atleast Two Charcters To View Rawmaterial</mat-hint>
+            <mat-error>Field must be required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+          <mat-form-field>
+            <mat-label>Stock</mat-label>
+            <input type="text" matInput formControlName="stock" readonly>
+          </mat-form-field>
+        </div>
+        <div class="col-12 col-sm-6 col-md-6 col-lg-3">
+          <mat-form-field>
+            <mat-label>Total TransferQty</mat-label>
+            <input type="text" matInput formControlName="TotTransferQty" >
+            <mat-error>Field must be required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class=" float-end  mb-3">
+          <button mat-raised-button class="float-end ml-3" type="button" color="warn">Clear</button>
+          <!-- <button mat-raised-button class="float-end mr-3" type="button" color="primary"
+            (click)=" getView()">View</button> -->
+        </div>
+      </div>
+
+    </form>
+    <div class="mat-elevation-z8" >
+      <table mat-table #table [dataSource]="dataSource">
+        <ng-container matColumnDef="GRN_Ref_No" >
+          <th mat-header-cell *matHeaderCellDef> GRN_Ref_No </th>
+          <td mat-cell *matCellDef="let row"> {{row.GRN_Ref_No}} </td>
+        </ng-container>
+        <ng-container matColumnDef="GRNDate">
+          <th mat-header-cell *matHeaderCellDef> GRNDate </th>
+          <td mat-cell *matCellDef="let row"> {{row.GRNDate}} </td>
+        </ng-container>
+        <ng-container matColumnDef="GRNQty">
+          <th mat-header-cell *matHeaderCellDef> Stock </th>
+          <td mat-cell *matCellDef="let row"> {{row.Stock}} </td>
+          <td mat-footer-cell *matFooterCellDef> Total </td>
+        </ng-container>
+        <ng-container matColumnDef="TransferQty">
+          <th mat-header-cell *matHeaderCellDef> TransferQty </th>
+          <td mat-cell *matCellDef="let row;let i=index"><input type="number" class="form-control "
+             [(ngModel)]="row.TransferQty"   (input)="onTransferQtyInput(i)" placeholder="Enter Transfer Qty" onwheel="this.blur()"/>
+          </td>
+          <td mat-footer-cell *matFooterCellDef colspan="2" style="text-align: end;font-weight: bolder;" > {{getTotalStock()}} </td>
+        </ng-container>
+        <ng-container matColumnDef="Uom">
+          <th mat-header-cell *matHeaderCellDef> Uom </th>
+          <td mat-cell *matCellDef="let row"> {{row.Uom}} </td>
+          <td mat-footer-cell *matFooterCellDef colspan="0" style="text-align: end;font-weight: bolder;" > {{getTotalCost()}} </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="['GRN_Ref_No','GRNDate','GRNQty','TransferQty','Uom'];sticky: true"></tr>
+        <tr mat-row *matRowDef="let row; columns: ['GRN_Ref_No','GRNDate','GRNQty','TransferQty','Uom'];"></tr>
+        <tr mat-footer-row *matFooterRowDef="['GRNQty','TransferQty','Uom']; sticky: true"></tr>
+      </table>
+      <mat-paginator #paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page of periodic elements">
+      </mat-paginator>
+      <mat-card-actions align="end" >
+        <button mat-raised-button class="button" type="button" (click)="savevaildation()"
+          style="background-color: lightgreen;">Save</button>
+      </mat-card-actions>
+    </div>
+  </mat-card-content>
+</mat-card>

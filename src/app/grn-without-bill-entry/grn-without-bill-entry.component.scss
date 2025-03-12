@@ -1,0 +1,100 @@
+*:not(mat-icon) {
+    font-family: 'Times New Roman', Times, serif;
+}
+
+mat-card-title {
+    font-size: x-large;
+}
+
+
+::ng-deep .mat-sort-header-arrow {
+    color: #f30b0b;
+    font-size: xx-large;
+}
+
+mat-form-field {
+    width: 100%;
+}
+
+.mat-elevation {
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.desc {
+    width: 25%;
+}
+
+button {
+    border-radius: 17px;
+    cursor: progress;
+    // float: right;
+}
+
+mat-hint {
+    color: brown;
+    font-size: medium;
+}
+
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+table {
+    th {
+        margin: 0%;
+        background-color: #3f51b5;
+        color: white;
+        border: 1px solid silver;
+        text-align: center;
+    }
+
+    td {
+
+        border: 1px solid silver;
+    }
+}
+
+tr:last-child {
+    border: 1px solid silver !important;
+}
+/* Disable number input scroll for all browsers */
+input[type="number"] {
+    --moz-appearance: textfield;
+  }
+  
+  /* For WebKit-based browsers (Chrome, Safari) */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+  
+  .disabled-row {
+    pointer-events: none;  /* Disables interactions */
+    opacity: 0.5;         /* Makes it look disabled */
+  }
+
+
+@media screen and (min-width: 350px) and (max-width: 575px) {
+    button {
+        float: right;
+    }
+
+}
+
+@media screen and (min-width: 576px) and (max-width: 749px) {
+    button {
+    //    justify-content: end;
+       float: right;
+    }
+}
+
+@media screen and (min-width: 749px) and (max-width: 992px) {
+    button {
+        float: right;
+    }
+}

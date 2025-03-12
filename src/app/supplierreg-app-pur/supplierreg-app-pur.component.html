@@ -1,0 +1,169 @@
+<app-navigation></app-navigation>
+<h1>Supplier Registration Approval - Purchase</h1>
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-4">
+                <label for="">Approved By</label>
+                <select name="" id="" class="form-select" *ngFor="let load of loadArray">
+                    <option value="load.empid">{{load.empname}}</option>
+                </select>
+            </div>
+            <div class="col-4" style="visibility:hidden;">
+                <label for="">Approved By</label>
+                <select name="" id="" class="form-select">
+                    <option value=""></option>
+                </select>
+            </div>
+        </div>
+    </div>
+
+    <div class="table-responsive" style="margin-left: 20px;margin-right: 20px;">
+        <table class="table table-bordered table-fixed" style="width: 100%;table-layout: fixed;border: 1px solid #ddd;">
+            <thead>
+                <tr>
+                    <th style="width: 200px;">Approve</th>
+                    <th style="width: 200px;">Party_Code</th>
+                    <th style="width: 300px;">Party_Name</th>
+                    <th style="width: 500px;">Address</th>
+                    <th style="width: 200px;">City</th>
+                    <th style="width: 200px;">State</th>
+                    <th style="width: 200px;">Country</th>
+                    <th style="width: 200px;">Pin_Code</th>
+                    <th style="width: 200px;">GST_No</th>
+                    <th style="width: 200px;">CrDays</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let table of tableArray">
+                    <td style="width: 200px;"><input type="checkbox" class="form-check-input"
+                            style="border:1px solid  #5161b6;" (change)="select($event,table)"></td>
+                    <td style="width: 200px;">{{table.code}}</td>
+                    <td style="width: 500px;text-align: left;">{{table.name}}</td>
+                    <td style="width: 500px;text-align: left;">{{table.address}}</td>
+                    <td style="width: 200px;text-align: left;">{{table.AreaName}}</td>
+                    <td style="width: 200px;">{{table.StateName}}</td>
+                    <td style="width: 200px;">{{table.CountryName}}</td>
+                    <td style="width: 200px;">{{table.pincode}}</td>
+                    <td style="width: 200px;">{{table.gstno}}</td>
+                    <td style="width: 200px;">{{table.Creditperiod}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div style="margin-left: 10px;margin-top: 10px;">
+        <div class="row mt-5 custom-tab-content">
+            <div class="col-3">
+                <label for="">Party Id</label>
+                <input type="text" class="form-control" name="" id="" [(ngModel)]="partyid" readonly>
+            </div>
+            <div class="col-3">
+                <label for="" class="custom-label">Supplier Code</label>
+                <input type="text" class="form-control" [value]="suppliercode" readonly>
+            </div>
+
+            <div class="col-3">
+                <label for="" class="custom-label">Supplier Name</label>
+                <input type="text" class="form-control" [value]="suppliername" readonly>
+            </div>
+            <div class="col-3">
+                <label for="" class="custom-label">Contact Person</label>
+                <input type="text" class="form-control" [value]="contactperson" readonly>
+            </div>
+
+        </div>
+        <div class="row custom-tab-content">
+            <div class="col-3">
+                <label for="" class="custom-label">Contact No</label>
+                <input type="text" class="form-control" [value]="phonenumber" readonly>
+            </div>
+            <div class="col-3">
+                <label for="" class="custom-label">E-Mail</label>
+                <input type="text" class="form-control" [value]="email" readonly>
+            </div>
+            <div class="col-3">
+                <label for="" class="custom-label">Fax No</label>
+                <input type="text" class="form-control" [value]="fax" readonly>
+            </div>
+            <div class="col-3">
+                <label for="" class="custom-label">Website</label>
+                <input type="text" class="form-control" [value]="website" readonly>
+            </div>
+        </div>
+        <div class="row custom-tab-content">
+            <div class="col-3">
+                <label for="" class="custom-label">Pan No</label>
+                <input type="text" class="form-control" [value]="pannumber" readonly>
+            </div>
+            <div class="col-3">
+                <label for="" class="custom-label">Organisation Type</label>
+                <input type="text" class="form-control" [value]="org_type" readonly>
+            </div>
+            <div class="col-3">
+                <label for="" class="custom-label">Establishment Year</label>
+                <input type="text" class="form-control" [value]="establishment" readonly>
+            </div>
+            <div class="col-3">
+                <label for="" class="custom-label">Executive Name</label>
+                <input type="text" class="form-control" [value]="executivename" readonly>
+            </div>
+        </div>
+        <div class="row custom-tab-content">
+            <div class="col-3">
+                <label for="" class="custom-label">Major Customer</label>
+                <input type="text" class="form-control" [value]="majorname" readonly>
+            </div>
+            <div class="col-3">
+                <label for="" class="custom-label">Address</label>
+                <input type="text" class="form-control" [value]="address" readonly>
+            </div>
+            <div class="col-3">
+                <label for="" class="custom-label">Country</label>
+                <input type="text" class="form-control" [value]="CountryName" readonly>
+            </div>
+            <div class="col-3">
+                <label for="">State</label>
+                <input type="text" class="form-control" [value]="StateName" readonly>
+            </div>
+
+        </div>
+        <div class="row custom-tab-content">
+            <div class="col-3">
+                <label for="" class="custom-label">Area/City</label>
+                <input type="text" class="form-control" [value]="AreaName" readonly>
+            </div>
+            <div class="col-3">
+                <label for="" class="custom-label">PinCode</label>
+                <input type="text" class="form-control" [value]="pincode" readonly>
+            </div>
+            <div class="col-3">
+                <label for="" class="custom-label">Credit Period</label>
+                <input type="text" class="form-control" [value]="Creditperiod" readonly>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <input type="checkbox" class="form-check-input" [(ngModel)]="supcheck">
+                <label for="" class="custom-label">Supplier</label>
+            </div>
+            <div class="col-4">
+                <input type="checkbox" class="form-check-input" [(ngModel)]="subcheck">
+                <label for="" class="custom-label">Sub Contractor</label>
+            </div>
+            <div class="col-4">
+                <input type="checkbox" class="form-check-input" [(ngModel)]="cuscheck">
+                <label for="" class="custom-label">Customer</label>
+            </div>
+        </div>
+    </div>
+    <div class="row text-end custom-tab-content" style="margin-bottom: 30px;">
+        <div>
+            <button mat-raised-button
+                style="background-color:green; color: white;font-family: 'Times New Roman', Times, serif;margin-left: 3px;"
+                (click)="approve()">Approve</button>
+            <button mat-raised-button
+                style="background-color:red;color:white;font-family: 'Times New Roman', Times, serif;margin-left: 3px;"
+                (click)="clear()">Clear</button>
+        </div>
+    </div>
+</div>

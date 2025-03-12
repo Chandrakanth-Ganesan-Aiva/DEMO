@@ -1,0 +1,83 @@
+
+
+<nav class="navbar sticky-top">
+  <div class="leftnavbar">
+    <a mat-button [routerLink]="'/Inventory'"> Back </a>
+    <a mat-button [routerLink]="'/Dashboard'">Home</a>
+  </div>
+  <div class="centernavbar">
+    <span class="head">AIVA VENTURES</span>
+  </div>
+  <div class="rightnavbar">
+    <a class="logout" mat-button [routerLink]="'/home'" (click)="Logout()">Logout</a>
+  </div>
+</nav>
+
+
+<mat-card-header class="justify-content-center mt-3">
+<mat-card-title class="title">Set Mpin</mat-card-title>
+</mat-card-header>
+
+<div class="container-fluid mt-3" >
+<mat-card>
+  <mat-card-header class="justify-content-start mt-1 mb-3" >
+    <mat-card-title style="color: brown;">Register</mat-card-title>
+  </mat-card-header>
+  <mat-card-content *ngIf="this.mpinview !='Reset'">
+    <div class="row">
+      <div class="col">
+        <input type="text" class="form-control" readonly>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col">
+        <input type="text" class="form-control" readonly>
+      </div>
+    </div>
+    <div class="row mt-3">
+      <div class="col">
+        <input type="number" onKeyPress="if(this.value.length==4) return false;" placeholder="M-Pin"
+          class="form-control">
+      </div>
+    </div>
+  </mat-card-content>
+  <mat-card-footer class="d-flex justify-content-end mt-3" *ngIf="this.mpinview!='Reset'">
+    <button mat-raised-button type="button" style="background-color: limegreen;margin: 15px;">Register</button>
+    <button mat-raised-button type="button"
+      style="background-color: lightcoral;margin: 15px 10px 10px 0px;">UnRegister</button>
+    <button mat-raised-button type="button" color="primary" style="margin: 15px 12px 10px 0px;"
+      (click)="Reset()">Reset</button>
+  </mat-card-footer>
+  <!-- Reset -->
+  <div *ngIf="this.mpinview ==='Reset'">
+    <mat-card-content>
+      <div class="row">
+        <div class="col">
+          <input type="text" class="form-control" readonly>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col">
+          <input type="text" class="form-control" readonly>
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col">
+          <input type="number" onKeyPress="if(this.value.length==4) return false;" placeholder="Old-MPin"
+            class="form-control">
+        </div>
+      </div>
+      <div class="row mt-3">
+        <div class="col">
+          <input type="number" onKeyPress="if(this.value.length==4) return false;" placeholder="New-MPin"
+            class="form-control">
+        </div>
+      </div>
+    </mat-card-content>
+    <mat-card-footer class="d-flex justify-content-end mt-3">
+      <button mat-raised-button type="button" style="background-color: limegreen;margin: 15px;">Save</button>
+      <button mat-raised-button type="button"  style="background-color: lightcoral;margin: 15px 10px 10px 0px;" (click)="back()">Back</button>
+    </mat-card-footer>
+  </div>
+</mat-card>
+
